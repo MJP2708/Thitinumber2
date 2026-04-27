@@ -213,7 +213,7 @@ svg {
 }
 
 .startup-intro-out {
-  animation: startup-intro-out 300ms ease-in both;
+  animation: startup-intro-out 480ms ease-in both;
 }
 
 .startup-intro-card {
@@ -258,6 +258,38 @@ svg {
   color: #ffb7b4;
   font-weight: 800;
   letter-spacing: 0.04em;
+}
+
+.startup-intro-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 150ms, color 150ms, border-color 150ms;
+}
+
+.startup-intro-ig:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.startup-intro-ig:active {
+  transform: scale(0.97);
+}
+
+.startup-intro-ig-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
 }
 
 .startup-intro-skip {

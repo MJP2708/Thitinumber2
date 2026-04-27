@@ -81,14 +81,14 @@ export default function GlobalCountdown() {
         x: Math.min(b.maxX, Math.max(b.minX, window.innerWidth - (isMobile ? 124 : 158))),
         y: isMobile ? TOP_SAFE_AREA + 4 : TOP_SAFE_AREA,
       };
-      velRef.current = isMobile ? { x: 0.82, y: 0.64 } : { x: 0.38, y: 0.28 };
+      velRef.current = isMobile ? { x: 0.22, y: 0.17 } : { x: 0.12, y: 0.09 };
       applyPosition();
     };
 
     const step = () => {
       const b = bounds();
       const isMobile = window.matchMedia(MOBILE_QUERY).matches;
-      const speedBoost = isMobile ? 1.22 : 1;
+      const speedBoost = isMobile ? 1.0 : 1;
       const pos = posRef.current;
       const vel = velRef.current;
 
@@ -134,13 +134,13 @@ export default function GlobalCountdown() {
   return (
     <div
       ref={cardRef}
-      className="pointer-events-none fixed left-0 top-0 z-40 w-[104px] select-none rounded-xl border border-[#0d3063]/10 bg-white/90 p-1.5 text-center text-[#0d3063] shadow-md shadow-slate-900/10 dark:border-white/10 dark:bg-white/90 sm:w-[132px] sm:rounded-2xl sm:p-2.5"
+      className="pointer-events-none fixed left-0 top-0 z-40 w-[96px] select-none rounded-xl border border-[#0d3063]/8 bg-white/65 p-1.5 text-center text-[#0d3063] shadow-sm shadow-slate-900/8 backdrop-blur-sm dark:border-white/8 dark:bg-slate-900/65 sm:w-[120px] sm:rounded-2xl sm:p-2"
       aria-label={`นับถอยหลังเลือกตั้ง ${content}`}
     >
-      <div className="mb-0.5 rounded-lg bg-[#a32f2c] px-1.5 py-0.5 text-[9px] font-black leading-none text-white sm:mb-1 sm:rounded-xl sm:px-2 sm:py-1 sm:text-[11px]">
+      <div className="mb-0.5 rounded-lg bg-[#a32f2c]/90 px-1.5 py-0.5 text-[9px] font-black leading-none text-white sm:mb-1 sm:rounded-xl sm:px-2 sm:py-1 sm:text-[10px]">
         เลือกเบอร์สอง
       </div>
-      <div className="text-[10px] font-black leading-4 tabular-nums sm:text-xs sm:leading-5">
+      <div className="text-[9px] font-black leading-4 tabular-nums text-[#0d3063]/80 dark:text-white/80 sm:text-[11px] sm:leading-5">
         <span className="sm:hidden">{mobileContent}</span>
         <span className="hidden sm:inline">{content}</span>
       </div>

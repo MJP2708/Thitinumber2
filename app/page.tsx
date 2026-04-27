@@ -17,6 +17,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import CountdownTimer from "@/components/CountdownTimer";
+import CTATimer from "@/components/CTATimer";
 import FAQ from "@/components/FAQ";
 import PolicyCard from "@/components/PolicyCard";
 import { VideoPreviewCard } from "@/components/VideoSection";
@@ -225,6 +226,15 @@ export default function Home() {
             </HeroCard>
           </motion.aside>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.18 }}
+          className="relative mx-auto mt-8 max-w-4xl border-t border-white/10 pt-8"
+        >
+          <CountdownTimer inverted />
+        </motion.div>
       </section>
 
       <section className="bg-white px-4 py-5 dark:bg-slate-900 sm:px-6">
@@ -283,11 +293,7 @@ export default function Home() {
         </div>
       </ScrollSection>
 
-      <section className="bg-white px-4 py-8 dark:bg-slate-900 sm:px-6 sm:py-10">
-        <ScrollSection>
-          <CountdownTimer />
-        </ScrollSection>
-      </section>
+      <CTATimer />
 
       <section className="bg-[#0d3063] px-4 py-8 text-white sm:px-6 sm:py-10">
         <ScrollSection className="mx-auto max-w-3xl text-center">
