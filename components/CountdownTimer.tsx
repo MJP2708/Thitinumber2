@@ -67,9 +67,13 @@ export default function CountdownTimer() {
 
   return (
     <div className="text-center">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+      <div className="mb-2 flex items-baseline justify-center gap-3">
+        <span className="text-[clamp(2rem,8vw,3.5rem)] font-black text-slate-900 dark:text-white">เลือกเบอร์</span>
+        <span className="text-[clamp(5rem,20vw,10rem)] font-black leading-none text-[#a32f2c]">2</span>
+      </div>
+      <p className="mb-6 text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
         {labels.countdown.title}
-      </h2>
+      </p>
       {isOver ? (
         <div className="text-3xl font-black text-[#a32f2c] dark:text-white">
           ถึงวันเลือกตั้งแล้ว

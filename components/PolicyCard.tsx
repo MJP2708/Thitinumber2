@@ -1,11 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   MessageSquare, Heart, Star, Leaf, BookOpen, Zap,
   Globe, Users, Music, Shield, Target, Lightbulb,
-  ChevronDown,
 } from "lucide-react";
 import { Policy } from "@/lib/defaultData";
 import { useApp } from "@/contexts/AppContext";
@@ -39,7 +36,6 @@ interface PolicyCardProps {
 
 export default function PolicyCard({ policy, compact = false }: PolicyCardProps) {
   const { labels } = useApp();
-  const [expanded, setExpanded] = useState(false);
   const Icon = IconMap[policy.icon] || Lightbulb;
   const style = CATEGORY_STYLE[policy.category] ?? DEFAULT_STYLE;
 
@@ -61,45 +57,21 @@ export default function PolicyCard({ policy, compact = false }: PolicyCardProps)
                 {policy.category}
               </span>
             </div>
-            <p className={`break-words text-xs leading-6 text-slate-600 dark:text-slate-400 ${!expanded && compact ? "line-clamp-2" : ""}`}>
+            <p className={`break-words text-xs leading-6 text-slate-600 dark:text-slate-400 ${compact ? "line-clamp-2" : ""}`}>
               {policy.description}
             </p>
           </div>
         </div>
 
-        {!compact && (
-          <>
-            <AnimatePresence>
-              {expanded && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-3 border-t border-slate-100 pt-3 dark:border-slate-800">
-                    <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-[#a32f2c]">
-                      {labels.policies.impact}
-                    </p>
-                    <p className="break-words text-xs leading-6 text-slate-600 dark:text-slate-400">
-                      {policy.impact}
-                    </p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="mt-3 flex min-h-10 items-center gap-1.5 rounded-lg text-xs font-semibold text-[#0d3063] transition-colors hover:text-[#a32f2c] active:scale-[0.98] dark:text-white"
-            >
-              <span>{expanded ? labels.policies.readLess : labels.policies.readMore}</span>
-              <div className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>
-                <ChevronDown className="w-3 h-3" />
-              </div>
-            </button>
-          </>
+        {!compact && policy.impact && (
+          <div className="mt-3 border-t border-slate-100 pt-3 dark:border-slate-800">
+            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-[#a32f2c]">
+              {labels.policies.impact}
+            </p>
+            <p className="break-words text-xs leading-6 text-slate-600 dark:text-slate-400">
+              {policy.impact}
+            </p>
+          </div>
         )}
       </div>
     </div>

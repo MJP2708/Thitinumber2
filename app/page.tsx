@@ -135,6 +135,9 @@ export default function Home() {
             backgroundSize: "42px 42px",
           }}
         />
+        <div className="pointer-events-none absolute inset-0 flex select-none items-center overflow-hidden">
+          <span className="text-[28rem] font-black leading-none text-white/[0.05] lg:text-[36rem]">2</span>
+        </div>
 
         <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 lg:grid-cols-12 lg:gap-5 xl:gap-6">
           <motion.div
@@ -162,9 +165,8 @@ export default function Home() {
               </div>
             </div>
 
-            <h1 className="mb-4 font-black leading-[1.1]">
-              <span className="block text-[clamp(2.5rem,13vw,5.75rem)]">{candidate.name.split(" ")[0]}</span>
-              <span className="block text-[clamp(1.875rem,10vw,4rem)]">{candidate.name.split(" ").slice(1).join(" ")}</span>
+            <h1 className="mb-4 font-black leading-[1.1] text-[clamp(2.5rem,11vw,5.5rem)]">
+              {candidate.name}
             </h1>
 
             <div className="mb-5">
