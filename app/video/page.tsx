@@ -11,7 +11,7 @@ export default function VideoPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <div className="relative overflow-hidden bg-[#0d3063] px-4 pb-24 pt-20 sm:px-6 sm:pt-24">
+      <div className="relative overflow-hidden bg-[#0d3063] px-4 pb-14 pt-8 sm:px-6 sm:pt-12">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -48,12 +48,12 @@ export default function VideoPage() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto -mt-8 max-w-5xl px-4 pb-20 sm:-mt-12 sm:px-6">
+      <div className="relative z-10 mx-auto -mt-6 max-w-5xl px-4 pb-10 sm:-mt-8 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:p-8"
+          className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-900"
         >
           <VideoSection />
         </motion.div>
@@ -63,24 +63,24 @@ export default function VideoPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6"
+          className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2"
         >
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 sm:p-6">
-            <h3 className="font-bold text-slate-900 dark:text-white mb-2">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <h3 className="mb-1.5 font-bold text-slate-900 dark:text-white text-sm">
               เกี่ยวกับผู้สมัคร
             </h3>
-            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-xs leading-6 text-slate-600 dark:text-slate-400">
               {candidate.bio}
             </p>
           </div>
-          <div className="rounded-2xl bg-[#0d3063] p-5 text-white sm:p-6">
-            <div className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-1">
+          <div className="rounded-2xl bg-[#0d3063] p-4 text-white">
+            <div className="text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-1">
               ผู้สมัครหมายเลข
             </div>
-            <div className="text-7xl font-black leading-none mb-4">
+            <div className="text-5xl font-black leading-none mb-2">
               {candidate.number}
             </div>
-            <p className="text-white/70 italic text-sm">
+            <p className="text-white/70 italic text-xs">
               &ldquo;{candidate.slogan}&rdquo;
             </p>
           </div>

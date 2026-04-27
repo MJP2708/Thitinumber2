@@ -79,7 +79,7 @@ export default function AboutPage() {
         {/* Small decorative blob — no blur, just a radial gradient */}
         <div className="absolute -right-20 bottom-0 h-56 w-56 rounded-full bg-[#a32f2c]/20 sm:h-72 sm:w-72" />
 
-        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-20 lg:grid-cols-[1fr_380px] lg:gap-12 lg:pb-24 lg:pt-24">
+        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 px-4 pb-8 pt-8 sm:px-6 sm:pb-12 sm:pt-12 lg:grid-cols-[1fr_360px] lg:gap-10 lg:pb-14 lg:pt-14">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="mb-4 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-white/80">
               {labels.about.subtitle}
@@ -106,26 +106,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
+      <main className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
         {/* Bio card — removed the absolute Quote icon that caused dark-mode rendering bugs */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-6 overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-md dark:border-slate-800 dark:bg-slate-900 sm:mb-8 sm:p-8"
+          className="mb-4 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
         >
-          <h2 className="mb-3 text-xl font-black text-slate-950 dark:text-white sm:mb-4 sm:text-2xl">เกี่ยวกับธิติ</h2>
+          <h2 className="mb-2 text-lg font-black text-slate-950 dark:text-white">เกี่ยวกับธิติ</h2>
           <p className="text-base leading-8 text-slate-600 dark:text-slate-300">{candidate.bio}</p>
         </motion.section>
 
-        <section className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 sm:gap-5 md:grid-cols-2">
+        <section className="mb-4 grid grid-cols-1 gap-3 md:grid-cols-2">
           {infoCards.map(({ icon: Icon, label, content }, i) => (
             <motion.div
               key={label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.08 + i * 0.06 }}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
             >
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-2xl bg-[#0d3063]">
@@ -142,9 +142,9 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="rounded-3xl bg-[#0d3063] p-5 text-white sm:p-8"
+          className="rounded-2xl bg-[#0d3063] p-4 text-white"
         >
-          <h3 className="mb-3 text-xl font-black sm:mb-4 sm:text-2xl">ทำไมถึงอยากเป็นตัวแทนนักเรียน</h3>
+          <h3 className="mb-2 text-base font-black">ทำไมถึงอยากเป็นตัวแทนนักเรียน</h3>
           <p className="max-w-3xl text-sm leading-8 text-white/75 sm:text-base">
             ผมเชื่อว่าสภานักเรียนไม่ควรเป็นแค่คนจัดงาน แต่ควรเป็นคนที่ช่วยฟังและส่งต่อปัญหาของเพื่อน ๆ ให้ถึงคนที่แก้ได้จริง
           </p>
@@ -154,7 +154,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.4 }}
-          className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+          className="mt-4 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between"
         >
           <div className="flex items-center gap-3">
             <MessageCircle className="h-7 w-7 flex-shrink-0 text-[#a32f2c]" />

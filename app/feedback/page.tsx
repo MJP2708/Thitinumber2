@@ -87,7 +87,7 @@ export default function FeedbackPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <section className="relative z-0 overflow-hidden bg-[#0d3063] px-4 pb-24 pt-20 text-white sm:px-6 sm:pb-28 sm:pt-24">
+      <section className="relative z-0 overflow-hidden bg-[#0d3063] px-4 pb-16 pt-8 text-white sm:px-6 sm:pb-20 sm:pt-12">
         <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)", backgroundSize: "42px 42px" }} />
         <div className="absolute -right-24 top-8 h-72 w-72 rounded-full bg-[#a32f2c]/30 blur-3xl hidden sm:block" />
         <div className="relative mx-auto max-w-4xl text-center">
@@ -105,12 +105,12 @@ export default function FeedbackPage() {
       </section>
 
       <main className="relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-0 sm:px-6">
-        <div className="-mt-10 grid grid-cols-1 gap-5 sm:-mt-16 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="-mt-8 grid grid-cols-1 gap-4 sm:-mt-10 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
           <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:p-8"
+            className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-900 sm:p-5"
           >
             <div className="mb-6 rounded-2xl bg-[#0d3063]/5 p-4 text-sm leading-7 text-slate-600 dark:bg-white/5 dark:text-slate-300">
               {labels.feedback.note}
@@ -168,7 +168,7 @@ export default function FeedbackPage() {
             </button>
           </motion.form>
 
-          <motion.aside initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900">
+          <motion.aside initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-md dark:border-slate-800 dark:bg-slate-900">
             <div className="mb-5 flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0d3063] text-white">
                 <Trophy className="h-5 w-5" />
@@ -200,7 +200,7 @@ export default function FeedbackPage() {
           </motion.aside>
         </div>
 
-        <section className="mt-10">
+        <section className="mt-6">
           <div className="mb-5 flex items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl font-black text-slate-950 dark:text-white">บอร์ดความคิดเห็น</h2>
@@ -226,7 +226,7 @@ export default function FeedbackPage() {
               ยังไม่มีข้อเสนอแนะ ลองเป็นคนแรกที่เสนอไอเดียดูสิ
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {sortedFeedback.map((item, index) => {
                 const isLiked = likedIds.includes(item.id);
                 return (
@@ -235,7 +235,7 @@ export default function FeedbackPage() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, delay: Math.min(index * 0.03, 0.2) }}
-                    className="min-w-0 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6"
+                    className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                   >
                     <div className="mb-4 flex flex-wrap items-center gap-2">
                       <span className="rounded-full bg-[#0d3063]/10 px-3 py-1 text-xs font-bold text-[#0d3063] dark:bg-white/10 dark:text-white">{item.category}</span>

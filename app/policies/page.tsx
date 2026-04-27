@@ -68,12 +68,12 @@ export default function PoliciesPage() {
       </div>
 
       {/* Search & Filters */}
-      <div className="relative z-10 mx-auto -mt-10 max-w-6xl px-4 sm:px-6">
+      <div className="relative z-10 mx-auto -mt-8 max-w-6xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-4 mb-8"
+          className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 p-3 mb-5"
         >
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
@@ -106,7 +106,7 @@ export default function PoliciesPage() {
         </motion.div>
 
         {/* Results */}
-        <div className="pb-20">
+        <div className="pb-10">
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🔍</div>

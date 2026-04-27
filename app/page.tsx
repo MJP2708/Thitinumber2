@@ -37,10 +37,10 @@ function ScrollSection({ children, className = "" }: { children: React.ReactNode
 }
 
 function CandidatePortrait({ disableAnimation }: { disableAnimation: boolean }) {
-  const { candidate, policies, isLoading } = useApp();
+  const { candidate } = useApp();
   return (
-    <div className="relative mx-auto w-full max-w-[220px] sm:max-w-[340px]">
-      {/* Glow ring */}
+    <div className="relative mx-auto w-full max-w-[200px] sm:max-w-[300px]">
+      {/* Glow ring — desktop only */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-[#a32f2c]/30 to-white/10 rounded-3xl blur-2xl scale-105 hidden sm:block" />
 
       {/* Photo container */}
@@ -54,55 +54,40 @@ function CandidatePortrait({ disableAnimation }: { disableAnimation: boolean }) 
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-[#0d3063] via-[#123f7d] to-[#a32f2c] flex flex-col items-center justify-center relative overflow-hidden">
-            <span className="absolute text-[190px] font-black leading-none text-white/5 sm:text-[260px]">
+            <span className="absolute text-[160px] font-black leading-none text-white/5 sm:text-[220px]">
               {candidate.number}
             </span>
-            <div className="absolute w-64 h-64 rounded-full border border-white/5" />
-            <div className="absolute w-48 h-48 rounded-full border border-white/8" />
-            <div className="relative z-10 flex h-24 w-24 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-xl sm:h-36 sm:w-36">
-              <span className="text-5xl font-black text-white/70 sm:text-7xl">
+            <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-xl sm:h-32 sm:w-32">
+              <span className="text-4xl font-black text-white/70 sm:text-6xl">
                 {candidate.name.charAt(0)}
               </span>
             </div>
-            <div className="relative z-10 mt-4 text-center px-6">
-              <div className="font-black text-lg text-white/80 tracking-wide">
+            <div className="relative z-10 mt-3 text-center px-4">
+              <div className="font-black text-base text-white/80 tracking-wide">
                 {candidate.name.split(" ")[0].toUpperCase()}
               </div>
-              <div className="text-white/40 text-xs mt-1 font-medium">
+              <div className="text-white/40 text-xs mt-0.5 font-medium">
                 เพิ่มรูปได้ในหน้าแอดมิน
               </div>
             </div>
           </div>
         )}
 
-        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <div className="text-white/90 font-bold text-sm">{candidate.grade}</div>
-          <div className="text-white/50 text-xs italic mt-0.5 line-clamp-1">&ldquo;{candidate.slogan}&rdquo;</div>
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <div className="text-white/90 font-bold text-xs">{candidate.grade}</div>
+          <div className="text-white/50 text-[10px] italic mt-0.5 line-clamp-1">&ldquo;{candidate.slogan}&rdquo;</div>
         </div>
       </div>
 
-      {/* Vote badge — stops looping on mobile */}
+      {/* Vote badge — top-right, safe from content overlap */}
       <motion.div
-        animate={disableAnimation ? {} : { y: [0, -10, 0] }}
+        animate={disableAnimation ? {} : { y: [0, -8, 0] }}
         transition={disableAnimation ? {} : { repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-        className="absolute -right-2 -top-3 z-20 rounded-2xl border border-white/20 bg-[#a32f2c] px-3 py-2 shadow-2xl shadow-[#a32f2c]/40 sm:-right-5 sm:-top-5 sm:px-4 sm:py-3"
+        className="absolute -right-2 -top-3 z-20 rounded-xl border border-white/20 bg-[#a32f2c] px-2.5 py-1.5 shadow-xl shadow-[#a32f2c]/40 sm:-right-4 sm:-top-4 sm:px-3 sm:py-2"
       >
-        <div className="text-[10px] font-black uppercase tracking-widest text-white/75">เลือก</div>
-        <div className="text-3xl font-black leading-none text-white sm:text-5xl">{candidate.number}</div>
-      </motion.div>
-
-      {/* Stats badge — solid bg on mobile (no backdrop-blur) */}
-      <motion.div
-        animate={disableAnimation ? {} : { y: [0, 8, 0] }}
-        transition={disableAnimation ? {} : { repeat: Infinity, duration: 3, ease: "easeInOut", delay: 0.5 }}
-        className="absolute -bottom-4 -left-2 z-20 rounded-2xl border border-white/20 bg-[#082245] p-3 shadow-xl sm:-bottom-5 sm:-left-5 sm:bg-white/10 sm:backdrop-blur-xl"
-      >
-        <div className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">นโยบาย</div>
-        <div className="text-white font-black text-xl leading-none">
-          {isLoading ? "—" : `${policies.length} เรื่อง`}
-        </div>
-        <div className="text-white/40 text-[10px] mt-0.5">ตั้งใจทำจริง</div>
+        <div className="text-[9px] font-black uppercase tracking-widest text-white/75">เลือก</div>
+        <div className="text-2xl font-black leading-none text-white sm:text-4xl">{candidate.number}</div>
       </motion.div>
     </div>
   );
@@ -136,7 +121,7 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden bg-[#0d3063] py-8 sm:flex sm:min-h-screen sm:items-center sm:py-12 lg:py-16">
+      <section className="relative overflow-hidden bg-[#0d3063] py-8 sm:py-12 lg:py-16">
 
         {/* Heavy blur blobs — desktop only for GPU savings */}
         <div className="absolute inset-0 pointer-events-none hidden lg:block">
@@ -286,7 +271,7 @@ export default function Home() {
       </section>
 
       {/* ── TOP POLICIES ── */}
-      <ScrollSection className="relative overflow-hidden bg-slate-50 px-4 py-12 dark:bg-slate-950 sm:px-6 sm:py-16">
+      <ScrollSection className="relative overflow-hidden bg-slate-50 px-4 py-8 dark:bg-slate-950 sm:px-6 sm:py-10">
         {/* Subtle "2" watermark */}
         <div className="pointer-events-none absolute inset-y-0 right-0 flex select-none items-center overflow-hidden">
           <span className="translate-x-1/4 text-[18rem] font-black leading-none text-[#0d3063]/[0.04] dark:text-white/[0.04]">
@@ -294,7 +279,7 @@ export default function Home() {
           </span>
         </div>
         <div className="relative z-10 mx-auto max-w-6xl">
-          <div className="mb-8 text-center">
+          <div className="mb-5 text-center">
             <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#a32f2c] px-4 py-1.5 text-xs font-bold text-white">
               เบอร์ 2 เสนอ
             </div>
@@ -307,7 +292,7 @@ export default function Home() {
               <PolicyCard key={policy.id} policy={policy} index={i} />
             ))}
           </div>
-          <div className="mt-8 text-center">
+          <div className="mt-5 text-center">
             <Link
               href="/policies"
               className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-8 py-3 font-bold text-white shadow-lg shadow-[#a32f2c]/20 transition-all hover:scale-[1.02] hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
@@ -320,12 +305,12 @@ export default function Home() {
       </ScrollSection>
 
       {/* ── VIDEO ── */}
-      <ScrollSection className="bg-white px-4 py-10 dark:bg-slate-900 sm:px-6 sm:py-14">
+      <ScrollSection className="bg-white px-4 py-8 dark:bg-slate-900 sm:px-6 sm:py-10">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="mb-3 text-[clamp(2rem,10vw,2.5rem)] font-black text-slate-900 dark:text-white">
+          <h2 className="mb-2 text-[clamp(1.5rem,7vw,2rem)] font-black text-slate-900 dark:text-white">
             {labels.home.videoTitle}
           </h2>
-          <p className="text-slate-400 mb-10">{labels.home.videoWatch}</p>
+          <p className="text-slate-400 mb-5 text-sm">{labels.home.videoWatch}</p>
           <VideoPreviewCard onClick={() => router.push("/video")} />
           <Link href="/video" className="inline-flex items-center gap-2 mt-6 text-[#0d3063] dark:text-white font-semibold hover:underline">
             ดูวิดีโอเต็ม <ChevronRight className="w-4 h-4" />
@@ -334,7 +319,7 @@ export default function Home() {
       </ScrollSection>
 
       {/* ── COUNTDOWN ── */}
-      <section className="relative overflow-hidden bg-white px-4 py-10 dark:bg-slate-900 sm:px-6 sm:py-14">
+      <section className="relative overflow-hidden bg-white px-4 py-8 dark:bg-slate-900 sm:px-6 sm:py-10">
         <div className="absolute inset-0 opacity-10 hidden sm:block" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "30px 30px" }} />
         <ScrollSection className="relative z-10">
           <CountdownTimer />
@@ -342,17 +327,17 @@ export default function Home() {
       </section>
 
       {/* ── MANIFESTO ── */}
-      <section className="relative overflow-hidden bg-[#0d3063] px-4 py-10 sm:px-6 sm:py-14">
+      <section className="relative overflow-hidden bg-[#0d3063] px-4 py-8 sm:px-6 sm:py-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(163,47,44,0.24)_0%,_transparent_70%)]" />
         <ScrollSection className="relative z-10 max-w-3xl mx-auto text-center">
-          <div className="text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-6">
+          <div className="text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-3">
             โรงเรียนที่อยากเห็น
           </div>
-          <blockquote className="mb-8 text-[clamp(1.75rem,9vw,2.5rem)] font-black leading-snug text-white">
+          <blockquote className="mb-4 text-[clamp(1.5rem,7vw,2.25rem)] font-black leading-snug text-white">
             &ldquo;{candidate.vision}&rdquo;
           </blockquote>
-          <div className="text-white/70 font-medium mb-10">
-            - {candidate.name}, ผู้สมัครหมายเลข {candidate.number}
+          <div className="text-white/70 font-medium mb-5 text-sm">
+            — {candidate.name}, ผู้สมัครหมายเลข {candidate.number}
           </div>
           <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
             <Link
