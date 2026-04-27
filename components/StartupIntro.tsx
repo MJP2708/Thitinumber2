@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const SESSION_KEY = "startupIntroSeen";
-const HOLD_MS = 5000;
+const HOLD_MS = 3000;
 
 type Phase = "hidden" | "visible" | "leaving";
 
