@@ -19,7 +19,7 @@ export default function StartupIntro() {
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const leaveDelay = reduced ? 650 : HOLD_MS;
-    const hideDelay = leaveDelay + (reduced ? 20 : 500);
+    const hideDelay = leaveDelay + (reduced ? 20 : 300);
 
     const showFrame = window.requestAnimationFrame(() => setPhase("visible"));
     const leaveTimer = window.setTimeout(() => setPhase("leaving"), leaveDelay);
