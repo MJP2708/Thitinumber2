@@ -73,6 +73,7 @@ async function ensureSchema() {
       `);
 
       await seedDefaults();
+      await normalizeCandidateName();
     })();
   }
 
@@ -174,6 +175,24 @@ async function seedDefaults() {
       );
     }
   }
+}
+
+async function normalizeCandidateName() {
+  const db = getPool();
+  await db.query(
+    `
+      update candidate_info set
+        name = replace(name, 'ฐิติ', 'ธิติ'),
+        bio = replace(bio, 'ฐิติ', 'ธิติ'),
+        video_description = replace(video_description, 'ฐิติ', 'ธิติ'),
+        updated_at = now()
+      where id = 1 and (
+        name like '%ฐิติ%' or
+        bio like '%ฐิติ%' or
+        video_description like '%ฐิติ%'
+      );
+    `
+  );
 }
 
 export async function getCampaignData() {

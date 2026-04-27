@@ -5,6 +5,8 @@ import { AppProvider } from "@/contexts/AppContext";
 import ToastContainer from "@/components/Toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GlobalCountdown from "@/components/GlobalCountdown";
+import ClickBurst from "@/components/ClickBurst";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   variable: "--font-ibm-plex-sans-thai",
@@ -14,9 +16,9 @@ const ibmPlexSansThai = IBM_Plex_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "ฐิติ แซ่ลี้ - ผู้สมัครหมายเลข 2",
+  title: "ธิติ แซ่ลี้ - ผู้สมัครหมายเลข 2",
   description:
-    "เว็บไซต์หาเสียงสภานักเรียนของ ฐิติ แซ่ลี้ ผู้สมัครหมายเลข 2",
+    "เว็บไซต์หาเสียงสภานักเรียนของ ธิติ แซ่ลี้ ผู้สมัครหมายเลข 2",
 };
 
 export default function RootLayout({
@@ -29,9 +31,11 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors duration-300 leading-relaxed">
         <AppProvider>
           <Navbar />
+          <GlobalCountdown />
           <main className="flex-1">{children}</main>
           <Footer />
           <ToastContainer />
+          <ClickBurst />
         </AppProvider>
       </body>
     </html>

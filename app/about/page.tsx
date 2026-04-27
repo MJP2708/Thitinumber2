@@ -32,7 +32,7 @@ function CandidateCard() {
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-[#0d3063] to-[#a32f2c] px-8 text-center">
             <div className="flex h-28 w-28 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-lg">
-              <span className="text-6xl font-black leading-none text-white">ฐ</span>
+              <span className="text-6xl font-black leading-none text-white">ธ</span>
             </div>
             <p className="mt-5 text-sm font-medium leading-7 text-white/75">
               เพิ่มรูปผู้สมัครได้จากหน้าแอดมิน

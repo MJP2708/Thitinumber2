@@ -14,7 +14,7 @@ export const labels = {
   },
   home: {
     policiesCta: "ดูนโยบาย",
-    aboutCta: "รู้จักฐิติ",
+    aboutCta: "รู้จักธิติ",
     feedbackCta: "เสนอความคิดเห็น",
     policyTitle: "นโยบาย",
     policySubtitle: "นโยบาย",
@@ -31,7 +31,7 @@ export const labels = {
     seconds: "วินาที",
   },
   policies: {
-    title: "นโยบายของฐิติ",
+    title: "นโยบายของธิติ",
     subtitle: "ไอเดียที่เริ่มจากปัญหาที่นักเรียนเจอจริง",
     search: "ค้นหานโยบาย...",
     all: "ทั้งหมด",
@@ -49,7 +49,7 @@ export const labels = {
   },
   video: {
     title: "วิดีโอแนะนำตัว",
-    subtitle: "ฟังจากฐิติว่าอยากทำอะไรให้โรงเรียน",
+    subtitle: "ฟังจากธิติว่าอยากทำอะไรให้โรงเรียน",
     placeholder: "ยังไม่มีวิดีโอ",
     placeholderSub: "ถ้าอัปเดตวิดีโอแล้ว จะแสดงตรงนี้ทันที",
   },
