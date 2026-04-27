@@ -89,7 +89,7 @@ export default function FeedbackPage() {
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <section className="relative z-0 overflow-hidden bg-[#0d3063] px-4 pb-24 pt-20 text-white sm:px-6 sm:pb-28 sm:pt-24">
         <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)", backgroundSize: "42px 42px" }} />
-        <div className="absolute -right-24 top-8 h-72 w-72 rounded-full bg-[#a32f2c]/30 blur-3xl" />
+        <div className="absolute -right-24 top-8 h-72 w-72 rounded-full bg-[#a32f2c]/30 blur-3xl hidden sm:block" />
         <div className="relative mx-auto max-w-4xl text-center">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold">
             <MessageCircle className="h-4 w-4" />
@@ -232,9 +232,9 @@ export default function FeedbackPage() {
                 return (
                   <motion.article
                     key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.03 }}
+                    transition={{ duration: 0.35, delay: Math.min(index * 0.03, 0.2) }}
                     className="min-w-0 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6"
                   >
                     <div className="mb-4 flex flex-wrap items-center gap-2">

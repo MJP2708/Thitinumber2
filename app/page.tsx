@@ -37,7 +37,7 @@ function ScrollSection({ children, className = "" }: { children: React.ReactNode
 }
 
 function CandidatePortrait({ disableAnimation }: { disableAnimation: boolean }) {
-  const { candidate } = useApp();
+  const { candidate, policies, isLoading } = useApp();
   return (
     <div className="relative mx-auto w-full max-w-[220px] sm:max-w-[340px]">
       {/* Glow ring */}
@@ -99,7 +99,9 @@ function CandidatePortrait({ disableAnimation }: { disableAnimation: boolean }) 
         className="absolute -bottom-4 -left-2 z-20 rounded-2xl border border-white/20 bg-[#082245] p-3 shadow-xl sm:-bottom-5 sm:-left-5 sm:bg-white/10 sm:backdrop-blur-xl"
       >
         <div className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">นโยบาย</div>
-        <div className="text-white font-black text-xl leading-none">5 เรื่อง</div>
+        <div className="text-white font-black text-xl leading-none">
+          {isLoading ? "—" : `${policies.length} เรื่อง`}
+        </div>
         <div className="text-white/40 text-[10px] mt-0.5">ตั้งใจทำจริง</div>
       </motion.div>
     </div>
@@ -173,7 +175,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="flex justify-center order-first lg:order-last"
+              className="flex justify-center order-first lg:order-last pb-6 lg:pb-0"
             >
               <CandidatePortrait disableAnimation={disableAnimation} />
             </motion.div>
@@ -185,10 +187,10 @@ export default function Home() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
-                className="mb-5 inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-xs font-semibold text-white/80 sm:mb-8"
+                className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-2 text-xs font-semibold text-white/80 sm:mb-8 sm:gap-2.5 sm:px-4"
               >
-                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                เลือกตั้งสภานักเรียน 2569 · ผู้สมัครหมายเลข {candidate.number}
+                <span className="w-1.5 h-1.5 flex-shrink-0 bg-green-400 rounded-full animate-pulse" />
+                <span className="min-w-0 truncate">เลือกตั้งสภานักเรียน 2569 · ผู้สมัครหมายเลข {candidate.number}</span>
               </motion.div>
 
               <motion.div
@@ -274,9 +276,9 @@ export default function Home() {
                   { value: policies.length, label: "นโยบาย" },
                   { value: candidate.grade, label: "ระดับชั้น" },
                 ].map(({ value, label }) => (
-                  <div key={label} className="text-center">
-                    <div className="text-xl font-black text-white sm:text-2xl">{value}</div>
-                    <div className="text-white/40 text-xs uppercase tracking-widest mt-0.5">{label}</div>
+                  <div key={label} className="text-center min-w-0">
+                    <div className="text-xl font-black text-white sm:text-2xl truncate">{value}</div>
+                    <div className="text-white/40 text-[10px] uppercase tracking-wide mt-0.5">{label}</div>
                   </div>
                 ))}
               </motion.div>
@@ -365,13 +367,13 @@ export default function Home() {
           <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
             <Link
               href="/about"
-              className="inline-flex min-h-[52px] items-center justify-center rounded-2xl bg-[#a32f2c] px-7 py-3.5 font-bold text-white transition-all hover:bg-[#8f2926] active:scale-[0.98]"
+              className="flex min-h-[52px] w-full items-center justify-center rounded-2xl bg-[#a32f2c] px-7 py-3.5 font-bold text-white transition-all hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
             >
               {labels.home.aboutCta}
             </Link>
             <Link
               href="/feedback"
-              className="inline-flex min-h-[52px] items-center justify-center rounded-2xl border border-white/15 bg-white/8 px-7 py-3.5 font-semibold text-white transition-all hover:bg-white/12 active:scale-[0.98]"
+              className="flex min-h-[52px] w-full items-center justify-center rounded-2xl border border-white/15 bg-white/8 px-7 py-3.5 font-semibold text-white transition-all hover:bg-white/12 active:scale-[0.98] sm:w-auto"
             >
               {labels.home.feedbackCta}
             </Link>

@@ -61,16 +61,16 @@ export default function AboutPage() {
       <section className="relative overflow-hidden bg-[#0d3063]">
         <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)", backgroundSize: "44px 44px" }} />
         <div className="absolute -right-28 bottom-0 h-72 w-72 rounded-full bg-[#a32f2c]/30 blur-3xl" />
-        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-20 lg:grid-cols-[1fr_380px]">
+        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-24 lg:grid-cols-[1fr_380px] lg:gap-12">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="mb-6 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-white/80">
+            <div className="mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-white/80">
               {labels.about.subtitle}
             </div>
-            <h1 className="text-5xl font-black leading-[1.15] text-white sm:text-6xl">
+            <h1 className="text-4xl font-black leading-[1.15] text-white sm:text-5xl lg:text-6xl">
               {candidate.name}
             </h1>
-            <p className="mt-5 max-w-2xl text-xl font-medium leading-9 text-white/75">
-              “{candidate.slogan}”
+            <p className="mt-4 max-w-2xl text-lg font-medium leading-8 text-white/75 sm:text-xl sm:leading-9">
+              &ldquo;{candidate.slogan}&rdquo;
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white">
@@ -81,17 +81,17 @@ export default function AboutPage() {
               </span>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
             <CandidatePhoto />
           </motion.div>
         </div>
       </section>
 
-      <main className="mx-auto max-w-5xl px-6 py-16">
+      <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative mb-8 overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900"
+          className="relative mb-8 overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-xl dark:border-slate-800 dark:bg-slate-900 sm:p-8"
         >
           <Quote className="absolute -left-4 -top-5 h-20 w-20 rotate-180 text-[#0d3063]/10" />
           <div className="relative">
@@ -108,7 +108,7 @@ export default function AboutPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.07 }}
               whileHover={{ y: -4 }}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-xl dark:border-slate-800 dark:bg-slate-900 sm:p-6"
             >
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0d3063]">
@@ -125,7 +125,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="rounded-3xl bg-[#0d3063] p-8 text-white"
+          className="rounded-3xl bg-[#0d3063] p-5 text-white sm:p-8"
         >
           <h3 className="mb-4 text-2xl font-black">ทำไมถึงอยากเป็นตัวแทนนักเรียน</h3>
           <p className="max-w-3xl text-base leading-8 text-white/75">
@@ -137,7 +137,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="mt-8 flex flex-col items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center"
+          className="mt-8 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between sm:p-6"
         >
           <div className="flex items-center gap-4">
             <MessageCircle className="h-8 w-8 text-[#a32f2c]" />
@@ -146,7 +146,7 @@ export default function AboutPage() {
               <p className="text-sm leading-6 text-slate-500 dark:text-slate-400">ส่งความคิดเห็นมาได้เลย ผมอยากฟังจริง ๆ</p>
             </div>
           </div>
-          <Link href="/feedback" className="inline-flex items-center gap-2 rounded-xl bg-[#a32f2c] px-6 py-3 font-bold text-white transition hover:bg-[#8f2926]">
+          <Link href="/feedback" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-6 py-3 font-bold text-white transition hover:bg-[#8f2926] sm:w-auto sm:justify-start">
             เสนอความคิดเห็น <ChevronRight className="h-4 w-4" />
           </Link>
         </motion.section>
