@@ -60,7 +60,7 @@ export default function FeedbackPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-700 pt-16 pb-24 px-6 relative overflow-hidden">
+      <div className="bg-[#0d3063] pt-16 pb-24 px-6 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -90,7 +90,7 @@ export default function FeedbackPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-indigo-200 text-lg"
+            className="text-white/70 text-lg"
           >
             {t("feedback.subtitle")}
           </motion.p>
@@ -121,7 +121,7 @@ export default function FeedbackPage() {
               </p>
               <button
                 onClick={handleReset}
-                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors"
+                className="px-6 py-3 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-semibold rounded-xl transition-colors"
               >
                 Submit Another
               </button>
@@ -150,7 +150,7 @@ export default function FeedbackPage() {
                       errors.name
                         ? "border-red-400 dark:border-red-500"
                         : "border-slate-200 dark:border-slate-700"
-                    }`}
+                    } focus:ring-[#a32f2c]`}
                   />
                   {errors.name && (
                     <p className="mt-1 text-xs text-red-500">{errors.name}</p>
@@ -169,7 +169,7 @@ export default function FeedbackPage() {
                       setForm((f) => ({ ...f, grade: e.target.value }))
                     }
                     placeholder={t("feedback.grade.placeholder")}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent"
                   />
                 </div>
 
@@ -183,7 +183,7 @@ export default function FeedbackPage() {
                     onChange={(e) =>
                       setForm((f) => ({ ...f, category: e.target.value }))
                     }
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent"
                   >
                     {CATEGORIES.map((c) => (
                       <option key={c} value={c}>
@@ -209,7 +209,7 @@ export default function FeedbackPage() {
                       errors.message
                         ? "border-red-400 dark:border-red-500"
                         : "border-slate-200 dark:border-slate-700"
-                    }`}
+                    } focus:ring-[#a32f2c]`}
                   />
                   {errors.message && (
                     <p className="mt-1 text-xs text-red-500">{errors.message}</p>
@@ -221,7 +221,7 @@ export default function FeedbackPage() {
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-indigo-600/20 hover:scale-[1.02]"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-xl transition-all shadow-lg shadow-[#a32f2c]/20 hover:scale-[1.02]"
                 >
                   <Send className="w-4 h-4" />
                   {t("feedback.submit")}

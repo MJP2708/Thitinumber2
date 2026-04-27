@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import React, {
   createContext,
   useContext,
@@ -12,10 +14,8 @@ import {
   Candidate,
   Policy,
   FeedbackItem,
-  GalleryImage,
   defaultCandidate,
   defaultPolicies,
-  defaultGallery,
 } from "@/lib/defaultData";
 import { translations } from "@/lib/translations";
 
@@ -33,7 +33,6 @@ interface AppContextType {
   candidate: Candidate;
   policies: Policy[];
   feedbackList: FeedbackItem[];
-  gallery: GalleryImage[];
   theme: Theme;
   toggleTheme: () => void;
   language: Language;
@@ -52,9 +51,6 @@ interface AppContextType {
   addFeedback: (feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead">) => void;
   markFeedbackRead: (id: string) => void;
   deleteFeedback: (id: string) => void;
-  addGalleryImage: (image: Omit<GalleryImage, "id">) => void;
-  updateGalleryImage: (id: string, data: Partial<GalleryImage>) => void;
-  deleteGalleryImage: (id: string) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -63,7 +59,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [candidate, setCandidate] = useState<Candidate>(defaultCandidate);
   const [policies, setPolicies] = useState<Policy[]>(defaultPolicies);
   const [feedbackList, setFeedbackList] = useState<FeedbackItem[]>([]);
-  const [gallery, setGallery] = useState<GalleryImage[]>(defaultGallery);
   const [theme, setTheme] = useState<Theme>("light");
   const [language, setLanguage] = useState<Language>("en");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -72,13 +67,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const sc = localStorage.getItem("candidate");
-      if (sc) setCandidate(JSON.parse(sc));
+      if (sc) {
+        const storedCandidate = JSON.parse(sc) as Candidate;
+        setCandidate({
+          ...defaultCandidate,
+          ...storedCandidate,
+          name: storedCandidate.name === "Matthew Prueksakij" ? defaultCandidate.name : storedCandidate.name,
+          number: storedCandidate.number === 7 ? defaultCandidate.number : storedCandidate.number,
+          electionDate: storedCandidate.electionDate === "2026-05-15" ? defaultCandidate.electionDate : storedCandidate.electionDate,
+        });
+      }
       const sp = localStorage.getItem("policies");
       if (sp) setPolicies(JSON.parse(sp));
       const sf = localStorage.getItem("feedback");
       if (sf) setFeedbackList(JSON.parse(sf));
-      const sg = localStorage.getItem("gallery");
-      if (sg) setGallery(JSON.parse(sg));
       const st = localStorage.getItem("theme") as Theme | null;
       if (st) setTheme(st);
       const sl = localStorage.getItem("language") as Language | null;
@@ -193,34 +195,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const addGalleryImage = useCallback((image: Omit<GalleryImage, "id">) => {
-    setGallery((prev) => {
-      const updated = [...prev, { ...image, id: Date.now().toString() }];
-      try { localStorage.setItem("gallery", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
-
-  const updateGalleryImage = useCallback((id: string, data: Partial<GalleryImage>) => {
-    setGallery((prev) => {
-      const updated = prev.map((g) => (g.id === id ? { ...g, ...data } : g));
-      try { localStorage.setItem("gallery", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
-
-  const deleteGalleryImage = useCallback((id: string) => {
-    setGallery((prev) => {
-      const updated = prev.filter((g) => g.id !== id);
-      try { localStorage.setItem("gallery", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
-
   return (
     <AppContext.Provider
       value={{
-        candidate, policies, feedbackList, gallery,
+        candidate, policies, feedbackList,
         theme, toggleTheme,
         language, toggleLanguage, t: translate,
         isAuthenticated, login, logout,
@@ -228,7 +206,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
         updateCandidate,
         addPolicy, updatePolicy, deletePolicy,
         addFeedback, markFeedbackRead, deleteFeedback,
-        addGalleryImage, updateGalleryImage, deleteGalleryImage,
       }}
     >
       {children}

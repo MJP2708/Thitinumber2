@@ -11,7 +11,7 @@ export default function VideoPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-700 pt-16 pb-24 px-6 relative overflow-hidden">
+      <div className="bg-[#0d3063] pt-16 pb-24 px-6 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -41,7 +41,7 @@ export default function VideoPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-indigo-200 text-lg"
+            className="text-white/70 text-lg"
           >
             {t("video.subtitle")}
           </motion.p>
@@ -73,14 +73,14 @@ export default function VideoPage() {
               {candidate.bio}
             </p>
           </div>
-          <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 text-white">
-            <div className="text-xs font-semibold uppercase tracking-widest text-indigo-200 mb-1">
+          <div className="bg-[#0d3063] rounded-2xl p-6 text-white">
+            <div className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-1">
               Candidate No.
             </div>
             <div className="text-7xl font-black leading-none mb-4">
               {candidate.number}
             </div>
-            <p className="text-indigo-200 italic text-sm">
+            <p className="text-white/70 italic text-sm">
               &ldquo;{candidate.slogan}&rdquo;
             </p>
           </div>

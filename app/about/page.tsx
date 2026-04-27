@@ -37,14 +37,14 @@ function CandidatePhoto() {
   const { candidate } = useApp();
   return (
     <div className="relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/30 to-purple-500/20 rounded-3xl blur-xl scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0d3063]/30 to-[#a32f2c]/20 rounded-3xl blur-xl scale-105" />
       <div className="relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/10 shadow-2xl">
         {candidate.aboutImage ? (
           <img src={candidate.aboutImage} alt={candidate.name} className="w-full h-full object-cover" />
         ) : candidate.heroImage ? (
           <img src={candidate.heroImage} alt={candidate.name} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-indigo-800 via-purple-900 to-slate-900 flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="w-full h-full bg-gradient-to-br from-[#0d3063] via-[#123f7d] to-[#a32f2c] flex flex-col items-center justify-center relative overflow-hidden">
             <span className="absolute text-[200px] font-black text-white/5 leading-none select-none">{candidate.number}</span>
             <div className="relative z-10 w-28 h-28 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/20 flex items-center justify-center">
               <span className="text-5xl font-black text-white/70">{candidate.name.charAt(0)}</span>
@@ -58,7 +58,7 @@ function CandidatePhoto() {
         <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-black/70 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-5">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-amber-400 flex items-center justify-center font-black text-amber-900 text-sm shadow-lg">
+            <div className="w-8 h-8 rounded-xl bg-[#a32f2c] flex items-center justify-center font-black text-white text-sm shadow-lg">
               {candidate.number}
             </div>
             <div>
@@ -76,19 +76,19 @@ export default function AboutPage() {
   const { candidate, t } = useApp();
 
   const infoCards = [
-    { icon: Target, label: t("about.mission"), content: candidate.mission, grad: "from-indigo-500 to-blue-600" },
-    { icon: Eye, label: t("about.vision"), content: candidate.vision, grad: "from-purple-500 to-indigo-600" },
-    { icon: BookOpen, label: t("about.ideology"), content: candidate.ideology, grad: "from-violet-500 to-purple-600" },
-    { icon: Heart, label: t("about.reason"), content: candidate.reasonForRunning, grad: "from-rose-500 to-pink-600" },
+    { icon: Target, label: t("about.mission"), content: candidate.mission, grad: "from-[#0d3063] to-[#164b91]" },
+    { icon: Eye, label: t("about.vision"), content: candidate.vision, grad: "from-[#0d3063] to-[#a32f2c]" },
+    { icon: BookOpen, label: t("about.ideology"), content: candidate.ideology, grad: "from-[#0d3063] to-[#164b91]" },
+    { icon: Heart, label: t("about.reason"), content: candidate.reasonForRunning, grad: "from-[#a32f2c] to-[#d94b45]" },
   ];
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Hero banner */}
-      <div className="bg-[#060618] relative overflow-hidden">
+      <div className="bg-[#0d3063] relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-indigo-700/20 rounded-full blur-[100px] -translate-x-1/3 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-700/20 rounded-full blur-[80px] translate-x-1/4 translate-y-1/2" />
+          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] -translate-x-1/3 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#a32f2c]/25 rounded-full blur-[80px] translate-x-1/4 translate-y-1/2" />
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
@@ -109,7 +109,7 @@ export default function AboutPage() {
                 className="font-black text-white mb-4 leading-tight"
               >
                 <span className="block text-5xl sm:text-6xl">{candidate.name.split(" ")[0]}</span>
-                <span className="block text-3xl sm:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+                <span className="block text-3xl sm:text-4xl text-white">
                   {candidate.name.split(" ").slice(1).join(" ")}
                 </span>
               </motion.h1>
@@ -120,10 +120,10 @@ export default function AboutPage() {
                 className="flex flex-wrap gap-2"
               >
                 <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-full text-white/70 text-sm">
-                  <GraduationCap className="w-4 h-4 text-indigo-400" />
+                  <GraduationCap className="w-4 h-4 text-white/70" />
                   {candidate.grade}
                 </span>
-                <span className="flex items-center gap-1.5 bg-amber-500/20 border border-amber-400/30 px-3 py-1.5 rounded-full text-amber-300 text-sm font-semibold">
+                <span className="flex items-center gap-1.5 bg-[#a32f2c]/25 border border-[#a32f2c]/40 px-3 py-1.5 rounded-full text-white text-sm font-semibold">
                   <Star className="w-4 h-4" />
                   Candidate No. {candidate.number}
                 </span>
@@ -243,7 +243,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0 }}
-          className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-8 text-white mb-8 relative overflow-hidden"
+          className="bg-[#0d3063] rounded-3xl p-8 text-white mb-8 relative overflow-hidden"
         >
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "20px 20px" }} />
           <div className="relative z-10">
@@ -272,7 +272,7 @@ export default function AboutPage() {
           className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
         >
           <div className="flex items-center gap-4">
-            <MessageCircle className="w-8 h-8 text-indigo-500 flex-shrink-0" />
+            <MessageCircle className="w-8 h-8 text-[#a32f2c] flex-shrink-0" />
             <div>
               <div className="font-bold text-slate-900 dark:text-white">Have a question or idea?</div>
               <div className="text-sm text-slate-500 dark:text-slate-400">Your voice shapes my campaign.</div>
@@ -280,7 +280,7 @@ export default function AboutPage() {
           </div>
           <Link
             href="/feedback"
-            className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors flex-shrink-0"
+            className="flex items-center gap-2 px-6 py-3 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-xl transition-colors flex-shrink-0"
           >
             Share Feedback <ChevronRight className="w-4 h-4" />
           </Link>

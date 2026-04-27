@@ -28,10 +28,10 @@
 }
 
 :root {
-  --primary: #4f46e5;
-  --primary-dark: #4338ca;
-  --secondary: #7c3aed;
-  --accent: #f59e0b;
+  --primary: #0d3063;
+  --primary-dark: #082245;
+  --secondary: #ffffff;
+  --accent: #a32f2c;
 }
 
 * {
@@ -44,7 +44,7 @@ html {
 
 body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  background-color: #f8faff;
+  background-color: #ffffff;
   color: #0f172a;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -82,14 +82,14 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
+  background: linear-gradient(135deg, #0d3063, #a32f2c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-bg {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #0d3063 0%, #0d3063 60%, #a32f2c 100%);
 }
 
 .card-hover {
@@ -98,7 +98,7 @@ body {
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15);
+  box-shadow: 0 20px 40px rgba(13, 48, 99, 0.15);
 }
 
 .scrollbar-thin::-webkit-scrollbar {
@@ -110,7 +110,7 @@ body {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #4f46e5;
+  background: #0d3063;
   border-radius: 2px;
 }
 

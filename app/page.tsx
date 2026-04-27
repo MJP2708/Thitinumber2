@@ -4,8 +4,8 @@ import { useRef } from "react";
 import Link from "next/link";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import {
-  ArrowRight, ChevronRight, Share2, Vote, CheckCircle2,
-  Sparkles, Play, Image as ImageIcon,
+  ArrowRight, ChevronRight, Share2,
+  Sparkles, Play,
 } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import PolicyCard from "@/components/PolicyCard";
@@ -35,7 +35,7 @@ function CandidatePortrait() {
   return (
     <div className="relative w-full max-w-[340px] mx-auto">
       {/* Glow ring behind photo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/40 via-purple-500/30 to-pink-500/20 rounded-3xl blur-2xl scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-[#a32f2c]/30 to-white/10 rounded-3xl blur-2xl scale-105" />
 
       {/* Photo container */}
       <div className="relative rounded-3xl overflow-hidden aspect-[3/4] border border-white/10 shadow-2xl">
@@ -46,7 +46,7 @@ function CandidatePortrait() {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="w-full h-full bg-gradient-to-br from-[#0d3063] via-[#123f7d] to-[#a32f2c] flex flex-col items-center justify-center relative overflow-hidden">
             {/* Watermark number */}
             <span className="absolute text-[260px] font-black text-white/5 leading-none select-none pointer-events-none">
               {candidate.number}
@@ -83,10 +83,10 @@ function CandidatePortrait() {
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-        className="absolute -top-5 -right-5 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl px-4 py-3 shadow-2xl shadow-amber-500/40 border border-amber-300/20 z-20"
+        className="absolute -top-5 -right-5 bg-[#a32f2c] rounded-2xl px-4 py-3 shadow-2xl shadow-[#a32f2c]/40 border border-white/20 z-20"
       >
-        <div className="text-[10px] font-black uppercase tracking-widest text-amber-900">Vote</div>
-        <div className="text-5xl font-black text-amber-900 leading-none">{candidate.number}</div>
+        <div className="text-[10px] font-black uppercase tracking-widest text-white/75">Vote</div>
+        <div className="text-5xl font-black text-white leading-none">{candidate.number}</div>
       </motion.div>
 
       {/* Floating stats badge */}
@@ -124,13 +124,13 @@ export default function Home() {
       {/* ── HERO ── */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center bg-[#060618] overflow-hidden"
+        className="relative min-h-screen flex items-center bg-[#0d3063] overflow-hidden"
       >
         {/* Background blobs */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-indigo-700/20 rounded-full blur-[120px] -translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-700/20 rounded-full blur-[100px] translate-x-1/4 translate-y-1/4" />
-          <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-pink-700/10 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-white/10 rounded-full blur-[120px] -translate-x-1/3 -translate-y-1/3" />
+          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#a32f2c]/30 rounded-full blur-[100px] translate-x-1/4 translate-y-1/4" />
+          <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-white/5 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2" />
         </div>
 
         {/* Grid pattern */}
@@ -173,7 +173,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
-                className="text-indigo-400 text-sm font-bold uppercase tracking-[0.3em] mb-3"
+                className="text-white/75 text-sm font-bold uppercase tracking-[0.3em] mb-3"
               >
                 Vote For
               </motion.div>
@@ -188,7 +188,7 @@ export default function Home() {
                 <span className="block text-white text-6xl sm:text-7xl xl:text-8xl">
                   {candidate.name.split(" ")[0]}
                 </span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 text-4xl sm:text-5xl xl:text-6xl mt-1">
+                <span className="block text-white text-4xl sm:text-5xl xl:text-6xl mt-1">
                   {candidate.name.split(" ").slice(1).join(" ")}
                 </span>
               </motion.h1>
@@ -201,9 +201,9 @@ export default function Home() {
                 className="mb-8"
               >
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="h-px flex-1 bg-gradient-to-r from-indigo-500/50 to-transparent" />
+                  <div className="h-px flex-1 bg-gradient-to-r from-[#a32f2c] to-transparent" />
                   <Sparkles className="w-4 h-4 text-amber-400" />
-                  <div className="h-px flex-1 bg-gradient-to-l from-purple-500/50 to-transparent" />
+                  <div className="h-px flex-1 bg-gradient-to-l from-[#a32f2c] to-transparent" />
                 </div>
                 <p className="text-xl sm:text-2xl text-white/70 italic font-medium text-center lg:text-left">
                   &ldquo;{candidate.slogan}&rdquo;
@@ -219,7 +219,7 @@ export default function Home() {
               >
                 <Link
                   href="/policies"
-                  className="group flex items-center gap-2 px-7 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all shadow-xl shadow-indigo-600/30 hover:scale-105 hover:shadow-indigo-500/40"
+                  className="group flex items-center gap-2 px-7 py-3.5 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-2xl transition-all shadow-xl shadow-[#a32f2c]/30 hover:scale-105 hover:shadow-[#a32f2c]/40"
                 >
                   {t("home.hero.cta.policies")}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -295,7 +295,7 @@ export default function Home() {
       <ScrollSection className="py-24 px-6 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <div className="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 text-xs font-bold px-4 py-2 rounded-full mb-5 uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 bg-[#0d3063]/10 dark:bg-white/10 text-[#0d3063] dark:text-white text-xs font-bold px-4 py-2 rounded-full mb-5 uppercase tracking-widest">
               <Sparkles className="w-3.5 h-3.5" />
               {t("home.policies.subtitle")}
             </div>
@@ -311,7 +311,7 @@ export default function Home() {
           <div className="text-center mt-10">
             <Link
               href="/policies"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-all shadow-xl shadow-indigo-600/20 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-2xl transition-all shadow-xl shadow-[#a32f2c]/20 hover:scale-105"
             >
               {t("home.policies.viewall")}
               <ChevronRight className="w-4 h-4" />
@@ -328,40 +328,14 @@ export default function Home() {
           </h2>
           <p className="text-slate-400 mb-10">{t("home.video.watch")}</p>
           <VideoPreviewCard onClick={() => router.push("/video")} />
-          <Link href="/video" className="inline-flex items-center gap-2 mt-6 text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+          <Link href="/video" className="inline-flex items-center gap-2 mt-6 text-[#0d3063] dark:text-white font-semibold hover:underline">
             Watch full video <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
       </ScrollSection>
 
-      {/* ── GALLERY TEASER ── */}
-      <ScrollSection className="py-24 px-6 bg-slate-50 dark:bg-slate-950">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest mb-3">
-                <ImageIcon className="w-3.5 h-3.5" />
-                Photo Gallery
-              </div>
-              <h2 className="text-4xl font-black text-slate-900 dark:text-white">
-                Behind the Campaign
-              </h2>
-            </div>
-            <Link href="/gallery" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
-              View all <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {(typeof window !== "undefined" ? [] : []).concat(
-              // We'll render gallery previews using a client trick below
-            )}
-            <GalleryPreviewGrid />
-          </div>
-        </div>
-      </ScrollSection>
-
       {/* ── COUNTDOWN ── */}
-      <section className="py-24 px-6 bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 relative overflow-hidden">
+      <section className="py-24 px-6 bg-white dark:bg-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "30px 30px" }} />
         <ScrollSection className="relative z-10">
           <CountdownTimer />
@@ -369,22 +343,22 @@ export default function Home() {
       </section>
 
       {/* ── MANIFESTO ── */}
-      <section className="py-24 px-6 bg-[#060618] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(79,70,229,0.2)_0%,_transparent_70%)]" />
+      <section className="py-24 px-6 bg-[#0d3063] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(163,47,44,0.24)_0%,_transparent_70%)]" />
         <ScrollSection className="relative z-10 max-w-3xl mx-auto text-center">
-          <div className="text-indigo-400/60 text-xs font-bold uppercase tracking-[0.3em] mb-6">
+          <div className="text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-6">
             Our Vision
           </div>
           <blockquote className="text-3xl sm:text-4xl font-black text-white leading-snug mb-8">
             &ldquo;{candidate.vision}&rdquo;
           </blockquote>
-          <div className="text-indigo-400 font-medium mb-10">
+          <div className="text-white/70 font-medium mb-10">
             — {candidate.name}, Candidate No. {candidate.number}
           </div>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/about"
-              className="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all"
+              className="px-7 py-3.5 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-2xl transition-all"
             >
               {t("home.hero.cta.about")}
             </Link>
@@ -398,71 +372,10 @@ export default function Home() {
         </ScrollSection>
       </section>
 
-      {/* ── VOTING GUIDE ── */}
-      <ScrollSection className="py-24 px-6 bg-white dark:bg-slate-900">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold px-4 py-2 rounded-full mb-6 uppercase tracking-widest">
-            <Vote className="w-3.5 h-3.5" />
-            Voting Guide
-          </div>
-          <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-12">
-            {t("home.voting.title")}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-            {[
-              t("home.voting.step1"),
-              t("home.voting.step2"),
-              t("home.voting.step3"),
-              t("home.voting.step4"),
-            ].map((step, i) => (
-              <div key={i} className="flex items-start gap-4 bg-slate-50 dark:bg-slate-800 rounded-2xl p-5">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-sm flex-shrink-0 shadow-md">
-                  {i + 1}
-                </div>
-                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed pt-1.5">{step}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 flex items-center justify-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm font-semibold">
-            <CheckCircle2 className="w-5 h-5" />
-            Your vote makes a real difference. Vote responsibly!
-          </div>
-          <Link href="/faq" className="mt-4 inline-flex items-center gap-1 text-sm text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
-            More FAQ & voting info <ChevronRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </ScrollSection>
-
       {/* ── FAQ ── */}
       <div className="bg-slate-50 dark:bg-slate-950">
         <FAQ />
       </div>
     </div>
-  );
-}
-
-function GalleryPreviewGrid() {
-  const { gallery } = useApp();
-  const preview = gallery.slice(0, 4);
-  return (
-    <>
-      {preview.map((img, i) => (
-        <Link key={img.id} href="/gallery">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="aspect-square rounded-2xl overflow-hidden group cursor-pointer"
-          >
-            <img
-              src={img.url}
-              alt={img.caption}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
-          </motion.div>
-        </Link>
-      ))}
-    </>
   );
 }

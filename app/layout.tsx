@@ -12,9 +12,9 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Matthew Prueksakij — Candidate No. 7 | Students First, Future Forward",
+  title: "Thiti Saelee - Candidate No. 2 | Students First, Future Forward",
   description:
-    "Student Council Campaign Website for Matthew Prueksakij, Candidate Number 7. Students First, Future Forward.",
+    "Student Council Campaign Website for Thiti Saelee, Candidate Number 2. Students First, Future Forward.",
 };
 
 export default function RootLayout({

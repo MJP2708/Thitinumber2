@@ -1,11 +1,13 @@
 "use client";
 
+/* eslint-disable react-hooks/set-state-in-effect */
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Home, FileText, User, Video, MessageCircle, Image,
+  Home, FileText, User, Video, MessageCircle,
   HelpCircle, Menu, X, Sun, Moon, Globe, Shield,
 } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
@@ -30,7 +32,6 @@ export default function Navbar() {
     { href: "/", label: t("nav.home"), icon: Home },
     { href: "/policies", label: t("nav.policies"), icon: FileText },
     { href: "/about", label: t("nav.about"), icon: User },
-    { href: "/gallery", label: t("nav.gallery"), icon: Image },
     { href: "/video", label: t("nav.video"), icon: Video },
     { href: "/faq", label: "FAQ", icon: HelpCircle },
     { href: "/feedback", label: t("nav.feedback"), icon: MessageCircle },
@@ -47,21 +48,21 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 dark:bg-[#060618]/95 backdrop-blur-xl shadow-lg border-b border-slate-200/60 dark:border-white/5"
+          ? "bg-white/95 dark:bg-[#0d3063]/95 backdrop-blur-xl shadow-lg border-b border-slate-200/60 dark:border-white/5"
           : "bg-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-lg shadow-lg group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-[#a32f2c] flex items-center justify-center text-white font-black text-lg shadow-lg group-hover:scale-105 transition-transform">
             {candidate.number}
           </div>
           <div className="hidden lg:block">
             <div className="font-bold text-sm text-slate-900 dark:text-white leading-tight">
               {candidate.name.split(" ")[0]}
             </div>
-            <div className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">
+            <div className="text-xs text-[#a32f2c] dark:text-white/70 font-medium">
               {t("common.candidate")} {candidate.number}
             </div>
           </div>
@@ -75,8 +76,8 @@ export default function Navbar() {
               href={href}
               className={`px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 whitespace-nowrap ${
                 isActive(href)
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                  : "text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/50"
+                  ? "bg-[#0d3063] text-white shadow-md shadow-[#0d3063]/30"
+                  : "text-slate-600 dark:text-slate-400 hover:text-[#0d3063] dark:hover:text-white hover:bg-[#0d3063]/10 dark:hover:bg-white/10"
               }`}
             >
               {label}
@@ -101,7 +102,7 @@ export default function Navbar() {
           </button>
           <Link
             href="/admin"
-            className="hidden sm:flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 transition-colors"
+            className="hidden sm:flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-[#0d3063] dark:hover:text-white hover:bg-[#0d3063]/10 dark:hover:bg-white/10 transition-colors"
           >
             <Shield className="w-3.5 h-3.5" />
           </Link>
@@ -121,7 +122,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white/98 dark:bg-[#060618]/98 backdrop-blur-xl border-b border-slate-200 dark:border-white/5 overflow-hidden"
+            className="lg:hidden bg-white/98 dark:bg-[#0d3063]/98 backdrop-blur-xl border-b border-slate-200 dark:border-white/5 overflow-hidden"
           >
             <div className="px-4 py-4 grid grid-cols-2 gap-1">
               {links.map(({ href, label, icon: Icon }) => (
@@ -130,7 +131,7 @@ export default function Navbar() {
                   href={href}
                   className={`flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                     isActive(href)
-                      ? "bg-indigo-600 text-white col-span-2"
+                      ? "bg-[#0d3063] text-white col-span-2"
                       : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
                   }`}
                 >

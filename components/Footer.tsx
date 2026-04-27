@@ -23,14 +23,14 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-lg">
+              <div className="w-10 h-10 rounded-xl bg-[#a32f2c] flex items-center justify-center text-white font-black text-lg">
                 {candidate.number}
               </div>
               <div>
                 <div className="font-bold text-slate-900 dark:text-white text-sm">
                   {candidate.name}
                 </div>
-                <div className="text-xs text-indigo-600 dark:text-indigo-400">
+                <div className="text-xs text-[#a32f2c] dark:text-white/70">
                   {t("common.candidate")} {candidate.number}
                 </div>
               </div>
@@ -51,12 +51,13 @@ export default function Footer() {
                 { href: "/policies", label: t("nav.policies") },
                 { href: "/about", label: t("nav.about") },
                 { href: "/video", label: t("nav.video") },
+                { href: "/faq", label: "FAQ" },
                 { href: "/feedback", label: t("nav.feedback") },
               ].map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors w-fit"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-[#0d3063] dark:hover:text-white transition-colors w-fit"
                 >
                   {label}
                 </Link>
@@ -74,7 +75,7 @@ export default function Footer() {
             </p>
             <button
               onClick={shareLink}
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-[#a32f2c] hover:bg-[#8f2926] text-white text-sm font-medium rounded-lg transition-colors"
             >
               <Share2 className="w-4 h-4" />
               {t("common.share")}

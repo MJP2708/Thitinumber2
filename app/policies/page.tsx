@@ -33,7 +33,7 @@ export default function PoliciesPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-700 pt-16 pb-24 px-6 text-white relative overflow-hidden">
+      <div className="bg-[#0d3063] pt-16 pb-24 px-6 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)", backgroundSize: "30px 30px" }} />
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
@@ -56,7 +56,7 @@ export default function PoliciesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-indigo-200 text-lg"
+            className="text-white/70 text-lg"
           >
             {t("policies.subtitle")}
           </motion.p>
@@ -79,7 +79,7 @@ export default function PoliciesPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={t("policies.search")}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent text-sm"
               />
             </div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -90,8 +90,8 @@ export default function PoliciesPage() {
                   onClick={() => setActiveCategory(cat)}
                   className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
                     activeCategory === cat
-                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 hover:text-indigo-600 dark:hover:text-indigo-400"
+                      ? "bg-[#0d3063] text-white shadow-md shadow-[#0d3063]/20"
+                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-[#0d3063]/10 dark:hover:bg-white/10 hover:text-[#0d3063] dark:hover:text-white"
                   }`}
                 >
                   {cat === "All" ? t("policies.all") : cat}
