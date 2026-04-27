@@ -56,7 +56,7 @@ export default function StartupIntro() {
         <div className="startup-intro-badge">ธิติ แซ่ลี้ · หมายเลข 2</div>
         <div className="startup-intro-line" />
         <p className="startup-intro-label">เว็บไซต์นี้จัดทำโดย</p>
-        <h2>Matthew John Prueksakij</h2>
+        <h2>มัทธิว จอห์น พฤกษากิจ</h2>
         <p className="startup-intro-grade">ม.5/9</p>
       </div>
 
