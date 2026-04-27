@@ -59,7 +59,7 @@ export const labels = {
     name: "ชื่อเล่น",
     namePlaceholder: "ไม่ใส่ก็ได้",
     grade: "ระดับชั้น",
-    gradePlaceholder: "เช่น ม.5/3",
+    gradePlaceholder: "เช่น ม.5/9",
     category: "หมวดหมู่",
     message: "ข้อเสนอแนะ / ปัญหาที่อยากให้แก้",
     messagePlaceholder: "เขียนสิ่งที่อยากให้ช่วยดูหรือแก้ไขได้เลย",
