@@ -171,6 +171,30 @@ svg {
   animation: pulse-ring 1.5s ease-out infinite;
 }
 
+/* ── Startup intro ─────────────────────────────────────────── */
+@keyframes startup-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes startup-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes startup-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.startup-skip {
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.startup-skip:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: rgba(255, 255, 255, 1) !important;
+}
+.startup-skip:active {
+  transform: scale(0.97);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
