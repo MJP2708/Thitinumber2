@@ -42,9 +42,12 @@ async function ensureSchema() {
           video_description text not null default '',
           hero_image text not null default '',
           about_image text not null default '',
+          instagram_url text not null default '',
           updated_at timestamptz not null default now()
         );
       `);
+
+      await db.query("alter table candidate_info add column if not exists instagram_url text not null default '';");
 
       await db.query(`
         create table if not exists policies (
@@ -102,6 +105,7 @@ function rowToCandidate(row: Record<string, unknown>): Candidate {
     videoDescription: String(row.video_description || ""),
     heroImage: String(row.hero_image || ""),
     aboutImage: String(row.about_image || ""),
+    instagramUrl: String(row.instagram_url || defaultCandidate.instagramUrl),
   };
 }
 
@@ -138,9 +142,9 @@ async function seedDefaults() {
       insert into candidate_info (
         id, name, number, slogan, grade, bio, ideology, mission, vision,
         reason_for_running, election_date, video_url, video_title,
-        video_description, hero_image, about_image
+        video_description, hero_image, about_image, instagram_url
       )
-      values (1, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+      values (1, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
       on conflict (id) do nothing;
     `,
     [
@@ -159,6 +163,7 @@ async function seedDefaults() {
       defaultCandidate.videoDescription,
       defaultCandidate.heroImage,
       defaultCandidate.aboutImage,
+      defaultCandidate.instagramUrl,
     ]
   );
 
@@ -232,6 +237,7 @@ export async function updateCandidateInfo(candidate: Candidate) {
         video_description = $13,
         hero_image = $14,
         about_image = $15,
+        instagram_url = $16,
         updated_at = now()
       where id = 1
       returning *;
@@ -252,6 +258,7 @@ export async function updateCandidateInfo(candidate: Candidate) {
       candidate.videoDescription,
       candidate.heroImage,
       candidate.aboutImage,
+      candidate.instagramUrl,
     ]
   );
 

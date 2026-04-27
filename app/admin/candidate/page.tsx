@@ -47,6 +47,7 @@ export default function AdminCandidatePage() {
     { key: "reasonForRunning", label: "เหตุผลที่ลงสมัคร", textarea: true },
     { key: "heroImage", label: "ลิงก์รูปหน้าแรก" },
     { key: "aboutImage", label: "ลิงก์รูปหน้าเกี่ยวกับผู้สมัคร" },
+    { key: "instagramUrl", label: "ลิงก์ Instagram", type: "url" },
   ];
 
   const inputClass = "w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white";

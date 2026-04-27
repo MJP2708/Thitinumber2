@@ -14,6 +14,7 @@ export interface Candidate {
   videoDescription: string;
   heroImage: string;
   aboutImage: string;
+  instagramUrl: string;
 }
 
 export interface Policy {
@@ -58,6 +59,7 @@ export const defaultCandidate: Candidate = {
   videoDescription: "ดูแนวคิดของธิติ แซ่ลี้ ผู้สมัครหมายเลข 2 และสิ่งที่อยากทำให้โรงเรียนของเราดีขึ้น",
   heroImage: "",
   aboutImage: "",
+  instagramUrl: "https://www.instagram.com/",
 };
 
 export const defaultPolicies: Policy[] = [

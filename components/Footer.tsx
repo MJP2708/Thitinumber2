@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Share2 } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 
-const INSTAGRAM_URL = "https://www.instagram.com/";
+const DEFAULT_INSTAGRAM_URL = "https://www.instagram.com/";
 
 function InstagramMark({ className = "" }: { className?: string }) {
   return (
@@ -18,6 +18,7 @@ function InstagramMark({ className = "" }: { className?: string }) {
 
 export default function Footer() {
   const { candidate, labels, showToast } = useApp();
+  const instagramUrl = candidate.instagramUrl?.trim() || DEFAULT_INSTAGRAM_URL;
 
   const shareLink = () => {
     if (typeof window === "undefined") return;
@@ -83,7 +84,7 @@ export default function Footer() {
 
             <div className="flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
               <a
-                href={INSTAGRAM_URL}
+                href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#8f2926] active:scale-[0.98]"

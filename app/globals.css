@@ -191,6 +191,23 @@ svg {
   will-change: transform, opacity;
 }
 
+.countdown-float-inner {
+  animation: countdown-gentle-float 3.2s ease-in-out infinite;
+}
+
+.countdown-float-inner.is-dragging {
+  animation-play-state: paused;
+}
+
+@keyframes countdown-gentle-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
 @keyframes number-burst-circle {
   0% {
     transform: translate(-50%, -50%) scale(0.45) rotate(0deg);
@@ -211,6 +228,10 @@ svg {
 @media (prefers-reduced-motion: reduce) {
   .click-burst-2 {
     animation-duration: 1ms;
+  }
+
+  .countdown-float-inner {
+    animation: none;
   }
 }
 
