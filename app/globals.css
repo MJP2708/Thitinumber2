@@ -199,6 +199,105 @@ svg {
   animation-play-state: paused;
 }
 
+.startup-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: #0d3063;
+  color: #ffffff;
+  animation: startup-intro-in 240ms ease-out both;
+}
+
+.startup-intro-out {
+  animation: startup-intro-out 300ms ease-in both;
+}
+
+.startup-intro-card {
+  width: min(92vw, 440px);
+  text-align: center;
+  animation: startup-card-in 360ms ease-out 60ms both;
+}
+
+.startup-intro-badge {
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.startup-intro-line {
+  width: 2.5rem;
+  height: 3px;
+  margin: 1.25rem auto;
+  border-radius: 999px;
+  background: #a32f2c;
+}
+
+.startup-intro-label {
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.startup-intro-card h2 {
+  font-size: clamp(1.45rem, 6vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.startup-intro-grade {
+  margin-top: 0.35rem;
+  color: #ffb7b4;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.startup-intro-skip {
+  position: absolute;
+  right: clamp(1rem, 4vw, 1.75rem);
+  bottom: clamp(1rem, 4vw, 1.75rem);
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.55rem 1.15rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 700;
+}
+
+.startup-intro-skip:active {
+  transform: scale(0.97);
+}
+
+@keyframes startup-intro-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes startup-intro-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes startup-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes countdown-gentle-float {
   0%, 100% {
     transform: translateY(0);
@@ -232,6 +331,12 @@ svg {
 
   .countdown-float-inner {
     animation: none;
+  }
+
+  .startup-intro,
+  .startup-intro-out,
+  .startup-intro-card {
+    animation-duration: 1ms;
   }
 }
 
