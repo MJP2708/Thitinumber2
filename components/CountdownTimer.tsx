@@ -13,7 +13,8 @@ interface TimeLeft {
 }
 
 function calculateTimeLeft(targetDate: string): TimeLeft {
-  const diff = new Date(targetDate).getTime() - Date.now();
+  const parsed = targetDate.includes("T") ? targetDate : targetDate + "T00:00:00+07:00";
+  const diff = new Date(parsed).getTime() - Date.now();
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),

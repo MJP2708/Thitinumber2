@@ -17,7 +17,6 @@ import {
 import { useRouter } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import CountdownTimer from "@/components/CountdownTimer";
-import CTATimer from "@/components/CTATimer";
 import FAQ from "@/components/FAQ";
 import PolicyCard from "@/components/PolicyCard";
 import { VideoPreviewCard } from "@/components/VideoSection";
@@ -292,8 +291,6 @@ export default function Home() {
           </Link>
         </div>
       </ScrollSection>
-
-      <CTATimer />
 
       <section className="bg-[#0d3063] px-4 py-8 text-white sm:px-6 sm:py-10">
         <ScrollSection className="mx-auto max-w-3xl text-center">
