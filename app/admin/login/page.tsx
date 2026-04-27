@@ -55,10 +55,6 @@ export default function AdminLoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="px-8 py-8 space-y-5">
-            {/* Demo hint */}
-            <div className="bg-[#0d3063]/10 dark:bg-white/10 border border-[#0d3063]/10 dark:border-white/10 rounded-xl px-4 py-3 text-xs text-[#0d3063] dark:text-white/70">
-              บัญชีทดสอบ: <strong>admin</strong> / <strong>admin123</strong>
-            </div>
 
             {error && (
               <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-xl px-4 py-3 text-sm">
