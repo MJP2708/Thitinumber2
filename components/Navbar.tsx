@@ -52,10 +52,15 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 flex-shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-[#a32f2c] flex items-center justify-center text-white font-black text-lg shadow-lg">
+        <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-[#a32f2c] flex items-center justify-center text-white font-black text-xl shadow-lg flex-shrink-0">
             {candidate.number}
           </div>
+          {/* Mobile / tablet: compact chip */}
+          <span className="lg:hidden rounded-full border border-[#a32f2c]/30 bg-[#a32f2c]/10 px-2.5 py-1 text-xs font-black text-[#a32f2c]">
+            เบอร์ {candidate.number}
+          </span>
+          {/* Desktop: full name */}
           <div className="hidden lg:block">
             <div className="font-bold text-sm text-slate-900 dark:text-white leading-tight">
               {candidate.name.split(" ")[0]}

@@ -41,7 +41,7 @@ function CandidatePortrait({ disableAnimation }: { disableAnimation: boolean }) 
   return (
     <div className="relative mx-auto w-full max-w-[220px] sm:max-w-[340px]">
       {/* Glow ring */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-[#a32f2c]/30 to-white/10 rounded-3xl blur-2xl scale-105" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-[#a32f2c]/30 to-white/10 rounded-3xl blur-2xl scale-105 hidden sm:block" />
 
       {/* Photo container */}
       <div className="relative rounded-3xl overflow-hidden aspect-[3/4] border border-white/10 shadow-2xl">
@@ -136,7 +136,7 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden bg-[#0d3063] py-10 sm:flex sm:min-h-screen sm:items-center sm:py-20 lg:py-24">
+      <section className="relative overflow-hidden bg-[#0d3063] py-8 sm:flex sm:min-h-screen sm:items-center sm:py-12 lg:py-16">
 
         {/* Heavy blur blobs — desktop only for GPU savings */}
         <div className="absolute inset-0 pointer-events-none hidden lg:block">
@@ -161,45 +161,42 @@ export default function Home() {
 
         {/* Static watermark — no parallax */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-          <span className="text-[40vw] font-black text-white/[0.025] leading-none">
+          <span className="text-[40vw] font-black text-white/[0.07] leading-none">
             {candidate.number}
           </span>
         </div>
 
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6">
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16">
+          <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-12">
 
             {/* Portrait: top on mobile, right on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="flex justify-center order-first lg:order-last pb-6 lg:pb-0"
+              className="flex justify-center order-first lg:order-last pb-2 lg:pb-0"
             >
               <CandidatePortrait disableAnimation={disableAnimation} />
             </motion.div>
 
             {/* Text: below portrait on mobile, left on desktop */}
             <div className="text-center lg:text-left order-last lg:order-first">
-              {/* Election badge */}
+              {/* "เลือกเบอร์ 2" campaign badge */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
-                className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-2 text-xs font-semibold text-white/80 sm:mb-8 sm:gap-2.5 sm:px-4"
+                className="mb-4 flex flex-col items-center gap-2 sm:mb-5 lg:items-start"
               >
-                <span className="w-1.5 h-1.5 flex-shrink-0 bg-green-400 rounded-full animate-pulse" />
-                <span className="min-w-0 truncate">เลือกตั้งสภานักเรียน 2569 · ผู้สมัครหมายเลข {candidate.number}</span>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-white/75"
-              >
-                เลือก
+                <div className="inline-flex items-baseline gap-2 rounded-full bg-[#a32f2c] px-5 py-2.5 font-black text-white shadow-xl shadow-[#a32f2c]/30">
+                  <span className="text-sm">เลือกเบอร์</span>
+                  <span className="text-2xl leading-none">2</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3 py-1.5 text-[11px] font-medium text-white/65">
+                  <span className="w-1.5 h-1.5 flex-shrink-0 bg-green-400 rounded-full animate-pulse" />
+                  เลือกตั้งสภานักเรียน 2569
+                </div>
               </motion.div>
 
               {/* Candidate name */}
@@ -207,7 +204,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="mb-5 font-black leading-[1.08]"
+                className="mb-4 font-black leading-[1.1]"
               >
                 <span className="block text-[clamp(2.5rem,13vw,6rem)] text-white">
                   {candidate.name.split(" ")[0]}
@@ -222,7 +219,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.28 }}
-                className="mb-7"
+                className="mb-5"
               >
                 <div className="flex items-center gap-3 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-[#a32f2c] to-transparent" />
@@ -269,7 +266,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="mt-7 grid grid-cols-3 gap-3 sm:flex sm:items-center sm:justify-center sm:gap-8 lg:justify-start"
+                className="mt-5 grid grid-cols-3 gap-3 sm:flex sm:items-center sm:justify-center sm:gap-8 lg:justify-start"
               >
                 {[
                   { value: `เบอร์ ${candidate.number}`, label: "ผู้สมัคร" },
@@ -286,41 +283,34 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator — desktop only */}
-        <div className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 sm:block">
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8 }}
-            className="flex flex-col items-center gap-2 text-white/30"
-          >
-            <div className="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center pt-1.5">
-              <div className="w-1 h-2 bg-white/30 rounded-full" />
-            </div>
-          </motion.div>
-        </div>
       </section>
 
       {/* ── TOP POLICIES ── */}
-      <ScrollSection className="bg-slate-50 px-4 py-16 dark:bg-slate-950 sm:px-6 sm:py-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-[#0d3063]/10 dark:bg-white/10 text-[#0d3063] dark:text-white text-xs font-bold px-4 py-2 rounded-full mb-5 uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5" />
-              {labels.home.policySubtitle}
+      <ScrollSection className="relative overflow-hidden bg-slate-50 px-4 py-12 dark:bg-slate-950 sm:px-6 sm:py-16">
+        {/* Subtle "2" watermark */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex select-none items-center overflow-hidden">
+          <span className="translate-x-1/4 text-[18rem] font-black leading-none text-[#0d3063]/[0.04] dark:text-white/[0.04]">
+            2
+          </span>
+        </div>
+        <div className="relative z-10 mx-auto max-w-6xl">
+          <div className="mb-8 text-center">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#a32f2c] px-4 py-1.5 text-xs font-bold text-white">
+              เบอร์ 2 เสนอ
             </div>
-            <h2 className="text-[clamp(2rem,10vw,3rem)] font-black text-slate-900 dark:text-white">
+            <h2 className="text-[clamp(1.75rem,8vw,2.5rem)] font-black text-slate-900 dark:text-white">
               {labels.home.policyTitle}
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:gap-5">
             {topPolicies.map((policy, i) => (
               <PolicyCard key={policy.id} policy={policy} index={i} />
             ))}
           </div>
-          <div className="text-center mt-10">
+          <div className="mt-8 text-center">
             <Link
               href="/policies"
-              className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl bg-[#a32f2c] px-8 py-3.5 font-bold text-white shadow-xl shadow-[#a32f2c]/20 transition-all hover:scale-[1.02] hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
+              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-8 py-3 font-bold text-white shadow-lg shadow-[#a32f2c]/20 transition-all hover:scale-[1.02] hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
             >
               {labels.home.viewAllPolicies}
               <ChevronRight className="w-4 h-4" />
@@ -330,7 +320,7 @@ export default function Home() {
       </ScrollSection>
 
       {/* ── VIDEO ── */}
-      <ScrollSection className="bg-white px-4 py-16 dark:bg-slate-900 sm:px-6 sm:py-24">
+      <ScrollSection className="bg-white px-4 py-10 dark:bg-slate-900 sm:px-6 sm:py-14">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="mb-3 text-[clamp(2rem,10vw,2.5rem)] font-black text-slate-900 dark:text-white">
             {labels.home.videoTitle}
@@ -344,7 +334,7 @@ export default function Home() {
       </ScrollSection>
 
       {/* ── COUNTDOWN ── */}
-      <section className="relative overflow-hidden bg-white px-4 py-16 dark:bg-slate-900 sm:px-6 sm:py-24">
+      <section className="relative overflow-hidden bg-white px-4 py-10 dark:bg-slate-900 sm:px-6 sm:py-14">
         <div className="absolute inset-0 opacity-10 hidden sm:block" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "30px 30px" }} />
         <ScrollSection className="relative z-10">
           <CountdownTimer />
@@ -352,7 +342,7 @@ export default function Home() {
       </section>
 
       {/* ── MANIFESTO ── */}
-      <section className="relative overflow-hidden bg-[#0d3063] px-4 py-16 sm:px-6 sm:py-24">
+      <section className="relative overflow-hidden bg-[#0d3063] px-4 py-10 sm:px-6 sm:py-14">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(163,47,44,0.24)_0%,_transparent_70%)]" />
         <ScrollSection className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-6">

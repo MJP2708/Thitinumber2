@@ -33,8 +33,12 @@ export default function PoliciesPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <div className="relative overflow-hidden bg-[#0d3063] px-4 pb-24 pt-20 text-white sm:px-6 sm:pt-24">
+      <div className="relative overflow-hidden bg-[#0d3063] px-4 pb-16 pt-14 text-white sm:px-6 sm:pt-20">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)", backgroundSize: "30px 30px" }} />
+        {/* "2" watermark */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex select-none items-center overflow-hidden">
+          <span className="translate-x-1/3 text-[14rem] font-black leading-none text-white/[0.06]">2</span>
+        </div>
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -115,7 +119,7 @@ export default function PoliciesPage() {
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
                 แสดง {filtered.length} จาก {policies.length} นโยบาย
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 sm:gap-5">
                 {filtered.map((policy, i) => (
                   <PolicyCard key={policy.id} policy={policy} index={i} />
                 ))}
