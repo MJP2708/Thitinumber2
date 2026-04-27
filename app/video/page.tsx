@@ -6,12 +6,12 @@ import { useApp } from "@/contexts/AppContext";
 import VideoSection from "@/components/VideoSection";
 
 export default function VideoPage() {
-  const { candidate, t } = useApp();
+  const { candidate, labels } = useApp();
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <div className="bg-[#0d3063] pt-16 pb-24 px-6 relative overflow-hidden">
+      <div className="relative overflow-hidden bg-[#0d3063] px-4 pb-24 pt-20 sm:px-6 sm:pt-24">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -27,33 +27,33 @@ export default function VideoPage() {
             className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-4"
           >
             <Video className="w-4 h-4" />
-            {t("video.title")}
+            {labels.video.title}
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl font-black mb-3"
+            className="mb-3 text-[clamp(2rem,11vw,3.75rem)] font-black leading-[1.25]"
           >
-            {t("video.title")}
+            {labels.video.title}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-white/70 text-lg"
+            className="text-base leading-8 text-white/70 sm:text-lg"
           >
-            {t("video.subtitle")}
+            {labels.video.subtitle}
           </motion.p>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 -mt-12 pb-20">
+      <div className="mx-auto -mt-10 max-w-5xl px-4 pb-20 sm:-mt-12 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 p-8"
+          className="rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:p-8"
         >
           <VideoSection />
         </motion.div>
@@ -63,9 +63,9 @@ export default function VideoPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6"
         >
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 sm:p-6">
             <h3 className="font-bold text-slate-900 dark:text-white mb-2">
               เกี่ยวกับผู้สมัคร
             </h3>
@@ -73,7 +73,7 @@ export default function VideoPage() {
               {candidate.bio}
             </p>
           </div>
-          <div className="bg-[#0d3063] rounded-2xl p-6 text-white">
+          <div className="rounded-2xl bg-[#0d3063] p-5 text-white sm:p-6">
             <div className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-1">
               ผู้สมัครหมายเลข
             </div>

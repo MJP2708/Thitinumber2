@@ -20,7 +20,7 @@ function formatThaiDate(value: string) {
 }
 
 export default function FeedbackPage() {
-  const { addFeedback, feedbackList, likeFeedback, t, showToast, isLoading, dataError } = useApp();
+  const { addFeedback, feedbackList, likeFeedback, labels, showToast, isLoading, dataError } = useApp();
   const [likedIds, setLikedIds] = useState<string[]>([]);
   const [form, setForm] = useState({
     name: "",
@@ -70,7 +70,7 @@ export default function FeedbackPage() {
       message: form.message.trim(),
     });
     if (!ok) return;
-    showToast(t("feedback.success"), "success");
+    showToast(labels.feedback.success, "success");
     setForm({ name: "", grade: "", category: "อื่น ๆ", message: "" });
     setErrors({});
   };
@@ -87,7 +87,7 @@ export default function FeedbackPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <section className="relative z-0 overflow-hidden bg-[#0d3063] px-6 pb-28 pt-20 text-white">
+      <section className="relative z-0 overflow-hidden bg-[#0d3063] px-4 pb-24 pt-20 text-white sm:px-6 sm:pb-28 sm:pt-24">
         <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)", backgroundSize: "42px 42px" }} />
         <div className="absolute -right-24 top-8 h-72 w-72 rounded-full bg-[#a32f2c]/30 blur-3xl" />
         <div className="relative mx-auto max-w-4xl text-center">
@@ -95,54 +95,54 @@ export default function FeedbackPage() {
             <MessageCircle className="h-4 w-4" />
             เสียงของเพื่อน ๆ สำคัญ
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="text-4xl font-black leading-tight sm:text-6xl">
-            {t("feedback.title")}
+          <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="text-[clamp(2rem,11vw,4rem)] font-black leading-[1.25]">
+            {labels.feedback.title}
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }} className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-white/75">
-            {t("feedback.subtitle")}
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }} className="mx-auto mt-4 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
+            {labels.feedback.subtitle}
           </motion.p>
         </div>
       </section>
 
-      <main className="relative z-10 mx-auto max-w-6xl px-6 pb-20 pt-0">
-        <div className="-mt-16 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <main className="relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-0 sm:px-6">
+        <div className="-mt-10 grid grid-cols-1 gap-5 sm:-mt-16 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
           <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:p-8"
+            className="rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:p-8"
           >
             <div className="mb-6 rounded-2xl bg-[#0d3063]/5 p-4 text-sm leading-7 text-slate-600 dark:bg-white/5 dark:text-slate-300">
-              {t("feedback.note")}
+              {labels.feedback.note}
             </div>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">{t("feedback.name")}</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">{labels.feedback.name}</label>
                 <input
                   value={form.name}
                   onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-                  placeholder={t("feedback.name.placeholder")}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                  placeholder={labels.feedback.namePlaceholder}
+                  className="min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:text-sm"
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">{t("feedback.grade")}</label>
+                <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">{labels.feedback.grade}</label>
                 <input
                   value={form.grade}
                   onChange={(e) => setForm((prev) => ({ ...prev, grade: e.target.value }))}
-                  placeholder={t("feedback.grade.placeholder")}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                  placeholder={labels.feedback.gradePlaceholder}
+                  className="min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:text-sm"
                 />
               </div>
             </div>
 
             <div className="mt-5">
-              <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">{t("feedback.category")}</label>
+              <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">{labels.feedback.category}</label>
               <select
                 value={form.category}
                 onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                className="min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:text-sm"
               >
                 {CATEGORIES.map((category) => <option key={category}>{category}</option>)}
               </select>
@@ -150,21 +150,21 @@ export default function FeedbackPage() {
 
             <div className="mt-5">
               <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">
-                {t("feedback.message")} <span className="text-[#a32f2c]">*</span>
+                {labels.feedback.message} <span className="text-[#a32f2c]">*</span>
               </label>
               <textarea
                 value={form.message}
                 onChange={(e) => setForm((prev) => ({ ...prev, message: e.target.value }))}
-                placeholder={t("feedback.message.placeholder")}
+                placeholder={labels.feedback.messagePlaceholder}
                 rows={6}
-                className={`w-full resize-none rounded-xl border bg-slate-50 px-4 py-3 text-sm leading-7 focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:bg-slate-800 dark:text-white ${errors.message ? "border-red-400" : "border-slate-200 dark:border-slate-700"}`}
+                className={`w-full resize-none rounded-xl border bg-slate-50 px-4 py-3 text-base leading-7 focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:bg-slate-800 dark:text-white sm:text-sm ${errors.message ? "border-red-400" : "border-slate-200 dark:border-slate-700"}`}
               />
               {errors.message && <p className="mt-2 text-xs text-red-500">{errors.message}</p>}
             </div>
 
             <button type="submit" className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-6 py-4 font-bold text-white shadow-lg shadow-[#a32f2c]/20 transition hover:scale-[1.01] hover:bg-[#8f2926]">
               <Send className="h-4 w-4" />
-              {t("feedback.submit")}
+              {labels.feedback.submit}
             </button>
           </motion.form>
 
@@ -235,21 +235,21 @@ export default function FeedbackPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.03 }}
-                    className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                    className="min-w-0 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-6"
                   >
                     <div className="mb-4 flex flex-wrap items-center gap-2">
                       <span className="rounded-full bg-[#0d3063]/10 px-3 py-1 text-xs font-bold text-[#0d3063] dark:bg-white/10 dark:text-white">{item.category}</span>
                       {item.grade && <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500 dark:bg-slate-800">{item.grade}</span>}
                     </div>
-                    <p className="min-h-16 text-base leading-8 text-slate-700 dark:text-slate-300">{item.message}</p>
-                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-4 dark:border-slate-800">
+                    <p className="min-h-16 break-words text-base leading-8 text-slate-700 dark:text-slate-300">{item.message}</p>
+                    <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-4 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
                       <div className="text-xs leading-5 text-slate-500 dark:text-slate-400">
                         <p className="font-semibold text-slate-700 dark:text-slate-300">{item.name || "ไม่ระบุชื่อ"}</p>
                         <p>{formatThaiDate(item.timestamp)}</p>
                       </div>
                       <button
                         onClick={() => handleLike(item.id)}
-                        className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition ${isLiked ? "bg-[#a32f2c]/10 text-[#a32f2c]" : "bg-slate-100 text-slate-600 hover:bg-[#a32f2c] hover:text-white dark:bg-slate-800 dark:text-slate-300"}`}
+                        className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition active:scale-[0.98] ${isLiked ? "bg-[#a32f2c]/10 text-[#a32f2c]" : "bg-slate-100 text-slate-600 hover:bg-[#a32f2c] hover:text-white dark:bg-slate-800 dark:text-slate-300"}`}
                       >
                         <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
                         {isLiked ? "ถูกใจแล้ว" : "เห็นด้วย"} · {item.likes || 0}

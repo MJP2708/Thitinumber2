@@ -52,7 +52,7 @@ function FlipCard({ value, label }: FlipCardProps) {
 }
 
 export default function CountdownTimer() {
-  const { candidate, t } = useApp();
+  const { candidate, labels } = useApp();
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0, hours: 0, minutes: 0, seconds: 0,
   });
@@ -74,7 +74,7 @@ export default function CountdownTimer() {
   return (
     <div className="text-center">
       <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
-        {t("home.countdown.title")}
+        {labels.countdown.title}
       </h2>
       {isOver ? (
         <div className="text-3xl font-black text-[#a32f2c] dark:text-white">
@@ -82,13 +82,13 @@ export default function CountdownTimer() {
         </div>
       ) : (
         <div className="flex items-center justify-center gap-4 sm:gap-6">
-          <FlipCard value={timeLeft.days} label={t("home.countdown.days")} />
+          <FlipCard value={timeLeft.days} label={labels.countdown.days} />
           <div className="text-3xl font-black text-[#a32f2c] mb-6 select-none">:</div>
-          <FlipCard value={timeLeft.hours} label={t("home.countdown.hours")} />
+          <FlipCard value={timeLeft.hours} label={labels.countdown.hours} />
           <div className="text-3xl font-black text-[#a32f2c] mb-6 select-none">:</div>
-          <FlipCard value={timeLeft.minutes} label={t("home.countdown.minutes")} />
+          <FlipCard value={timeLeft.minutes} label={labels.countdown.minutes} />
           <div className="text-3xl font-black text-[#a32f2c] mb-6 select-none">:</div>
-          <FlipCard value={timeLeft.seconds} label={t("home.countdown.seconds")} />
+          <FlipCard value={timeLeft.seconds} label={labels.countdown.seconds} />
         </div>
       )}
       <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">

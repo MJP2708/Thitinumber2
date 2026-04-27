@@ -10,7 +10,7 @@ import {
 import { useApp } from "@/contexts/AppContext";
 
 export default function AdminSidebar() {
-  const { candidate, logout, t } = useApp();
+  const { candidate, logout, labels } = useApp();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -20,16 +20,16 @@ export default function AdminSidebar() {
   };
 
   const links = [
-    { href: "/admin/dashboard", label: t("admin.dashboard"), icon: LayoutDashboard },
-    { href: "/admin/candidate", label: t("admin.candidate"), icon: User },
-    { href: "/admin/policies", label: t("admin.policies"), icon: FileText },
-    { href: "/admin/video", label: t("admin.video"), icon: Video },
-    { href: "/admin/feedback", label: t("admin.feedback"), icon: MessageCircle },
+    { href: "/admin/dashboard", label: labels.admin.dashboard, icon: LayoutDashboard },
+    { href: "/admin/candidate", label: labels.admin.candidate, icon: User },
+    { href: "/admin/policies", label: labels.admin.policies, icon: FileText },
+    { href: "/admin/video", label: labels.admin.video, icon: Video },
+    { href: "/admin/feedback", label: labels.admin.feedback, icon: MessageCircle },
   ];
 
   return (
-    <aside className="w-60 flex-shrink-0 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 flex flex-col min-h-screen">
-      <div className="p-5 border-b border-slate-100 dark:border-slate-800">
+    <aside className="flex w-full flex-shrink-0 flex-col border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 md:min-h-screen md:w-60 md:border-b-0 md:border-r">
+      <div className="border-b border-slate-100 p-4 dark:border-slate-800 md:p-5">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-[#a32f2c] flex items-center justify-center text-white font-black text-lg shadow-md">
             {candidate.number}
@@ -41,14 +41,14 @@ export default function AdminSidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 p-3 space-y-0.5">
+      <nav className="flex gap-2 overflow-x-auto p-3 md:block md:flex-1 md:space-y-0.5 md:overflow-visible">
         {links.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
           return (
-            <Link key={href} href={href}>
+            <Link key={href} href={href} className="flex-shrink-0 md:block">
               <motion.div
                 whileHover={{ x: 2 }}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                className={`flex min-h-12 items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all md:min-h-0 ${
                   active
                     ? "bg-[#0d3063] text-white shadow-md shadow-[#0d3063]/20"
                     : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white"
@@ -63,21 +63,21 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      <div className="p-3 border-t border-slate-100 dark:border-slate-800 space-y-1">
+      <div className="border-t border-slate-100 p-3 dark:border-slate-800 md:space-y-1">
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-colors"
+          className="hidden items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:text-slate-500 dark:hover:bg-slate-900 dark:hover:text-white md:flex"
         >
           <ExternalLink className="w-4 h-4" />
           ดูหน้าเว็บจริง
         </Link>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+          className="flex min-h-12 w-full items-center justify-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-50 active:scale-[0.98] dark:hover:bg-red-950/30 md:justify-start md:min-h-0"
         >
           <LogOut className="w-4 h-4" />
-          {t("admin.logout")}
+          {labels.admin.logout}
         </button>
       </div>
     </aside>

@@ -9,7 +9,7 @@ import PolicyCard from "@/components/PolicyCard";
 const CATEGORIES = ["ทั้งหมด", "การสื่อสาร", "ชีวิตนักเรียน", "กิจกรรม", "สิ่งแวดล้อม", "การเรียน", "อื่น ๆ"];
 
 export default function PoliciesPage() {
-  const { policies, t } = useApp();
+  const { policies, labels } = useApp();
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("ทั้งหมด");
 
@@ -33,7 +33,7 @@ export default function PoliciesPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       {/* Header */}
-      <div className="bg-[#0d3063] pt-16 pb-24 px-6 text-white relative overflow-hidden">
+      <div className="relative overflow-hidden bg-[#0d3063] px-4 pb-24 pt-20 text-white sm:px-6 sm:pt-24">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)", backgroundSize: "30px 30px" }} />
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
@@ -48,23 +48,23 @@ export default function PoliciesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl font-black mb-3"
+            className="mb-3 text-[clamp(2rem,11vw,3.75rem)] font-black leading-[1.25]"
           >
-            {t("policies.title")}
+            {labels.policies.title}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-white/70 text-lg"
+            className="text-base leading-8 text-white/70 sm:text-lg"
           >
-            {t("policies.subtitle")}
+            {labels.policies.subtitle}
           </motion.p>
         </div>
       </div>
 
       {/* Search & Filters */}
-      <div className="max-w-6xl mx-auto px-6 -mt-10 relative z-10">
+      <div className="relative z-10 mx-auto -mt-10 max-w-6xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -78,8 +78,8 @@ export default function PoliciesPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder={t("policies.search")}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent text-sm"
+                placeholder={labels.policies.search}
+                className="min-h-12 w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-base text-slate-900 placeholder-slate-400 focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:text-sm"
               />
             </div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -88,13 +88,13 @@ export default function PoliciesPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                  className={`min-h-11 rounded-lg px-3 py-2 text-xs font-semibold transition-all active:scale-[0.98] ${
                     activeCategory === cat
                       ? "bg-[#0d3063] text-white shadow-md shadow-[#0d3063]/20"
                       : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-[#0d3063]/10 dark:hover:bg-white/10 hover:text-[#0d3063] dark:hover:text-white"
                   }`}
                 >
-                  {cat === "ทั้งหมด" ? t("policies.all") : cat}
+                  {cat === "ทั้งหมด" ? labels.policies.all : cat}
                 </button>
               ))}
             </div>
@@ -107,7 +107,7 @@ export default function PoliciesPage() {
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🔍</div>
               <p className="text-slate-500 dark:text-slate-400 text-lg">
-                {t("policies.noresults")}
+                {labels.policies.noResults}
               </p>
             </div>
           ) : (

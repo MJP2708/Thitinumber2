@@ -47,13 +47,13 @@ function CandidatePhoto() {
 }
 
 export default function AboutPage() {
-  const { candidate, t } = useApp();
+  const { candidate, labels } = useApp();
 
   const infoCards = [
-    { icon: Target, label: t("about.mission"), content: candidate.mission },
-    { icon: Star, label: t("about.vision"), content: candidate.vision },
-    { icon: BookOpen, label: t("about.ideology"), content: candidate.ideology },
-    { icon: Heart, label: t("about.reason"), content: candidate.reasonForRunning },
+    { icon: Target, label: labels.about.mission, content: candidate.mission },
+    { icon: Star, label: labels.about.vision, content: candidate.vision },
+    { icon: BookOpen, label: labels.about.ideology, content: candidate.ideology },
+    { icon: Heart, label: labels.about.reason, content: candidate.reasonForRunning },
   ];
 
   return (
@@ -64,7 +64,7 @@ export default function AboutPage() {
         <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-20 lg:grid-cols-[1fr_380px]">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
             <div className="mb-6 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-white/80">
-              {t("about.subtitle")}
+              {labels.about.subtitle}
             </div>
             <h1 className="text-5xl font-black leading-[1.15] text-white sm:text-6xl">
               {candidate.name}

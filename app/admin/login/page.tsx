@@ -7,7 +7,7 @@ import { Shield, Eye, EyeOff, LogIn } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 
 export default function AdminLoginPage() {
-  const { login, isAuthenticated, t } = useApp();
+  const { login, isAuthenticated, labels } = useApp();
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,12 +29,12 @@ export default function AdminLoginPage() {
     if (ok) {
       router.push("/admin/dashboard");
     } else {
-      setError(t("admin.login.error"));
+      setError(labels.admin.loginError);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center px-4">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-8 dark:bg-slate-950">
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
             <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
               <Shield className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl font-black">{t("admin.login")}</h1>
+            <h1 className="text-2xl font-black">{labels.admin.login}</h1>
             <p className="text-white/70 text-sm mt-1">
               สำหรับจัดการเว็บหาเสียง
             </p>
@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
             {/* Username */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                {t("admin.login.username")}
+                {labels.admin.username}
               </label>
               <input
                 type="text"
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
             {/* Password */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                {t("admin.login.password")}
+                {labels.admin.password}
               </label>
               <div className="relative">
                 <input
@@ -111,7 +111,7 @@ export default function AdminLoginPage() {
               ) : (
                 <>
                   <LogIn className="w-4 h-4" />
-                  {t("admin.login.button")}
+                  {labels.admin.loginButton}
                 </>
               )}
             </button>

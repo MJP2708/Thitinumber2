@@ -9,7 +9,7 @@ import { useApp } from "@/contexts/AppContext";
 import AdminSidebar from "@/components/AdminSidebar";
 
 export default function AdminDashboard() {
-  const { isAuthenticated, candidate, policies, feedbackList, t } = useApp();
+  const { isAuthenticated, candidate, policies, feedbackList, labels } = useApp();
   const router = useRouter();
 
   useEffect(() => {
@@ -28,19 +28,19 @@ export default function AdminDashboard() {
   ];
 
   const quickActions = [
-    { label: t("admin.candidate"), href: "/admin/candidate", icon: User },
-    { label: t("admin.policies"), href: "/admin/policies", icon: FileText },
-    { label: t("admin.video"), href: "/admin/video", icon: Video },
-    { label: t("admin.feedback"), href: "/admin/feedback", icon: MessageCircle },
+    { label: labels.admin.candidate, href: "/admin/candidate", icon: User },
+    { label: labels.admin.policies, href: "/admin/policies", icon: FileText },
+    { label: labels.admin.video, href: "/admin/video", icon: Video },
+    { label: labels.admin.feedback, href: "/admin/feedback", icon: MessageCircle },
   ];
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950 md:flex-row">
       <AdminSidebar />
-      <main className="flex-1 overflow-auto p-8">
+      <main className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
         <div className="mb-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-3xl font-black text-slate-950 dark:text-white">{t("admin.dashboard")}</h1>
+            <h1 className="text-[clamp(1.75rem,8vw,2.25rem)] font-black leading-tight text-slate-950 dark:text-white">{labels.admin.dashboard}</h1>
             <p className="mt-1 text-slate-500 dark:text-slate-400">ภาพรวมเว็บหาเสียงของผู้สมัครหมายเลข {candidate.number}</p>
           </motion.div>
         </div>

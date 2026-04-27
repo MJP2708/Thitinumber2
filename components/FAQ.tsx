@@ -7,7 +7,7 @@ import { defaultFAQ } from "@/lib/defaultData";
 import { useApp } from "@/contexts/AppContext";
 
 export default function FAQ() {
-  const { t } = useApp();
+  const { labels } = useApp();
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
@@ -19,7 +19,7 @@ export default function FAQ() {
             FAQ
           </div>
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
-            {t("home.faq.title")}
+            {labels.home.faqTitle}
           </h2>
         </div>
 

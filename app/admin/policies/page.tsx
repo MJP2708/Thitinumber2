@@ -27,7 +27,7 @@ const emptyForm: PolicyForm = {
 };
 
 export default function AdminPoliciesPage() {
-  const { isAuthenticated, policies, addPolicy, updatePolicy, deletePolicy, showToast, t } = useApp();
+  const { isAuthenticated, policies, addPolicy, updatePolicy, deletePolicy, showToast, labels } = useApp();
   const router = useRouter();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -92,15 +92,15 @@ export default function AdminPoliciesPage() {
     "w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent";
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950 md:flex-row">
       <AdminSidebar />
 
-      <main className="flex-1 p-8 overflow-auto">
+      <main className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-black text-slate-900 dark:text-white">
-                {t("admin.policies")}
+              <h1 className="text-[clamp(1.75rem,8vw,2.25rem)] font-black leading-tight text-slate-900 dark:text-white">
+                {labels.admin.policies}
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">
                 มี {policies.length} นโยบาย เพิ่ม แก้ไข หรือลบได้จากหน้านี้
@@ -108,10 +108,10 @@ export default function AdminPoliciesPage() {
             </div>
             <button
               onClick={handleNew}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-semibold rounded-xl transition-colors shadow-lg shadow-[#a32f2c]/20"
+              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-5 py-2.5 font-semibold text-white shadow-lg shadow-[#a32f2c]/20 transition-colors hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
             >
               <Plus className="w-4 h-4" />
-              {t("admin.add")}
+              {labels.admin.add}
             </button>
           </div>
 
@@ -195,14 +195,14 @@ export default function AdminPoliciesPage() {
                       onClick={() => setShowForm(false)}
                       className="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                     >
-                      {t("admin.cancel")}
+                      {labels.admin.cancel}
                     </button>
                     <button
                       onClick={handleSave}
                       className="flex items-center gap-2 px-5 py-2 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-semibold rounded-xl transition-colors"
                     >
                       <Save className="w-4 h-4" />
-                      {t("admin.save")}
+                      {labels.admin.save}
                     </button>
                   </div>
                 </div>
@@ -223,7 +223,7 @@ export default function AdminPoliciesPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 flex items-start gap-4"
+                  className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-start"
                 >
                   <GripVertical className="w-4 h-4 text-slate-300 dark:text-slate-700 flex-shrink-0 mt-1" />
                   <div className="flex-1 min-w-0">
@@ -235,16 +235,16 @@ export default function AdminPoliciesPage() {
                     </div>
                     <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">{policy.description}</p>
                   </div>
-                  <div className="flex gap-2 flex-shrink-0">
+                  <div className="flex flex-shrink-0 gap-2">
                     <button
                       onClick={() => handleEdit(policy)}
-                      className="p-2 rounded-lg text-slate-400 hover:text-[#0d3063] hover:bg-[#0d3063]/10 transition-all"
+                      className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg p-2 text-slate-400 transition-all hover:bg-[#0d3063]/10 hover:text-[#0d3063] active:scale-[0.98] sm:min-h-10 sm:min-w-10"
                     >
                       <Pencil className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => setDeleteId(policy.id)}
-                      className="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all"
+                      className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-lg p-2 text-slate-400 transition-all hover:bg-red-50 hover:text-red-500 active:scale-[0.98] dark:hover:bg-red-950/30 sm:min-h-10 sm:min-w-10"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -258,10 +258,10 @@ export default function AdminPoliciesPage() {
 
       <ConfirmModal
         isOpen={!!deleteId}
-        title={t("admin.confirm.delete")}
-        message={t("admin.confirm.delete.sub")}
-        confirmLabel={t("admin.delete")}
-        cancelLabel={t("admin.cancel")}
+        title={labels.admin.confirmDelete}
+        message={labels.admin.confirmDeleteSub}
+        confirmLabel={labels.admin.delete}
+        cancelLabel={labels.admin.cancel}
         onConfirm={handleDelete}
         onCancel={() => setDeleteId(null)}
       />

@@ -40,7 +40,7 @@ interface PolicyCardProps {
 }
 
 export default function PolicyCard({ policy, index = 0, compact = false }: PolicyCardProps) {
-  const { t } = useApp();
+  const { labels } = useApp();
   const [expanded, setExpanded] = useState(false);
   const Icon = IconMap[policy.icon] || Lightbulb;
   const color = categoryColors[policy.category] || categoryColors.Other;
@@ -52,7 +52,7 @@ export default function PolicyCard({ policy, index = 0, compact = false }: Polic
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.09, ease: "easeOut" }}
       whileHover={{ y: -4 }}
-      className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl hover:shadow-[#0d3063]/10 transition-shadow duration-300"
+      className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-[#0d3063]/10 dark:border-slate-800 dark:bg-slate-900"
     >
       <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
 
@@ -65,15 +65,15 @@ export default function PolicyCard({ policy, index = 0, compact = false }: Polic
             <Icon className="w-6 h-6 text-white" />
           </motion.div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-2 mb-1.5">
-              <h3 className="font-bold text-slate-900 dark:text-white text-base leading-tight">
+            <div className="mb-1.5 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <h3 className="break-words text-base font-bold leading-snug text-slate-900 dark:text-white">
                 {policy.title}
               </h3>
-              <span className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${color}`}>
+              <span className={`w-fit flex-shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${color}`}>
                 {policy.category}
               </span>
             </div>
-            <p className={`text-sm text-slate-600 dark:text-slate-400 leading-relaxed ${!expanded && compact ? "line-clamp-2" : ""}`}>
+            <p className={`break-words text-sm leading-7 text-slate-600 dark:text-slate-400 ${!expanded && compact ? "line-clamp-2" : ""}`}>
               {policy.description}
             </p>
           </div>
@@ -92,9 +92,9 @@ export default function PolicyCard({ policy, index = 0, compact = false }: Polic
                 >
                   <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
                     <p className="text-xs font-semibold text-[#a32f2c] uppercase tracking-wide mb-2">
-                      {t("policies.impact")}
+                      {labels.policies.impact}
                     </p>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p className="break-words text-sm leading-7 text-slate-600 dark:text-slate-400">
                       {policy.impact}
                     </p>
                   </div>
@@ -104,9 +104,9 @@ export default function PolicyCard({ policy, index = 0, compact = false }: Polic
 
             <button
               onClick={() => setExpanded(!expanded)}
-              className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-[#0d3063] dark:text-white hover:text-[#a32f2c] transition-colors"
+              className="mt-4 flex min-h-11 items-center gap-1.5 rounded-lg text-xs font-semibold text-[#0d3063] transition-colors hover:text-[#a32f2c] active:scale-[0.98] dark:text-white"
             >
-              <span>{expanded ? t("policies.readless") : t("policies.readmore")}</span>
+              <span>{expanded ? labels.policies.readLess : labels.policies.readMore}</span>
               <motion.div animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
                 <ChevronDown className="w-3.5 h-3.5" />
               </motion.div>

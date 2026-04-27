@@ -21,7 +21,7 @@ function isDirectVideo(url: string): boolean {
 }
 
 export default function VideoSection() {
-  const { candidate, t } = useApp();
+  const { candidate, labels } = useApp();
   const { videoUrl, videoTitle, videoDescription } = candidate;
 
   const embedUrl = videoUrl ? getYouTubeEmbedUrl(videoUrl) : null;
@@ -52,10 +52,10 @@ export default function VideoSection() {
             </div>
             <div className="text-center">
               <p className="font-semibold text-slate-700 dark:text-slate-300">
-                {t("video.placeholder")}
+                {labels.video.placeholder}
               </p>
               <p className="text-sm text-slate-400 mt-1">
-                {t("video.placeholder.sub")}
+                {labels.video.placeholderSub}
               </p>
             </div>
           </div>
@@ -77,7 +77,7 @@ export default function VideoSection() {
 }
 
 export function VideoPreviewCard({ onClick }: { onClick?: () => void }) {
-  const { candidate, t } = useApp();
+  const { candidate, labels } = useApp();
   const { videoUrl } = candidate;
   const embedUrl = videoUrl ? getYouTubeEmbedUrl(videoUrl) : null;
   const thumbnailUrl = embedUrl
@@ -99,7 +99,7 @@ export function VideoPreviewCard({ onClick }: { onClick?: () => void }) {
         <div className="w-full h-full bg-gradient-to-br from-indigo-900 to-purple-900 flex items-center justify-center">
           <div className="text-white text-center">
             <Play className="w-12 h-12 mx-auto mb-2 opacity-60" />
-            <span className="text-sm opacity-60">{t("home.video.watch")}</span>
+            <span className="text-sm opacity-60">{labels.home.videoWatch}</span>
           </div>
         </div>
       )}

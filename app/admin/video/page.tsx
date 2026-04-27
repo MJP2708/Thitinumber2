@@ -11,7 +11,7 @@ import AdminSidebar from "@/components/AdminSidebar";
 import VideoSection from "@/components/VideoSection";
 
 export default function AdminVideoPage() {
-  const { isAuthenticated, candidate, updateCandidate, showToast, t } = useApp();
+  const { isAuthenticated, candidate, updateCandidate, showToast, labels } = useApp();
   const router = useRouter();
   const [videoUrl, setVideoUrl] = useState(candidate.videoUrl);
   const [videoTitle, setVideoTitle] = useState(candidate.videoTitle);
@@ -33,7 +33,7 @@ export default function AdminVideoPage() {
   const handleSave = () => {
     updateCandidate({ videoUrl, videoTitle, videoDescription }).then((ok) => {
       if (ok) {
-        showToast(t("admin.saved"), "success");
+        showToast(labels.admin.saved, "success");
         setPreview(false);
       }
     });
@@ -43,15 +43,15 @@ export default function AdminVideoPage() {
     "w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent";
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950 md:flex-row">
       <AdminSidebar />
 
-      <main className="flex-1 p-8 overflow-auto">
+      <main className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
         <div className="max-w-3xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-black text-slate-900 dark:text-white">
-                {t("admin.video")}
+              <h1 className="text-[clamp(1.75rem,8vw,2.25rem)] font-black leading-tight text-slate-900 dark:text-white">
+                {labels.admin.video}
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">
                 เพิ่มหรือแก้ไขวิดีโอแนะนำตัวของผู้สมัคร
@@ -59,10 +59,10 @@ export default function AdminVideoPage() {
             </div>
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-semibold rounded-xl transition-colors shadow-lg shadow-[#a32f2c]/20"
+              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-5 py-2.5 font-semibold text-white shadow-lg shadow-[#a32f2c]/20 transition-colors hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
             >
               <Save className="w-4 h-4" />
-              {t("admin.save")}
+              {labels.admin.save}
             </button>
           </div>
 
@@ -185,7 +185,7 @@ export default function AdminVideoPage() {
                 className="flex items-center gap-2 px-8 py-3 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-xl transition-colors shadow-lg shadow-[#a32f2c]/20 hover:scale-105"
               >
                 <Save className="w-4 h-4" />
-                {t("admin.save")}
+                {labels.admin.save}
               </button>
             </div>
           </div>

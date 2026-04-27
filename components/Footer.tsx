@@ -5,13 +5,13 @@ import { Share2 } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 
 export default function Footer() {
-  const { candidate, t, showToast } = useApp();
+  const { candidate, labels, showToast } = useApp();
 
   const shareLink = () => {
     if (typeof window !== "undefined") {
       navigator.clipboard
         .writeText(window.location.origin)
-        .then(() => showToast(t("common.share.copied"), "success"))
+        .then(() => showToast(labels.common.shareCopied, "success"))
         .catch(() => showToast("คัดลอกลิงก์ไม่สำเร็จ", "error"));
     }
   };
@@ -28,7 +28,7 @@ export default function Footer() {
               <div>
                 <div className="text-sm font-bold text-slate-900 dark:text-white">{candidate.name}</div>
                 <div className="text-xs text-[#a32f2c] dark:text-white/70">
-                  {t("common.candidate")} {candidate.number}
+                  {labels.common.candidate} {candidate.number}
                 </div>
               </div>
             </div>
@@ -39,12 +39,12 @@ export default function Footer() {
             <h4 className="mb-3 text-sm font-semibold text-slate-900 dark:text-white">เมนูหลัก</h4>
             <div className="flex flex-col gap-2">
               {[
-                { href: "/", label: t("nav.home") },
-                { href: "/policies", label: t("nav.policies") },
-                { href: "/about", label: t("nav.about") },
-                { href: "/video", label: t("nav.video") },
-                { href: "/faq", label: t("nav.faq") },
-                { href: "/feedback", label: t("nav.feedback") },
+                { href: "/", label: labels.nav.home },
+                { href: "/policies", label: labels.nav.policies },
+                { href: "/about", label: labels.nav.about },
+                { href: "/video", label: labels.nav.video },
+                { href: "/faq", label: labels.nav.faq },
+                { href: "/feedback", label: labels.nav.feedback },
               ].map(({ href, label }) => (
                 <Link key={href} href={href} className="w-fit text-sm text-slate-500 transition-colors hover:text-[#0d3063] dark:text-slate-400 dark:hover:text-white">
                   {label}
@@ -60,7 +60,7 @@ export default function Footer() {
             </p>
             <button onClick={shareLink} className="flex items-center gap-2 rounded-lg bg-[#a32f2c] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#8f2926]">
               <Share2 className="h-4 w-4" />
-              {t("common.share")}
+              {labels.common.share}
             </button>
           </div>
         </div>

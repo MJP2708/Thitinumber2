@@ -17,9 +17,8 @@ import {
   defaultCandidate,
   defaultPolicies,
 } from "@/lib/defaultData";
-import { translations } from "@/lib/translations";
+import { labels } from "@/lib/labels";
 
-type Language = "en" | "th";
 type Theme = "light" | "dark";
 type ToastType = "success" | "error" | "info";
 
@@ -38,9 +37,7 @@ interface AppContextType {
   refreshData: () => Promise<void>;
   theme: Theme;
   toggleTheme: () => void;
-  language: Language;
-  toggleLanguage: () => void;
-  t: (key: string) => string;
+  labels: typeof labels;
   isAuthenticated: boolean;
   login: (username: string, password: string) => boolean;
   logout: () => void;
@@ -75,7 +72,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [dataError, setDataError] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("light");
-  const [language, setLanguage] = useState<Language>("th");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
 
@@ -112,8 +108,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       const storedTheme = localStorage.getItem("theme") as Theme | null;
       if (storedTheme) setTheme(storedTheme);
-      const storedLanguage = localStorage.getItem("language") as Language | null;
-      if (storedLanguage) setLanguage(storedLanguage);
       if (sessionStorage.getItem("isAuthenticated") === "true") setIsAuthenticated(true);
     } catch {}
   }, []);
@@ -133,19 +127,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return next;
     });
   }, []);
-
-  const toggleLanguage = useCallback(() => {
-    setLanguage((prev) => {
-      const next = prev === "en" ? "th" : "en";
-      try { localStorage.setItem("language", next); } catch {}
-      return next;
-    });
-  }, []);
-
-  const translate = useCallback(
-    (key: string) => translations[language]?.[key] || translations.th[key] || key,
-    [language]
-  );
 
   const login = useCallback((username: string, password: string) => {
     if (username === "admin" && password === "admin123") {
@@ -290,9 +271,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         refreshData,
         theme,
         toggleTheme,
-        language,
-        toggleLanguage,
-        t: translate,
+        labels,
         isAuthenticated,
         login,
         logout,

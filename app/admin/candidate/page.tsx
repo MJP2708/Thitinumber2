@@ -11,7 +11,7 @@ import AdminSidebar from "@/components/AdminSidebar";
 import { Candidate } from "@/lib/defaultData";
 
 export default function AdminCandidatePage() {
-  const { isAuthenticated, candidate, updateCandidate, showToast, t } = useApp();
+  const { isAuthenticated, candidate, updateCandidate, showToast, labels } = useApp();
   const router = useRouter();
   const [form, setForm] = useState<Candidate>(candidate);
 
@@ -27,7 +27,7 @@ export default function AdminCandidatePage() {
 
   const handleSave = async () => {
     const ok = await updateCandidate(form);
-    if (ok) showToast(t("admin.saved"), "success");
+    if (ok) showToast(labels.admin.saved, "success");
   };
 
   const handleChange = (field: keyof Candidate, value: string | number) => {
@@ -52,18 +52,18 @@ export default function AdminCandidatePage() {
   const inputClass = "w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-transparent focus:ring-2 focus:ring-[#a32f2c] dark:border-slate-700 dark:bg-slate-800 dark:text-white";
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950 md:flex-row">
       <AdminSidebar />
-      <main className="flex-1 overflow-auto p-8">
+      <main className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
         <div className="mx-auto max-w-3xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 flex items-center justify-between gap-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-black text-slate-950 dark:text-white">{t("admin.candidate")}</h1>
+              <h1 className="text-[clamp(1.75rem,8vw,2.25rem)] font-black leading-tight text-slate-950 dark:text-white">{labels.admin.candidate}</h1>
               <p className="mt-1 text-slate-500 dark:text-slate-400">แก้ไขข้อมูลที่แสดงบนหน้าเว็บหาเสียง</p>
             </div>
-            <button onClick={handleSave} className="inline-flex items-center gap-2 rounded-xl bg-[#a32f2c] px-5 py-2.5 font-semibold text-white shadow-lg shadow-[#a32f2c]/20 transition hover:bg-[#8f2926]">
+            <button onClick={handleSave} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-5 py-2.5 font-semibold text-white shadow-lg shadow-[#a32f2c]/20 transition hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto">
               <Save className="h-4 w-4" />
-              {t("admin.save")}
+              {labels.admin.save}
             </button>
           </motion.div>
 
@@ -96,9 +96,9 @@ export default function AdminCandidatePage() {
             ))}
 
             <div className="flex justify-end pt-4">
-              <button onClick={handleSave} className="inline-flex items-center gap-2 rounded-xl bg-[#a32f2c] px-8 py-3 font-bold text-white shadow-lg shadow-[#a32f2c]/20 transition hover:scale-105 hover:bg-[#8f2926]">
+              <button onClick={handleSave} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-8 py-3 font-bold text-white shadow-lg shadow-[#a32f2c]/20 transition hover:scale-105 hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto">
                 <Save className="h-4 w-4" />
-                {t("admin.save")}
+                {labels.admin.save}
               </button>
             </div>
           </div>
