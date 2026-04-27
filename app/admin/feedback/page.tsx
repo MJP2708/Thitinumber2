@@ -39,11 +39,13 @@ export default function AdminFeedbackPage() {
 
   if (!isAuthenticated) return null;
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (deleteId) {
-      deleteFeedback(deleteId);
-      showToast("ลบความคิดเห็นแล้ว", "info");
-      setDeleteId(null);
+      const ok = await deleteFeedback(deleteId);
+      if (ok) {
+        showToast("ลบความคิดเห็นแล้ว", "info");
+        setDeleteId(null);
+      }
     }
   };
 

@@ -25,9 +25,9 @@ export default function AdminCandidatePage() {
 
   if (!isAuthenticated) return null;
 
-  const handleSave = () => {
-    updateCandidate(form);
-    showToast(t("admin.saved"), "success");
+  const handleSave = async () => {
+    const ok = await updateCandidate(form);
+    if (ok) showToast(t("admin.saved"), "success");
   };
 
   const handleChange = (field: keyof Candidate, value: string | number) => {

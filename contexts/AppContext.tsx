@@ -4,16 +4,16 @@
 
 import React, {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
-  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
 } from "react";
 import {
-  Candidate,
-  Policy,
-  FeedbackItem,
+  type Candidate,
+  type FeedbackItem,
+  type Policy,
   defaultCandidate,
   defaultPolicies,
 } from "@/lib/defaultData";
@@ -33,6 +33,9 @@ interface AppContextType {
   candidate: Candidate;
   policies: Policy[];
   feedbackList: FeedbackItem[];
+  isLoading: boolean;
+  dataError: string | null;
+  refreshData: () => Promise<void>;
   theme: Theme;
   toggleTheme: () => void;
   language: Language;
@@ -44,67 +47,80 @@ interface AppContextType {
   toasts: Toast[];
   showToast: (message: string, type?: ToastType) => void;
   removeToast: (id: string) => void;
-  updateCandidate: (data: Partial<Candidate>) => void;
-  addPolicy: (policy: Omit<Policy, "id">) => void;
-  updatePolicy: (id: string, data: Partial<Policy>) => void;
-  deletePolicy: (id: string) => void;
-  addFeedback: (feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead" | "likes">) => void;
-  likeFeedback: (id: string) => boolean;
+  updateCandidate: (data: Partial<Candidate>) => Promise<boolean>;
+  addPolicy: (policy: Omit<Policy, "id">) => Promise<boolean>;
+  updatePolicy: (id: string, data: Partial<Policy>) => Promise<boolean>;
+  deletePolicy: (id: string) => Promise<boolean>;
+  addFeedback: (feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead" | "likes">) => Promise<boolean>;
+  likeFeedback: (id: string) => Promise<boolean>;
   markFeedbackRead: (id: string) => void;
-  deleteFeedback: (id: string) => void;
+  deleteFeedback: (id: string) => Promise<boolean>;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
+
+async function readApiError(response: Response, fallback: string) {
+  try {
+    const data = await response.json();
+    return data.error || fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [candidate, setCandidate] = useState<Candidate>(defaultCandidate);
   const [policies, setPolicies] = useState<Policy[]>(defaultPolicies);
   const [feedbackList, setFeedbackList] = useState<FeedbackItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataError, setDataError] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("light");
   const [language, setLanguage] = useState<Language>("th");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
 
+  const showToast = useCallback((message: string, type: ToastType = "success") => {
+    const id = crypto.randomUUID();
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => setToasts((prev) => prev.filter((toast) => toast.id !== id)), 3500);
+  }, []);
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  }, []);
+
+  const refreshData = useCallback(async () => {
+    setIsLoading(true);
+    setDataError(null);
+    try {
+      const response = await fetch("/api/campaign", { cache: "no-store" });
+      if (!response.ok) throw new Error(await readApiError(response, "โหลดข้อมูลไม่สำเร็จ"));
+      const data = await response.json();
+      setCandidate(data.candidate);
+      setPolicies(data.policies);
+      setFeedbackList(data.feedbackList);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "โหลดข้อมูลไม่สำเร็จ";
+      setDataError(message);
+      showToast(message, "error");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [showToast]);
+
   useEffect(() => {
     try {
-      const sc = localStorage.getItem("candidate");
-      if (sc) {
-        const storedCandidate = JSON.parse(sc) as Candidate;
-        setCandidate({
-          ...defaultCandidate,
-          ...storedCandidate,
-          name: /^[A-Za-z\s]+$/.test(storedCandidate.name || "") ? defaultCandidate.name : storedCandidate.name,
-          number: storedCandidate.number === 7 ? defaultCandidate.number : storedCandidate.number,
-          electionDate: storedCandidate.electionDate === "2026-05-15" ? defaultCandidate.electionDate : storedCandidate.electionDate,
-        });
-      }
-      const sp = localStorage.getItem("policies");
-      if (sp) {
-        const storedPolicies = JSON.parse(sp) as Policy[];
-        setPolicies(storedPolicies.some((policy) => /^[A-Za-z\s]+$/.test(policy.title || "")) ? defaultPolicies : storedPolicies);
-      }
-      const sf = localStorage.getItem("feedback");
-      if (sf) {
-        const storedFeedback = JSON.parse(sf) as Array<Partial<FeedbackItem>>;
-        setFeedbackList(storedFeedback.map((item) => ({
-          id: item.id || Date.now().toString(),
-          name: item.name || "",
-          grade: item.grade,
-          message: item.message || "",
-          category: item.category || "อื่น ๆ",
-          timestamp: item.timestamp || new Date().toISOString(),
-          isRead: item.isRead ?? false,
-          likes: item.likes ?? 0,
-        })));
-      }
-      const st = localStorage.getItem("theme") as Theme | null;
-      if (st) setTheme(st);
-      const sl = localStorage.getItem("language") as Language | null;
-      if (sl) setLanguage(sl);
-      const sa = sessionStorage.getItem("isAuthenticated");
-      if (sa === "true") setIsAuthenticated(true);
+      const storedTheme = localStorage.getItem("theme") as Theme | null;
+      if (storedTheme) setTheme(storedTheme);
+      const storedLanguage = localStorage.getItem("language") as Language | null;
+      if (storedLanguage) setLanguage(storedLanguage);
+      if (sessionStorage.getItem("isAuthenticated") === "true") setIsAuthenticated(true);
     } catch {}
   }, []);
+
+  useEffect(() => {
+    refreshData();
+  }, [refreshData]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -127,11 +143,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const translate = useCallback(
-    (key: string) => translations[language]?.[key] || translations["en"]?.[key] || key,
+    (key: string) => translations[language]?.[key] || translations.th[key] || key,
     [language]
   );
 
-  const login = useCallback((username: string, password: string): boolean => {
+  const login = useCallback((username: string, password: string) => {
     if (username === "admin" && password === "admin123") {
       setIsAuthenticated(true);
       try { sessionStorage.setItem("isAuthenticated", "true"); } catch {}
@@ -145,101 +161,152 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try { sessionStorage.removeItem("isAuthenticated"); } catch {}
   }, []);
 
-  const showToast = useCallback((message: string, type: ToastType = "success") => {
-    const id = Date.now().toString();
-    setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 3500);
-  }, []);
+  const updateCandidate = useCallback(async (data: Partial<Candidate>) => {
+    const isVideoOnly =
+      ("videoUrl" in data || "videoTitle" in data || "videoDescription" in data) &&
+      Object.keys(data).every((key) => ["videoUrl", "videoTitle", "videoDescription"].includes(key));
 
-  const removeToast = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
+    try {
+      const response = await fetch(isVideoOnly ? "/api/video" : "/api/candidate", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(isVideoOnly ? data : { ...candidate, ...data }),
+      });
+      if (!response.ok) throw new Error(await readApiError(response, "บันทึกข้อมูลไม่สำเร็จ"));
+      setCandidate(await response.json());
+      return true;
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "บันทึกข้อมูลไม่สำเร็จ", "error");
+      return false;
+    }
+  }, [candidate, showToast]);
 
-  const updateCandidate = useCallback((data: Partial<Candidate>) => {
-    setCandidate((prev) => {
-      const updated = { ...prev, ...data };
-      try { localStorage.setItem("candidate", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
+  const addPolicy = useCallback(async (policy: Omit<Policy, "id">) => {
+    try {
+      const response = await fetch("/api/policies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(policy),
+      });
+      if (!response.ok) throw new Error(await readApiError(response, "เพิ่มนโยบายไม่สำเร็จ"));
+      const created = await response.json();
+      setPolicies((prev) => [...prev, created]);
+      return true;
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "เพิ่มนโยบายไม่สำเร็จ", "error");
+      return false;
+    }
+  }, [showToast]);
 
-  const addPolicy = useCallback((policy: Omit<Policy, "id">) => {
-    setPolicies((prev) => {
-      const updated = [...prev, { ...policy, id: Date.now().toString() }];
-      try { localStorage.setItem("policies", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
+  const updatePolicy = useCallback(async (id: string, data: Partial<Policy>) => {
+    try {
+      const current = policies.find((policy) => policy.id === id);
+      if (!current) throw new Error("ไม่พบนโยบายนี้");
+      const response = await fetch(`/api/policies/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...current, ...data }),
+      });
+      if (!response.ok) throw new Error(await readApiError(response, "แก้ไขนโยบายไม่สำเร็จ"));
+      const updated = await response.json();
+      setPolicies((prev) => prev.map((policy) => (policy.id === id ? updated : policy)));
+      return true;
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "แก้ไขนโยบายไม่สำเร็จ", "error");
+      return false;
+    }
+  }, [policies, showToast]);
 
-  const updatePolicy = useCallback((id: string, data: Partial<Policy>) => {
-    setPolicies((prev) => {
-      const updated = prev.map((p) => (p.id === id ? { ...p, ...data } : p));
-      try { localStorage.setItem("policies", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
+  const deletePolicy = useCallback(async (id: string) => {
+    try {
+      const response = await fetch(`/api/policies/${id}`, { method: "DELETE" });
+      if (!response.ok) throw new Error(await readApiError(response, "ลบนโยบายไม่สำเร็จ"));
+      setPolicies((prev) => prev.filter((policy) => policy.id !== id));
+      return true;
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "ลบนโยบายไม่สำเร็จ", "error");
+      return false;
+    }
+  }, [showToast]);
 
-  const deletePolicy = useCallback((id: string) => {
-    setPolicies((prev) => {
-      const updated = prev.filter((p) => p.id !== id);
-      try { localStorage.setItem("policies", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
+  const addFeedback = useCallback(async (feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead" | "likes">) => {
+    try {
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(feedback),
+      });
+      if (!response.ok) throw new Error(await readApiError(response, "ส่งความคิดเห็นไม่สำเร็จ"));
+      const created = await response.json();
+      setFeedbackList((prev) => [created, ...prev]);
+      return true;
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "ส่งความคิดเห็นไม่สำเร็จ", "error");
+      return false;
+    }
+  }, [showToast]);
 
-  const addFeedback = useCallback((feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead" | "likes">) => {
-    setFeedbackList((prev) => {
-      const updated = [{ ...feedback, id: Date.now().toString(), timestamp: new Date().toISOString(), isRead: false, likes: 0 }, ...prev];
-      try { localStorage.setItem("feedback", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
-
-  const likeFeedback = useCallback((id: string): boolean => {
+  const likeFeedback = useCallback(async (id: string) => {
     try {
       const liked = JSON.parse(localStorage.getItem("likedFeedbackIds") || "[]") as string[];
       if (liked.includes(id)) return false;
-      const updatedLiked = [...liked, id];
-      localStorage.setItem("likedFeedbackIds", JSON.stringify(updatedLiked));
-    } catch {
+
+      const response = await fetch(`/api/feedback/${id}/like`, { method: "POST" });
+      if (!response.ok) throw new Error(await readApiError(response, "กดเห็นด้วยไม่สำเร็จ"));
+      const updated = await response.json();
+      localStorage.setItem("likedFeedbackIds", JSON.stringify([...liked, id]));
+      setFeedbackList((prev) => prev.map((item) => (item.id === id ? updated : item)));
+      return true;
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "กดเห็นด้วยไม่สำเร็จ", "error");
       return false;
     }
-
-    setFeedbackList((prev) => {
-      const updated = prev.map((f) => (f.id === id ? { ...f, likes: (f.likes || 0) + 1 } : f));
-      try { localStorage.setItem("feedback", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-    return true;
-  }, []);
+  }, [showToast]);
 
   const markFeedbackRead = useCallback((id: string) => {
-    setFeedbackList((prev) => {
-      const updated = prev.map((f) => (f.id === id ? { ...f, isRead: true } : f));
-      try { localStorage.setItem("feedback", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
+    setFeedbackList((prev) => prev.map((item) => (item.id === id ? { ...item, isRead: true } : item)));
   }, []);
 
-  const deleteFeedback = useCallback((id: string) => {
-    setFeedbackList((prev) => {
-      const updated = prev.filter((f) => f.id !== id);
-      try { localStorage.setItem("feedback", JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-  }, []);
+  const deleteFeedback = useCallback(async (id: string) => {
+    try {
+      const response = await fetch(`/api/feedback/${id}`, { method: "DELETE" });
+      if (!response.ok) throw new Error(await readApiError(response, "ลบความคิดเห็นไม่สำเร็จ"));
+      setFeedbackList((prev) => prev.filter((item) => item.id !== id));
+      return true;
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "ลบความคิดเห็นไม่สำเร็จ", "error");
+      return false;
+    }
+  }, [showToast]);
 
   return (
     <AppContext.Provider
       value={{
-        candidate, policies, feedbackList,
-        theme, toggleTheme,
-        language, toggleLanguage, t: translate,
-        isAuthenticated, login, logout,
-        toasts, showToast, removeToast,
+        candidate,
+        policies,
+        feedbackList,
+        isLoading,
+        dataError,
+        refreshData,
+        theme,
+        toggleTheme,
+        language,
+        toggleLanguage,
+        t: translate,
+        isAuthenticated,
+        login,
+        logout,
+        toasts,
+        showToast,
+        removeToast,
         updateCandidate,
-        addPolicy, updatePolicy, deletePolicy,
-        addFeedback, likeFeedback, markFeedbackRead, deleteFeedback,
+        addPolicy,
+        updatePolicy,
+        deletePolicy,
+        addFeedback,
+        likeFeedback,
+        markFeedbackRead,
+        deleteFeedback,
       }}
     >
       {children}

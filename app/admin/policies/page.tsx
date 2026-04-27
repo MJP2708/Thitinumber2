@@ -58,17 +58,19 @@ export default function AdminPoliciesPage() {
     setShowForm(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.title.trim() || !form.description.trim()) {
       showToast("กรอกชื่อนโยบายและรายละเอียดก่อนนะ", "error");
       return;
     }
 
     if (editingId) {
-      updatePolicy(editingId, form);
+      const ok = await updatePolicy(editingId, form);
+      if (!ok) return;
       showToast("แก้ไขนโยบายแล้ว", "success");
     } else {
-      addPolicy(form);
+      const ok = await addPolicy(form);
+      if (!ok) return;
       showToast("เพิ่มนโยบายแล้ว", "success");
     }
 
@@ -76,11 +78,13 @@ export default function AdminPoliciesPage() {
     setEditingId(null);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (deleteId) {
-      deletePolicy(deleteId);
-      showToast("ลบนโยบายแล้ว", "info");
-      setDeleteId(null);
+      const ok = await deletePolicy(deleteId);
+      if (ok) {
+        showToast("ลบนโยบายแล้ว", "info");
+        setDeleteId(null);
+      }
     }
   };
 

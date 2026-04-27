@@ -20,7 +20,7 @@ function formatThaiDate(value: string) {
 }
 
 export default function FeedbackPage() {
-  const { addFeedback, feedbackList, likeFeedback, t, showToast } = useApp();
+  const { addFeedback, feedbackList, likeFeedback, t, showToast, isLoading, dataError } = useApp();
   const [likedIds, setLikedIds] = useState<string[]>([]);
   const [form, setForm] = useState({
     name: "",
@@ -55,7 +55,7 @@ export default function FeedbackPage() {
     return nextErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const nextErrors = validate();
     if (Object.keys(nextErrors).length > 0) {
@@ -63,19 +63,20 @@ export default function FeedbackPage() {
       return;
     }
 
-    addFeedback({
+    const ok = await addFeedback({
       name: form.name.trim(),
       grade: form.grade.trim() || undefined,
       category: form.category,
       message: form.message.trim(),
     });
+    if (!ok) return;
     showToast(t("feedback.success"), "success");
     setForm({ name: "", grade: "", category: "อื่น ๆ", message: "" });
     setErrors({});
   };
 
-  const handleLike = (id: string) => {
-    const liked = likeFeedback(id);
+  const handleLike = async (id: string) => {
+    const liked = await likeFeedback(id);
     if (liked) {
       setLikedIds((prev) => [...prev, id]);
       showToast("ขอบคุณที่กดเห็นด้วยนะ", "success");
@@ -210,7 +211,17 @@ export default function FeedbackPage() {
             </span>
           </div>
 
-          {sortedFeedback.length === 0 ? (
+          {dataError && (
+            <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+              {dataError}
+            </div>
+          )}
+
+          {isLoading ? (
+            <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+              กำลังโหลดความคิดเห็น...
+            </div>
+          ) : sortedFeedback.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
               ยังไม่มีข้อเสนอแนะ ลองเป็นคนแรกที่เสนอไอเดียดูสิ
             </div>

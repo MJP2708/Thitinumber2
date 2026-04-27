@@ -31,9 +31,12 @@ export default function AdminVideoPage() {
   if (!isAuthenticated) return null;
 
   const handleSave = () => {
-    updateCandidate({ videoUrl, videoTitle, videoDescription });
-    showToast(t("admin.saved"), "success");
-    setPreview(false);
+    updateCandidate({ videoUrl, videoTitle, videoDescription }).then((ok) => {
+      if (ok) {
+        showToast(t("admin.saved"), "success");
+        setPreview(false);
+      }
+    });
   };
 
   const fieldClass =
