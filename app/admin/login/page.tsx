@@ -44,20 +44,20 @@ export default function AdminLoginPage() {
         {/* Card */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
           {/* Top gradient */}
-          <div className="bg-gradient-to-br from-indigo-600 to-purple-700 px-8 py-10 text-white text-center">
+          <div className="bg-[#0d3063] px-8 py-10 text-white text-center">
             <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
               <Shield className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-2xl font-black">{t("admin.login")}</h1>
-            <p className="text-indigo-200 text-sm mt-1">
-              Campaign admin access only
+            <p className="text-white/70 text-sm mt-1">
+              สำหรับจัดการเว็บหาเสียง
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="px-8 py-8 space-y-5">
             {/* Demo hint */}
-            <div className="bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900 rounded-xl px-4 py-3 text-xs text-indigo-600 dark:text-indigo-400">
-              Demo: <strong>admin</strong> / <strong>admin123</strong>
+            <div className="bg-[#0d3063]/10 dark:bg-white/10 border border-[#0d3063]/10 dark:border-white/10 rounded-xl px-4 py-3 text-xs text-[#0d3063] dark:text-white/70">
+              บัญชีทดสอบ: <strong>admin</strong> / <strong>admin123</strong>
             </div>
 
             {error && (
@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="admin"
                 autoComplete="username"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent text-sm"
               />
             </div>
 
@@ -93,7 +93,7 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   autoComplete="current-password"
-                  className="w-full px-4 py-3 pr-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                  className="w-full px-4 py-3 pr-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent text-sm"
                 />
                 <button
                   type="button"
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]"
+              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-xl transition-all shadow-lg shadow-[#a32f2c]/20 disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

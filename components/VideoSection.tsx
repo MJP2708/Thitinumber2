@@ -92,7 +92,7 @@ export function VideoPreviewCard({ onClick }: { onClick?: () => void }) {
       {thumbnailUrl ? (
         <img
           src={thumbnailUrl}
-          alt="Campaign video"
+          alt="วิดีโอแนะนำตัว"
           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
         />
       ) : (

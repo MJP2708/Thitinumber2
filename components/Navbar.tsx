@@ -33,7 +33,7 @@ export default function Navbar() {
     { href: "/policies", label: t("nav.policies"), icon: FileText },
     { href: "/about", label: t("nav.about"), icon: User },
     { href: "/video", label: t("nav.video"), icon: Video },
-    { href: "/faq", label: "FAQ", icon: HelpCircle },
+    { href: "/faq", label: t("nav.faq"), icon: HelpCircle },
     { href: "/feedback", label: t("nav.feedback"), icon: MessageCircle },
   ];
 
@@ -144,7 +144,7 @@ export default function Navbar() {
                 className="flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors"
               >
                 <Shield className="w-4 h-4" />
-                Admin
+                ผู้สมัคร
               </Link>
             </div>
           </motion.div>

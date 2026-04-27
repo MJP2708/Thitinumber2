@@ -65,7 +65,7 @@ function CandidatePortrait() {
                 {candidate.name.split(" ")[0].toUpperCase()}
               </div>
               <div className="text-white/40 text-xs mt-2 font-medium">
-                Add your photo in admin panel
+                เพิ่มรูปได้ในหน้าแอดมิน
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@ function CandidatePortrait() {
         transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
         className="absolute -top-5 -right-5 bg-[#a32f2c] rounded-2xl px-4 py-3 shadow-2xl shadow-[#a32f2c]/40 border border-white/20 z-20"
       >
-        <div className="text-[10px] font-black uppercase tracking-widest text-white/75">Vote</div>
+        <div className="text-[10px] font-black uppercase tracking-widest text-white/75">เลือก</div>
         <div className="text-5xl font-black text-white leading-none">{candidate.number}</div>
       </motion.div>
 
@@ -95,9 +95,9 @@ function CandidatePortrait() {
         transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: 0.5 }}
         className="absolute -bottom-5 -left-5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-3 z-20 shadow-xl"
       >
-        <div className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">Policies</div>
-        <div className="text-white font-black text-xl leading-none">5 Plans</div>
-        <div className="text-white/40 text-[10px] mt-0.5">Ready to Execute</div>
+        <div className="text-white/60 text-[10px] font-semibold uppercase tracking-widest">นโยบาย</div>
+        <div className="text-white font-black text-xl leading-none">5 เรื่อง</div>
+        <div className="text-white/40 text-[10px] mt-0.5">ตั้งใจทำจริง</div>
       </motion.div>
     </div>
   );
@@ -165,7 +165,7 @@ export default function Home() {
                 className="inline-flex items-center gap-2.5 bg-white/8 backdrop-blur-sm border border-white/12 text-white/80 text-xs font-semibold px-4 py-2 rounded-full mb-8"
               >
                 <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                Student Council Election 2026 &nbsp;·&nbsp; Candidate No. {candidate.number}
+                เลือกตั้งสภานักเรียน 2569 · ผู้สมัครหมายเลข {candidate.number}
               </motion.div>
 
               {/* "VOTE FOR" label */}
@@ -175,7 +175,7 @@ export default function Home() {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 className="text-white/75 text-sm font-bold uppercase tracking-[0.3em] mb-3"
               >
-                Vote For
+                เลือก
               </motion.div>
 
               {/* Name */}
@@ -248,9 +248,9 @@ export default function Home() {
                 className="mt-10 flex items-center gap-8"
               >
                 {[
-                  { value: `No. ${candidate.number}`, label: "Candidate" },
-                  { value: policies.length, label: "Policies" },
-                  { value: candidate.grade, label: "Grade" },
+                  { value: `เบอร์ ${candidate.number}`, label: "ผู้สมัคร" },
+                  { value: policies.length, label: "นโยบาย" },
+                  { value: candidate.grade, label: "ระดับชั้น" },
                 ].map(({ value, label }) => (
                   <div key={label} className="text-center">
                     <div className="text-2xl font-black text-white">{value}</div>
@@ -329,7 +329,7 @@ export default function Home() {
           <p className="text-slate-400 mb-10">{t("home.video.watch")}</p>
           <VideoPreviewCard onClick={() => router.push("/video")} />
           <Link href="/video" className="inline-flex items-center gap-2 mt-6 text-[#0d3063] dark:text-white font-semibold hover:underline">
-            Watch full video <ChevronRight className="w-4 h-4" />
+            ดูวิดีโอเต็ม <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
       </ScrollSection>
@@ -347,13 +347,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(163,47,44,0.24)_0%,_transparent_70%)]" />
         <ScrollSection className="relative z-10 max-w-3xl mx-auto text-center">
           <div className="text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-6">
-            Our Vision
+            โรงเรียนที่อยากเห็น
           </div>
           <blockquote className="text-3xl sm:text-4xl font-black text-white leading-snug mb-8">
             &ldquo;{candidate.vision}&rdquo;
           </blockquote>
           <div className="text-white/70 font-medium mb-10">
-            — {candidate.name}, Candidate No. {candidate.number}
+            - {candidate.name}, ผู้สมัครหมายเลข {candidate.number}
           </div>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

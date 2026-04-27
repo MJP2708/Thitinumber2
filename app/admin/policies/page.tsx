@@ -14,13 +14,13 @@ const ICONS = [
   "Globe", "Users", "Music", "Shield", "Target", "Lightbulb",
 ];
 
-const CATEGORIES = ["Technology", "Wellness", "Culture", "Environment", "Education", "Other"];
+const CATEGORIES = ["การสื่อสาร", "ชีวิตนักเรียน", "กิจกรรม", "สิ่งแวดล้อม", "การเรียน", "อื่น ๆ"];
 
 type PolicyForm = Omit<Policy, "id">;
 
 const emptyForm: PolicyForm = {
   title: "",
-  category: "Technology",
+  category: "การสื่อสาร",
   description: "",
   impact: "",
   icon: "Lightbulb",
@@ -60,16 +60,16 @@ export default function AdminPoliciesPage() {
 
   const handleSave = () => {
     if (!form.title.trim() || !form.description.trim()) {
-      showToast("Title and description are required", "error");
+      showToast("กรอกชื่อนโยบายและรายละเอียดก่อนนะ", "error");
       return;
     }
 
     if (editingId) {
       updatePolicy(editingId, form);
-      showToast("Policy updated!", "success");
+      showToast("แก้ไขนโยบายแล้ว", "success");
     } else {
       addPolicy(form);
-      showToast("Policy added!", "success");
+      showToast("เพิ่มนโยบายแล้ว", "success");
     }
 
     setShowForm(false);
@@ -79,7 +79,7 @@ export default function AdminPoliciesPage() {
   const handleDelete = () => {
     if (deleteId) {
       deletePolicy(deleteId);
-      showToast("Policy deleted", "info");
+      showToast("ลบนโยบายแล้ว", "info");
       setDeleteId(null);
     }
   };
@@ -99,7 +99,7 @@ export default function AdminPoliciesPage() {
                 {t("admin.policies")}
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">
-                {policies.length} policies - add, edit, or remove policies
+                มี {policies.length} นโยบาย เพิ่ม แก้ไข หรือลบได้จากหน้านี้
               </p>
             </div>
             <button
@@ -122,7 +122,7 @@ export default function AdminPoliciesPage() {
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-[#0d3063]/20 dark:border-slate-800 p-6 shadow-lg">
                   <div className="flex items-center justify-between mb-5">
                     <h2 className="font-bold text-slate-900 dark:text-white">
-                      {editingId ? "Edit Policy" : "New Policy"}
+                      {editingId ? "แก้ไขนโยบาย" : "เพิ่มนโยบายใหม่"}
                     </h2>
                     <button onClick={() => setShowForm(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
                       <X className="w-5 h-5" />
@@ -131,18 +131,18 @@ export default function AdminPoliciesPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Title *</label>
+                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">ชื่อนโยบาย *</label>
                       <input
                         type="text"
                         value={form.title}
                         onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                        placeholder="Policy title"
+                        placeholder="เช่น ประกาศโรงเรียนให้ตามง่ายขึ้น"
                         className={fieldClass}
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Category</label>
+                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">หมวดหมู่</label>
                       <select
                         value={form.category}
                         onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
@@ -153,7 +153,7 @@ export default function AdminPoliciesPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Icon</label>
+                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">ไอคอน</label>
                       <select
                         value={form.icon}
                         onChange={(e) => setForm((f) => ({ ...f, icon: e.target.value }))}
@@ -164,23 +164,23 @@ export default function AdminPoliciesPage() {
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Description *</label>
+                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">รายละเอียด *</label>
                       <textarea
                         value={form.description}
                         onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                         rows={3}
-                        placeholder="Describe this policy..."
+                        placeholder="อธิบายนโยบายนี้..."
                         className={`${fieldClass} resize-none`}
                       />
                     </div>
 
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Expected Impact</label>
+                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">จะช่วยอะไรได้บ้าง</label>
                       <textarea
                         value={form.impact}
                         onChange={(e) => setForm((f) => ({ ...f, impact: e.target.value }))}
                         rows={2}
-                        placeholder="What impact will this policy have?"
+                        placeholder="นโยบายนี้จะช่วยเพื่อน ๆ ยังไง"
                         className={`${fieldClass} resize-none`}
                       />
                     </div>
@@ -210,7 +210,7 @@ export default function AdminPoliciesPage() {
             {policies.length === 0 ? (
               <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
                 <FileText className="w-12 h-12 text-slate-300 dark:text-slate-700 mx-auto mb-3" />
-                <p className="text-slate-500 dark:text-slate-400">No policies yet. Click Add New Policy to get started.</p>
+                <p className="text-slate-500 dark:text-slate-400">ยังไม่มีนโยบาย กดเพิ่มนโยบายเพื่อเริ่มได้เลย</p>
               </div>
             ) : (
               policies.map((policy, i) => (

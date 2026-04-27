@@ -8,8 +8,6 @@ export interface Candidate {
   mission: string;
   vision: string;
   reasonForRunning: string;
-  values: string[];
-  strengths: string[];
   electionDate: string;
   videoUrl: string;
   videoTitle: string;
@@ -35,6 +33,7 @@ export interface FeedbackItem {
   category: string;
   timestamp: string;
   isRead: boolean;
+  likes: number;
 }
 
 export interface FAQItem {
@@ -44,21 +43,19 @@ export interface FAQItem {
 }
 
 export const defaultCandidate: Candidate = {
-  name: "Thiti Saelee",
+  name: "ธิติ แซ่ลี้",
   number: 2,
-  slogan: "Students First, Future Forward",
-  grade: "M.5",
-  bio: "A passionate student leader with a vision for a better school community. I believe every student deserves a voice, and I'm ready to be that voice for all of us. With dedication, creativity, and a genuine love for our school, I'm committed to making real, lasting change that matters.",
-  ideology: "Student-centered leadership, transparency, creativity, equality, and real action.",
-  mission: "To make school life more organized, enjoyable, and supportive for every student.",
-  vision: "A school where every student feels heard, respected, and represented.",
-  reasonForRunning: "I want to turn student problems into real solutions, not just promises. Our school deserves a representative who listens, acts, and delivers.",
-  values: ["Transparency", "Equality", "Creativity", "Action", "Empathy"],
-  strengths: ["Leadership", "Communication", "Problem-solving", "Creativity", "Teamwork"],
+  slogan: "นักเรียนมาก่อน อนาคตไปข้างหน้า",
+  grade: "ม.5",
+  bio: "สวัสดีครับ ผมธิติ แซ่ลี้ ผู้สมัครสภานักเรียนหมายเลข 2 ผมอยากให้โรงเรียนเป็นที่ที่ทุกคนกล้าพูด กล้าเสนอ และรู้สึกว่าปัญหาของตัวเองมีคนฟังจริง ๆ",
+  ideology: "ฟังให้เยอะ ทำให้จริง และสื่อสารให้ชัด",
+  mission: "ทำให้ชีวิตในโรงเรียนง่ายขึ้น เป็นระเบียบขึ้น และเป็นมิตรกับนักเรียนทุกคนมากขึ้น",
+  vision: "โรงเรียนที่นักเรียนทุกคนรู้สึกว่าตัวเองมีเสียง และเสียงนั้นมีความหมาย",
+  reasonForRunning: "ผมลงสมัครเพราะอยากเอาเรื่องที่เพื่อน ๆ เจอทุกวันมาแก้ให้เป็นรูปธรรม ไม่ใช่แค่พูดสวย ๆ ตอนหาเสียง",
   electionDate: "2026-05-29",
   videoUrl: "",
-  videoTitle: "My Campaign Vision - Students First, Future Forward",
-  videoDescription: "Watch my campaign video to learn more about my vision for our school and the changes I plan to make as your Student Council President.",
+  videoTitle: "วิดีโอแนะนำตัว - นักเรียนมาก่อน อนาคตไปข้างหน้า",
+  videoDescription: "ดูแนวคิดของธิติ แซ่ลี้ ผู้สมัครหมายเลข 2 และสิ่งที่อยากทำให้โรงเรียนของเราดีขึ้น",
   heroImage: "",
   aboutImage: "",
 };
@@ -66,42 +63,42 @@ export const defaultCandidate: Candidate = {
 export const defaultPolicies: Policy[] = [
   {
     id: "1",
-    title: "Better School Communication",
-    category: "Technology",
-    description: "Create a central online announcement hub so students never miss important updates. This system will consolidate announcements from all departments into one accessible platform.",
-    impact: "Students stay informed about school events, deadlines, and announcements in real-time. Estimated 60% reduction in missed deadlines.",
+    title: "ประกาศโรงเรียนให้ตามง่ายขึ้น",
+    category: "การสื่อสาร",
+    description: "ทำช่องทางรวมประกาศสำคัญ ตารางกิจกรรม และเดดไลน์ต่าง ๆ ให้นักเรียนเปิดดูได้ง่าย ไม่ต้องไล่ถามหลายที่",
+    impact: "เพื่อน ๆ จะพลาดข่าวสำคัญน้อยลง และวางแผนงานกับการเรียนได้ดีขึ้น",
     icon: "MessageSquare",
   },
   {
     id: "2",
-    title: "Mental Health Support",
-    category: "Wellness",
-    description: "Create anonymous suggestion and support channels for students who need help. Partner with school counselors to provide accessible mental health resources and peer support programs.",
-    impact: "Students gain access to confidential support, reducing stigma around mental health and creating a safer school environment for everyone.",
+    title: "พื้นที่รับฟังปัญหาของนักเรียน",
+    category: "ชีวิตนักเรียน",
+    description: "เปิดช่องทางให้ส่งปัญหาและข้อเสนอแนะได้ง่ายขึ้น จะใส่ชื่อหรือไม่ใส่ก็ได้ แล้วสรุปเรื่องที่พบไปคุยกับครูอย่างสม่ำเสมอ",
+    impact: "ปัญหาที่หลายคนเจอจะไม่เงียบหาย และมีคนช่วยตามต่ออย่างจริงจัง",
     icon: "Heart",
   },
   {
     id: "3",
-    title: "Student Activity Upgrade",
-    category: "Culture",
-    description: "Make school events more student-led, creative, and inclusive. Establish a student committee to plan and organize events that reflect diverse student interests.",
-    impact: "Increased student participation in school life, stronger community bonds, and events that every student actually wants to attend.",
+    title: "กิจกรรมที่นักเรียนมีส่วนร่วมจริง",
+    category: "กิจกรรม",
+    description: "ให้เพื่อน ๆ มีโอกาสเสนอธีมกิจกรรม ช่วยออกแบบงาน และโหวตสิ่งที่อยากเห็นในโรงเรียนมากขึ้น",
+    impact: "กิจกรรมจะสนุกขึ้นและตรงกับสิ่งที่นักเรียนอยากร่วมจริง ๆ",
     icon: "Star",
   },
   {
     id: "4",
-    title: "Cleaner and Greener School",
-    category: "Environment",
-    description: "Add recycling stations, energy-saving campaigns, and student-led green projects. Launch a school garden initiative and plastic-free campus campaign.",
-    impact: "Reduce school waste by an estimated 40%, lower energy consumption, and instill environmental responsibility as a core value.",
+    title: "โรงเรียนสะอาด ใช้งานง่าย",
+    category: "สิ่งแวดล้อม",
+    description: "เพิ่มจุดทิ้งขยะให้ชัดขึ้น ชวนแยกขยะ และรวบรวมจุดที่ควรซ่อมหรือปรับปรุงจากนักเรียน",
+    impact: "พื้นที่ในโรงเรียนจะน่าใช้ขึ้น และทุกคนช่วยดูแลได้ง่ายกว่าเดิม",
     icon: "Leaf",
   },
   {
     id: "5",
-    title: "Academic Support System",
-    category: "Education",
-    description: "Create peer tutoring, study groups, and shared resources before exams. Establish a digital library of student-created study materials accessible to all grades.",
-    impact: "Improved academic performance across all grade levels, stronger peer connections, and significantly reduced exam stress.",
+    title: "ช่วยกันเรียนก่อนสอบ",
+    category: "การเรียน",
+    description: "ทำพื้นที่รวมสรุป แนวอ่านสอบ และกลุ่มช่วยติวจากรุ่นพี่หรือเพื่อนที่ถนัดแต่ละวิชา",
+    impact: "ลดความเครียดก่อนสอบ และทำให้การช่วยกันเรียนเป็นเรื่องที่เข้าถึงได้จริง",
     icon: "BookOpen",
   },
 ];
@@ -109,27 +106,32 @@ export const defaultPolicies: Policy[] = [
 export const defaultFAQ: FAQItem[] = [
   {
     id: "1",
-    question: "When is the election?",
-    answer: "The student council election will be held on May 29, 2026. All students from M.1 to M.6 are eligible and encouraged to participate.",
+    question: "เลือกตั้งวันไหน?",
+    answer: "เลือกตั้งวันที่ 29 พฤษภาคม 2569 อย่าลืมเช็กเวลาและสถานที่เลือกตั้งของโรงเรียนอีกทีนะ",
   },
   {
     id: "2",
-    question: "What does the Student Council actually do?",
-    answer: "The Student Council represents all students by voicing concerns to school administration, organizing school events, managing student welfare funds, and working on projects that improve daily school life.",
+    question: "ผู้สมัครหมายเลขอะไร?",
+    answer: "ธิติ แซ่ลี้ ผู้สมัครหมายเลข 2 ฝากจำเบอร์นี้ไว้ด้วยนะ",
   },
   {
     id: "3",
-    question: "How can I support this campaign?",
-    answer: "Share this website with your friends, discuss the policies with classmates, attend campaign events, and support the campaign on election day.",
+    question: "นโยบายหลักคืออะไร?",
+    answer: "เน้นเรื่องการสื่อสารในโรงเรียน พื้นที่รับฟังปัญหา กิจกรรมที่นักเรียนมีส่วนร่วม และการช่วยกันเรียนก่อนสอบ",
   },
   {
     id: "4",
-    question: "Can I submit my own ideas for policies?",
-    answer: "Yes! The Feedback page is open for all students to submit problems, ideas, and suggestions. Every submission is personally reviewed and taken seriously.",
+    question: "ถ้ามีปัญหาในโรงเรียน อยากเสนอให้แก้ ต้องทำยังไง?",
+    answer: "เข้าไปที่หน้าเสนอความคิดเห็น แล้วพิมพ์เรื่องที่อยากให้ช่วยดูได้เลย จะใส่ชื่อเล่นหรือไม่ใส่ก็ได้",
   },
   {
     id: "5",
-    question: "What happens after the election?",
-    answer: "The winning candidate immediately begins their term. Within the first month, they will present an action plan to the administration, form their working team, and begin implementing their top-priority policies.",
+    question: "ข้อเสนอแนะที่ส่งไปจะถูกเห็นไหม?",
+    answer: "เห็นแน่นอนครับ ทุกข้อความจะอยู่ในบอร์ดความคิดเห็น และผมจะใช้ดูว่าประเด็นไหนเพื่อน ๆ เห็นด้วยเยอะ",
+  },
+  {
+    id: "6",
+    question: "ทำไมควรเลือกหมายเลข 2?",
+    answer: "เพราะผมอยากฟังปัญหาจริงของนักเรียน แล้วค่อย ๆ ทำให้เกิดผล ไม่ขายฝันเกินไป แต่ตั้งใจทำให้สุดครับ",
   },
 ];

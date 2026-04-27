@@ -1,70 +1,44 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import {
-  GraduationCap, Target, Eye, Heart, Zap, BookOpen,
-  MessageCircle, Star, Quote, ChevronRight,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { BookOpen, ChevronRight, GraduationCap, Heart, MessageCircle, Quote, Star, Target } from "lucide-react";
 import Link from "next/link";
 import { useApp } from "@/contexts/AppContext";
 
-const tagColors = [
-  "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border-indigo-200 dark:border-indigo-700",
-  "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 border-purple-200 dark:border-purple-700",
-  "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300 border-rose-200 dark:border-rose-700",
-  "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700",
-  "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200 dark:border-amber-700",
-  "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200 dark:border-blue-700",
-];
-
-function AnimatedBar({ value, delay }: { value: number; delay: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  return (
-    <div ref={ref} className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-      <motion.div
-        initial={{ width: 0 }}
-        animate={inView ? { width: `${value}%` } : {}}
-        transition={{ duration: 0.8, delay, ease: "easeOut" }}
-        className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"
-      />
-    </div>
-  );
-}
-
 function CandidatePhoto() {
   const { candidate } = useApp();
+  const image = candidate.aboutImage || candidate.heroImage;
+
   return (
-    <div className="relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0d3063]/30 to-[#a32f2c]/20 rounded-3xl blur-xl scale-105" />
-      <div className="relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/10 shadow-2xl">
-        {candidate.aboutImage ? (
-          <img src={candidate.aboutImage} alt={candidate.name} className="w-full h-full object-cover" />
-        ) : candidate.heroImage ? (
-          <img src={candidate.heroImage} alt={candidate.name} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-[#0d3063] via-[#123f7d] to-[#a32f2c] flex flex-col items-center justify-center relative overflow-hidden">
-            <span className="absolute text-[200px] font-black text-white/5 leading-none select-none">{candidate.number}</span>
-            <div className="relative z-10 w-28 h-28 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/20 flex items-center justify-center">
-              <span className="text-5xl font-black text-white/70">{candidate.name.charAt(0)}</span>
+    <div className="relative w-full max-w-[340px] mx-auto">
+      <div className="absolute inset-0 rounded-[2rem] bg-[#a32f2c]/25 blur-2xl translate-y-4" />
+      <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white shadow-2xl dark:bg-slate-900">
+        <div className="relative aspect-[4/5] bg-[#0d3063]">
+          {image ? (
+            <img src={image} alt={candidate.name} className="h-full w-full object-cover" />
+          ) : (
+            <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-[#0d3063] to-[#164b91] px-8 text-center">
+              <div className="mb-5 flex h-28 w-28 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-xl">
+                <span className="text-6xl font-black leading-none text-white">ฐ</span>
+              </div>
+              <p className="text-sm font-medium leading-7 text-white/70">
+                เพิ่มรูปผู้สมัครได้จากหน้าแอดมิน
+              </p>
             </div>
-            <div className="relative z-10 mt-4 text-center">
-              <div className="font-black text-lg text-white/80">{candidate.name.split(" ")[0]}</div>
-              <div className="text-white/40 text-xs mt-1">Add photo in admin</div>
-            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-[72px_1fr] items-center gap-4 bg-white p-5 dark:bg-slate-900">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#a32f2c] text-4xl font-black leading-none text-white shadow-lg">
+            {candidate.number}
           </div>
-        )}
-        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-black/70 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-5">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#a32f2c] flex items-center justify-center font-black text-white text-sm shadow-lg">
-              {candidate.number}
-            </div>
-            <div>
-              <div className="text-white font-bold text-sm leading-tight">{candidate.name}</div>
-              <div className="text-white/60 text-xs">{candidate.grade}</div>
-            </div>
+          <div className="min-w-0">
+            <p className="truncate text-lg font-black leading-7 text-slate-950 dark:text-white">
+              {candidate.name}
+            </p>
+            <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400">
+              <GraduationCap className="h-4 w-4" />
+              {candidate.grade} · ผู้สมัครหมายเลข {candidate.number}
+            </p>
           </div>
         </div>
       </div>
@@ -76,216 +50,107 @@ export default function AboutPage() {
   const { candidate, t } = useApp();
 
   const infoCards = [
-    { icon: Target, label: t("about.mission"), content: candidate.mission, grad: "from-[#0d3063] to-[#164b91]" },
-    { icon: Eye, label: t("about.vision"), content: candidate.vision, grad: "from-[#0d3063] to-[#a32f2c]" },
-    { icon: BookOpen, label: t("about.ideology"), content: candidate.ideology, grad: "from-[#0d3063] to-[#164b91]" },
-    { icon: Heart, label: t("about.reason"), content: candidate.reasonForRunning, grad: "from-[#a32f2c] to-[#d94b45]" },
+    { icon: Target, label: t("about.mission"), content: candidate.mission },
+    { icon: Star, label: t("about.vision"), content: candidate.vision },
+    { icon: BookOpen, label: t("about.ideology"), content: candidate.ideology },
+    { icon: Heart, label: t("about.reason"), content: candidate.reasonForRunning },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      {/* Hero banner */}
-      <div className="bg-[#0d3063] relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] -translate-x-1/3 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#a32f2c]/25 rounded-full blur-[80px] translate-x-1/4 translate-y-1/2" />
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
-            {/* Left: Text info */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 bg-white/8 border border-white/12 px-4 py-2 rounded-full text-white/70 text-xs font-bold uppercase tracking-widest mb-6"
-              >
-                {t("about.subtitle")}
-              </motion.div>
-              <motion.h1
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="font-black text-white mb-4 leading-tight"
-              >
-                <span className="block text-5xl sm:text-6xl">{candidate.name.split(" ")[0]}</span>
-                <span className="block text-3xl sm:text-4xl text-white">
-                  {candidate.name.split(" ").slice(1).join(" ")}
-                </span>
-              </motion.h1>
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex flex-wrap gap-2"
-              >
-                <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-full text-white/70 text-sm">
-                  <GraduationCap className="w-4 h-4 text-white/70" />
-                  {candidate.grade}
-                </span>
-                <span className="flex items-center gap-1.5 bg-[#a32f2c]/25 border border-[#a32f2c]/40 px-3 py-1.5 rounded-full text-white text-sm font-semibold">
-                  <Star className="w-4 h-4" />
-                  Candidate No. {candidate.number}
-                </span>
-              </motion.div>
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mt-6 text-white/50 italic text-lg"
-              >
-                &ldquo;{candidate.slogan}&rdquo;
-              </motion.p>
+    <div className="min-h-screen bg-white dark:bg-slate-950">
+      <section className="relative overflow-hidden bg-[#0d3063]">
+        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)", backgroundSize: "44px 44px" }} />
+        <div className="absolute -right-28 bottom-0 h-72 w-72 rounded-full bg-[#a32f2c]/30 blur-3xl" />
+        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-20 lg:grid-cols-[1fr_380px]">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="mb-6 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-white/80">
+              {t("about.subtitle")}
             </div>
-            {/* Right: Photo (small, in hero) */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="max-w-[260px] mx-auto lg:ml-auto"
-            >
-              <CandidatePhoto />
-            </motion.div>
-          </div>
+            <h1 className="text-5xl font-black leading-[1.15] text-white sm:text-6xl">
+              {candidate.name}
+            </h1>
+            <p className="mt-5 max-w-2xl text-xl font-medium leading-9 text-white/75">
+              “{candidate.slogan}”
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <span className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white">
+                {candidate.grade}
+              </span>
+              <span className="rounded-full bg-[#a32f2c] px-4 py-2 text-sm font-semibold text-white">
+                หมายเลข {candidate.number}
+              </span>
+            </div>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
+            <CandidatePhoto />
+          </motion.div>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-5xl mx-auto px-6 -mt-10 pb-20">
-        {/* Bio card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+      <main className="mx-auto max-w-5xl px-6 py-16">
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-          className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 p-8 mb-8 relative overflow-hidden"
+          className="relative mb-8 overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900"
         >
-          <Quote className="absolute -top-4 -left-4 w-20 h-20 text-indigo-100 dark:text-indigo-900/40 rotate-180" />
-          <div className="relative z-10">
-            <h2 className="text-xl font-black text-slate-900 dark:text-white mb-4">About Me</h2>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base">{candidate.bio}</p>
+          <Quote className="absolute -left-4 -top-5 h-20 w-20 rotate-180 text-[#0d3063]/10" />
+          <div className="relative">
+            <h2 className="mb-4 text-2xl font-black text-slate-950 dark:text-white">เกี่ยวกับธิติ</h2>
+            <p className="text-base leading-8 text-slate-600 dark:text-slate-300">{candidate.bio}</p>
           </div>
-        </motion.div>
+        </motion.section>
 
-        {/* Info cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-          {infoCards.map(({ icon: Icon, label, content, grad }, i) => (
+        <section className="mb-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+          {infoCards.map(({ icon: Icon, label, content }, i) => (
             <motion.div
               key={label}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + i * 0.1 }}
+              transition={{ delay: 0.1 + i * 0.07 }}
               whileHover={{ y: -4 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300"
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center shadow-lg`}>
-                  <Icon className="w-5 h-5 text-white" />
+              <div className="mb-4 flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0d3063]">
+                  <Icon className="h-5 w-5 text-white" />
                 </div>
-                <h3 className="font-bold text-slate-900 dark:text-white">{label}</h3>
+                <h3 className="font-bold text-slate-950 dark:text-white">{label}</h3>
               </div>
-              <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{content}</p>
+              <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">{content}</p>
             </motion.div>
           ))}
-        </div>
+        </section>
 
-        {/* Values + Strengths */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-          {/* Values */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
-                <Heart className="w-5 h-5 text-white" />
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-white">{t("about.values")}</h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {candidate.values.map((value, i) => (
-                <span
-                  key={value}
-                  className={`px-3.5 py-1.5 rounded-full text-sm font-semibold border ${tagColors[i % tagColors.length]}`}
-                >
-                  {value}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Strengths */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
-            className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center shadow-lg">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <h3 className="font-bold text-slate-900 dark:text-white">{t("about.strengths")}</h3>
-            </div>
-            <div className="flex flex-col gap-3">
-              {candidate.strengths.map((s, i) => (
-                <div key={s} className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300 w-28 flex-shrink-0">{s}</span>
-                  <AnimatedBar value={90 - i * 8} delay={1 + i * 0.1} />
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Why vote for me */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0 }}
-          className="bg-[#0d3063] rounded-3xl p-8 text-white mb-8 relative overflow-hidden"
+          transition={{ delay: 0.35 }}
+          className="rounded-3xl bg-[#0d3063] p-8 text-white"
         >
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "20px 20px" }} />
-          <div className="relative z-10">
-            <h3 className="text-2xl font-black mb-4">Why Vote for Me?</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                { emoji: "🎯", title: "Results-Driven", desc: "Every policy I propose has a clear action plan and measurable outcome." },
-                { emoji: "👂", title: "Student-First", desc: "I listen to students first. Your problems become my agenda." },
-                { emoji: "⚡", title: "Quick to Act", desc: "I don't wait. I bring proposals to administration within the first week." },
-              ].map(({ emoji, title, desc }) => (
-                <div key={title} className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
-                  <div className="text-3xl mb-2">{emoji}</div>
-                  <div className="font-bold mb-1">{title}</div>
-                  <div className="text-white/70 text-sm">{desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+          <h3 className="mb-4 text-2xl font-black">ทำไมถึงอยากเป็นตัวแทนนักเรียน</h3>
+          <p className="max-w-3xl text-base leading-8 text-white/75">
+            ผมเชื่อว่าสภานักเรียนไม่ควรเป็นแค่คนจัดงาน แต่ควรเป็นคนที่ช่วยฟังและส่งต่อปัญหาของเพื่อน ๆ ให้ถึงคนที่แก้ได้จริง
+          </p>
+        </motion.section>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1 }}
-          className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+          transition={{ delay: 0.45 }}
+          className="mt-8 flex flex-col items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center"
         >
           <div className="flex items-center gap-4">
-            <MessageCircle className="w-8 h-8 text-[#a32f2c] flex-shrink-0" />
+            <MessageCircle className="h-8 w-8 text-[#a32f2c]" />
             <div>
-              <div className="font-bold text-slate-900 dark:text-white">Have a question or idea?</div>
-              <div className="text-sm text-slate-500 dark:text-slate-400">Your voice shapes my campaign.</div>
+              <p className="font-bold text-slate-950 dark:text-white">มีเรื่องอยากให้ช่วยดูไหม?</p>
+              <p className="text-sm leading-6 text-slate-500 dark:text-slate-400">ส่งความคิดเห็นมาได้เลย ผมอยากฟังจริง ๆ</p>
             </div>
           </div>
-          <Link
-            href="/feedback"
-            className="flex items-center gap-2 px-6 py-3 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-xl transition-colors flex-shrink-0"
-          >
-            Share Feedback <ChevronRight className="w-4 h-4" />
+          <Link href="/feedback" className="inline-flex items-center gap-2 rounded-xl bg-[#a32f2c] px-6 py-3 font-bold text-white transition hover:bg-[#8f2926]">
+            เสนอความคิดเห็น <ChevronRight className="h-4 w-4" />
           </Link>
-        </motion.div>
-      </div>
+        </motion.section>
+      </main>
     </div>
   );
 }

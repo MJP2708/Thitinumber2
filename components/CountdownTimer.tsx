@@ -78,7 +78,7 @@ export default function CountdownTimer() {
       </h2>
       {isOver ? (
         <div className="text-3xl font-black text-[#a32f2c] dark:text-white">
-          🗳️ Election Day is Here!
+          ถึงวันเลือกตั้งแล้ว
         </div>
       ) : (
         <div className="flex items-center justify-center gap-4 sm:gap-6">
@@ -92,7 +92,7 @@ export default function CountdownTimer() {
         </div>
       )}
       <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
-        Election Date:{" "}
+        วันเลือกตั้ง:{" "}
         <span className="font-semibold text-slate-700 dark:text-slate-300">
           {new Date(candidate.electionDate).toLocaleDateString("en-US", {
             weekday: "long",

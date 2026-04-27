@@ -48,7 +48,8 @@ interface AppContextType {
   addPolicy: (policy: Omit<Policy, "id">) => void;
   updatePolicy: (id: string, data: Partial<Policy>) => void;
   deletePolicy: (id: string) => void;
-  addFeedback: (feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead">) => void;
+  addFeedback: (feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead" | "likes">) => void;
+  likeFeedback: (id: string) => boolean;
   markFeedbackRead: (id: string) => void;
   deleteFeedback: (id: string) => void;
 }
@@ -60,7 +61,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [policies, setPolicies] = useState<Policy[]>(defaultPolicies);
   const [feedbackList, setFeedbackList] = useState<FeedbackItem[]>([]);
   const [theme, setTheme] = useState<Theme>("light");
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>("th");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
 
@@ -72,15 +73,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setCandidate({
           ...defaultCandidate,
           ...storedCandidate,
-          name: storedCandidate.name === "Matthew Prueksakij" ? defaultCandidate.name : storedCandidate.name,
+          name: /^[A-Za-z\s]+$/.test(storedCandidate.name || "") ? defaultCandidate.name : storedCandidate.name,
           number: storedCandidate.number === 7 ? defaultCandidate.number : storedCandidate.number,
           electionDate: storedCandidate.electionDate === "2026-05-15" ? defaultCandidate.electionDate : storedCandidate.electionDate,
         });
       }
       const sp = localStorage.getItem("policies");
-      if (sp) setPolicies(JSON.parse(sp));
+      if (sp) {
+        const storedPolicies = JSON.parse(sp) as Policy[];
+        setPolicies(storedPolicies.some((policy) => /^[A-Za-z\s]+$/.test(policy.title || "")) ? defaultPolicies : storedPolicies);
+      }
       const sf = localStorage.getItem("feedback");
-      if (sf) setFeedbackList(JSON.parse(sf));
+      if (sf) {
+        const storedFeedback = JSON.parse(sf) as Array<Partial<FeedbackItem>>;
+        setFeedbackList(storedFeedback.map((item) => ({
+          id: item.id || Date.now().toString(),
+          name: item.name || "",
+          grade: item.grade,
+          message: item.message || "",
+          category: item.category || "อื่น ๆ",
+          timestamp: item.timestamp || new Date().toISOString(),
+          isRead: item.isRead ?? false,
+          likes: item.likes ?? 0,
+        })));
+      }
       const st = localStorage.getItem("theme") as Theme | null;
       if (st) setTheme(st);
       const sl = localStorage.getItem("language") as Language | null;
@@ -171,12 +187,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const addFeedback = useCallback((feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead">) => {
+  const addFeedback = useCallback((feedback: Omit<FeedbackItem, "id" | "timestamp" | "isRead" | "likes">) => {
     setFeedbackList((prev) => {
-      const updated = [{ ...feedback, id: Date.now().toString(), timestamp: new Date().toISOString(), isRead: false }, ...prev];
+      const updated = [{ ...feedback, id: Date.now().toString(), timestamp: new Date().toISOString(), isRead: false, likes: 0 }, ...prev];
       try { localStorage.setItem("feedback", JSON.stringify(updated)); } catch {}
       return updated;
     });
+  }, []);
+
+  const likeFeedback = useCallback((id: string): boolean => {
+    try {
+      const liked = JSON.parse(localStorage.getItem("likedFeedbackIds") || "[]") as string[];
+      if (liked.includes(id)) return false;
+      const updatedLiked = [...liked, id];
+      localStorage.setItem("likedFeedbackIds", JSON.stringify(updatedLiked));
+    } catch {
+      return false;
+    }
+
+    setFeedbackList((prev) => {
+      const updated = prev.map((f) => (f.id === id ? { ...f, likes: (f.likes || 0) + 1 } : f));
+      try { localStorage.setItem("feedback", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    return true;
   }, []);
 
   const markFeedbackRead = useCallback((id: string) => {
@@ -205,7 +239,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         toasts, showToast, removeToast,
         updateCandidate,
         addPolicy, updatePolicy, deletePolicy,
-        addFeedback, markFeedbackRead, deleteFeedback,
+        addFeedback, likeFeedback, markFeedbackRead, deleteFeedback,
       }}
     >
       {children}

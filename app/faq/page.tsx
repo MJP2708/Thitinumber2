@@ -32,7 +32,7 @@ export default function FAQPage() {
             className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-4 py-2 rounded-full text-white/80 text-xs font-bold uppercase tracking-widest mb-5"
           >
             <HelpCircle className="w-3.5 h-3.5" />
-            FAQ
+            คำถามที่พบบ่อย
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -40,7 +40,7 @@ export default function FAQPage() {
             transition={{ delay: 0.1 }}
             className="text-5xl sm:text-6xl font-black mb-4"
           >
-            Everything You Need to Know
+            เรื่องที่เพื่อน ๆ อาจอยากรู้
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -48,7 +48,7 @@ export default function FAQPage() {
             transition={{ delay: 0.2 }}
             className="text-white/70 text-lg"
           >
-            Campaign answers from {candidate.name}, Candidate No. {candidate.number}.
+            รวมคำตอบสั้น ๆ จาก {candidate.name} ผู้สมัครหมายเลข {candidate.number}
           </motion.p>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function FAQPage() {
               <Calendar className="w-8 h-8" />
             </div>
             <div className="flex-1">
-              <div className="text-white/70 text-sm font-bold uppercase tracking-widest mb-1">Election Day</div>
+              <div className="text-white/70 text-sm font-bold uppercase tracking-widest mb-1">วันเลือกตั้ง</div>
               <div className="text-3xl font-black">
                 {new Date(candidate.electionDate).toLocaleDateString("en-US", {
                   weekday: "long",
@@ -81,7 +81,7 @@ export default function FAQPage() {
               className="flex items-center gap-2 px-4 py-2.5 bg-white/15 hover:bg-white/25 rounded-xl transition-colors text-sm font-semibold border border-white/20 flex-shrink-0"
             >
               <Share2 className="w-4 h-4" />
-              Share
+              แชร์
             </button>
           </div>
         </motion.div>
@@ -96,7 +96,7 @@ export default function FAQPage() {
             <div className="w-10 h-10 rounded-xl bg-[#0d3063] flex items-center justify-center shadow-md">
               <HelpCircle className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white">คำถามที่พบบ่อย</h2>
           </div>
           <div className="divide-y divide-slate-100 dark:divide-slate-800">
             {defaultFAQ.map((faq, i) => (

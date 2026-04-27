@@ -35,7 +35,7 @@ export default function AdminSidebar() {
             {candidate.number}
           </div>
           <div>
-            <div className="font-bold text-sm text-slate-900 dark:text-white">Admin Panel</div>
+            <div className="font-bold text-sm text-slate-900 dark:text-white">หน้าจัดการผู้สมัคร</div>
             <div className="text-xs text-[#a32f2c] dark:text-white/70">{candidate.name.split(" ")[0]}</div>
           </div>
         </div>
@@ -70,7 +70,7 @@ export default function AdminSidebar() {
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-white transition-colors"
         >
           <ExternalLink className="w-4 h-4" />
-          View Public Site
+          ดูหน้าเว็บจริง
         </Link>
         <button
           onClick={handleLogout}

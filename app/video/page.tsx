@@ -67,7 +67,7 @@ export default function VideoPage() {
         >
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
             <h3 className="font-bold text-slate-900 dark:text-white mb-2">
-              About the Candidate
+              เกี่ยวกับผู้สมัคร
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               {candidate.bio}
@@ -75,7 +75,7 @@ export default function VideoPage() {
           </div>
           <div className="bg-[#0d3063] rounded-2xl p-6 text-white">
             <div className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-1">
-              Candidate No.
+              ผู้สมัครหมายเลข
             </div>
             <div className="text-7xl font-black leading-none mb-4">
               {candidate.number}

@@ -4,15 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  FileText,
-  MessageCircle,
-  Video,
-  User,
-  TrendingUp,
-  ChevronRight,
-  Bell,
-} from "lucide-react";
+import { CalendarDays, ChevronRight, FileText, Heart, MessageCircle, User, Video } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import AdminSidebar from "@/components/AdminSidebar";
 
@@ -26,41 +18,13 @@ export default function AdminDashboard() {
 
   if (!isAuthenticated) return null;
 
-  const unreadCount = feedbackList.filter((f) => !f.isRead).length;
-
+  const totalLikes = feedbackList.reduce((sum, item) => sum + (item.likes || 0), 0);
   const stats = [
-    {
-      label: "Policies",
-      value: policies.length,
-      icon: FileText,
-      color: "from-indigo-500 to-blue-600",
-      href: "/admin/policies",
-      desc: `${policies.length} active policies`,
-    },
-    {
-      label: "Feedback",
-      value: feedbackList.length,
-      icon: MessageCircle,
-      color: "from-purple-500 to-indigo-600",
-      href: "/admin/feedback",
-      desc: `${unreadCount} unread`,
-    },
-    {
-      label: "Campaign Video",
-      value: candidate.videoUrl ? "Set" : "Not set",
-      icon: Video,
-      color: "from-rose-500 to-pink-600",
-      href: "/admin/video",
-      desc: candidate.videoUrl ? "Video URL configured" : "No video uploaded",
-    },
-    {
-      label: "Election Date",
-      value: new Date(candidate.electionDate).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-      icon: TrendingUp,
-      color: "from-emerald-500 to-teal-600",
-      href: "/admin/candidate",
-      desc: candidate.electionDate,
-    },
+    { label: "นโยบาย", value: policies.length, icon: FileText, href: "/admin/policies", desc: "นโยบายที่แสดงบนเว็บ" },
+    { label: "ความคิดเห็น", value: feedbackList.length, icon: MessageCircle, href: "/admin/feedback", desc: "ข้อเสนอจากนักเรียน" },
+    { label: "คนเห็นด้วย", value: totalLikes, icon: Heart, href: "/admin/feedback", desc: "ยอดถูกใจรวม" },
+    { label: "วิดีโอ", value: candidate.videoUrl ? "ตั้งแล้ว" : "ยังไม่มี", icon: Video, href: "/admin/video", desc: "วิดีโอแนะนำตัว" },
+    { label: "วันเลือกตั้ง", value: new Date(candidate.electionDate).toLocaleDateString("th-TH", { day: "numeric", month: "short" }), icon: CalendarDays, href: "/admin/candidate", desc: candidate.electionDate },
   ];
 
   const quickActions = [
@@ -73,196 +37,88 @@ export default function AdminDashboard() {
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <AdminSidebar />
-
-      <main className="flex-1 p-8 overflow-auto">
-        {/* Header */}
+      <main className="flex-1 overflow-auto p-8">
         <div className="mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white">
-              {t("admin.dashboard")}
-            </h1>
-            <p className="text-slate-500 dark:text-slate-400 mt-1">
-              Welcome back! Here&apos;s your campaign overview.
-            </p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <h1 className="text-3xl font-black text-slate-950 dark:text-white">{t("admin.dashboard")}</h1>
+            <p className="mt-1 text-slate-500 dark:text-slate-400">ภาพรวมเว็บหาเสียงของผู้สมัครหมายเลข {candidate.number}</p>
           </motion.div>
         </div>
 
-        {/* Unread notification */}
-        {unreadCount > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6 flex items-center gap-3 bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 rounded-2xl px-5 py-4"
-          >
-            <Bell className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
-            <p className="text-sm text-indigo-700 dark:text-indigo-300 flex-1">
-              You have <strong>{unreadCount} unread feedback</strong> submission{unreadCount !== 1 ? "s" : ""}.
-            </p>
-            <Link
-              href="/admin/feedback"
-              className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
-            >
-              View <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </motion.div>
-        )}
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-5 mb-8">
-          {stats.map(({ label, value, icon: Icon, color, href, desc }, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
-            >
-              <Link
-                href={href}
-                className="block bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 card-hover shadow-sm group"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div
-                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center shadow-md`}
-                  >
-                    <Icon className="w-5 h-5 text-white" />
+        <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-5">
+          {stats.map(({ label, value, icon: Icon, href, desc }, i) => (
+            <motion.div key={label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
+              <Link href={href} className="group block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0d3063]">
+                    <Icon className="h-5 w-5 text-white" />
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-300 dark:text-slate-700 group-hover:text-indigo-500 transition-colors" />
+                  <ChevronRight className="h-4 w-4 text-slate-300 group-hover:text-[#a32f2c]" />
                 </div>
-                <div className="text-2xl font-black text-slate-900 dark:text-white mb-0.5">
-                  {value}
-                </div>
-                <div className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                  {label}
-                </div>
-                <div className="text-xs text-slate-400 dark:text-slate-600 mt-0.5">
-                  {desc}
-                </div>
+                <div className="mb-0.5 text-2xl font-black text-slate-950 dark:text-white">{value}</div>
+                <div className="text-sm font-semibold text-slate-700 dark:text-slate-300">{label}</div>
+                <div className="mt-0.5 text-xs text-slate-400 dark:text-slate-600">{desc}</div>
               </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* Quick Actions + Recent Feedback */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Quick Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
-          >
-            <h2 className="font-bold text-slate-900 dark:text-white mb-4">
-              Quick Actions
-            </h2>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+            <h2 className="mb-4 font-bold text-slate-950 dark:text-white">เมนูลัด</h2>
             <div className="grid grid-cols-2 gap-3">
               {quickActions.map(({ label, href, icon: Icon }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all text-slate-700 dark:text-slate-300 text-sm font-medium"
-                >
-                  <Icon className="w-4 h-4 flex-shrink-0" />
+                <Link key={href} href={href} className="flex items-center gap-3 rounded-xl bg-slate-50 p-3 text-sm font-medium text-slate-700 transition hover:bg-[#0d3063]/10 hover:text-[#0d3063] dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">
+                  <Icon className="h-4 w-4 flex-shrink-0" />
                   {label}
                 </Link>
               ))}
             </div>
-          </motion.div>
+          </section>
 
-          {/* Recent Feedback */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-bold text-slate-900 dark:text-white">
-                Recent Feedback
-              </h2>
-              <Link
-                href="/admin/feedback"
-                className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold hover:underline"
-              >
-                View all
-              </Link>
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="font-bold text-slate-950 dark:text-white">ความคิดเห็นล่าสุด</h2>
+              <Link href="/admin/feedback" className="text-xs font-semibold text-[#a32f2c] hover:underline">ดูทั้งหมด</Link>
             </div>
             {feedbackList.length === 0 ? (
-              <div className="text-center py-8 text-slate-400">
-                <MessageCircle className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                <p className="text-sm">No feedback yet</p>
+              <div className="py-8 text-center text-slate-400">
+                <MessageCircle className="mx-auto mb-2 h-8 w-8 opacity-40" />
+                <p className="text-sm">ยังไม่มีความคิดเห็น</p>
               </div>
             ) : (
               <div className="space-y-3">
                 {feedbackList.slice(0, 3).map((item) => (
-                  <div
-                    key={item.id}
-                    className={`p-3 rounded-xl border text-sm ${
-                      !item.isRead
-                        ? "border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/30"
-                        : "border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-semibold text-slate-900 dark:text-white">
-                        {item.name}
-                      </span>
-                      <span className="text-xs text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">
-                        {item.category}
-                      </span>
+                  <div key={item.id} className="rounded-xl border border-slate-100 bg-slate-50 p-3 text-sm dark:border-slate-800 dark:bg-slate-800/50">
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                      <span className="font-semibold text-slate-950 dark:text-white">{item.name || "ไม่ระบุชื่อ"}</span>
+                      <span className="rounded-full bg-white px-2 py-0.5 text-xs text-slate-500 dark:bg-slate-700">{item.category}</span>
                     </div>
-                    <p className="text-slate-600 dark:text-slate-400 line-clamp-2">
-                      {item.message}
-                    </p>
+                    <p className="line-clamp-2 leading-6 text-slate-600 dark:text-slate-400">{item.message}</p>
                   </div>
                 ))}
               </div>
             )}
-          </motion.div>
+          </section>
         </div>
 
-        {/* Candidate preview */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-6 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 text-white"
-        >
-          <div className="flex items-center justify-between">
+        <section className="mt-6 rounded-2xl bg-[#0d3063] p-6 text-white">
+          <div className="flex items-center justify-between gap-4">
             <div>
-              <div className="text-xs font-semibold uppercase tracking-widest text-indigo-200 mb-1">
-                Current Campaign
-              </div>
+              <div className="mb-1 text-xs font-semibold uppercase tracking-widest text-white/60">แคมเปญปัจจุบัน</div>
               <h3 className="text-2xl font-black">{candidate.name}</h3>
-              <p className="text-indigo-200 mt-1 italic text-sm">
-                &ldquo;{candidate.slogan}&rdquo;
-              </p>
+              <p className="mt-1 text-sm italic text-white/70">“{candidate.slogan}”</p>
             </div>
             <div className="text-right">
-              <div className="text-xs text-indigo-200 mb-1">Candidate No.</div>
-              <div className="text-6xl font-black leading-none">
-                {candidate.number}
-              </div>
+              <div className="mb-1 text-xs text-white/60">หมายเลข</div>
+              <div className="text-6xl font-black leading-none">{candidate.number}</div>
             </div>
           </div>
           <div className="mt-4 flex gap-3">
-            <Link
-              href="/"
-              target="_blank"
-              className="text-xs font-semibold bg-white/20 hover:bg-white/30 transition-colors px-4 py-2 rounded-lg"
-            >
-              View Public Site
-            </Link>
-            <Link
-              href="/admin/candidate"
-              className="text-xs font-semibold bg-white/20 hover:bg-white/30 transition-colors px-4 py-2 rounded-lg"
-            >
-              Edit Info
-            </Link>
+            <Link href="/" target="_blank" className="rounded-lg bg-white/20 px-4 py-2 text-xs font-semibold transition hover:bg-white/30">ดูหน้าเว็บจริง</Link>
+            <Link href="/admin/candidate" className="rounded-lg bg-white/20 px-4 py-2 text-xs font-semibold transition hover:bg-white/30">แก้ไขข้อมูล</Link>
           </div>
-        </motion.div>
+        </section>
       </main>
     </div>
   );

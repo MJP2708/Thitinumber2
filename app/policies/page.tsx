@@ -6,12 +6,12 @@ import { Search, Filter, FileText } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import PolicyCard from "@/components/PolicyCard";
 
-const CATEGORIES = ["All", "Technology", "Wellness", "Culture", "Environment", "Education", "Other"];
+const CATEGORIES = ["ทั้งหมด", "การสื่อสาร", "ชีวิตนักเรียน", "กิจกรรม", "สิ่งแวดล้อม", "การเรียน", "อื่น ๆ"];
 
 export default function PoliciesPage() {
   const { policies, t } = useApp();
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("ทั้งหมด");
 
   const filtered = useMemo(() => {
     return policies.filter((p) => {
@@ -20,14 +20,14 @@ export default function PoliciesPage() {
         p.description.toLowerCase().includes(search.toLowerCase()) ||
         p.category.toLowerCase().includes(search.toLowerCase());
       const matchesCategory =
-        activeCategory === "All" || p.category === activeCategory;
+        activeCategory === "ทั้งหมด" || p.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
   }, [policies, search, activeCategory]);
 
   const usedCategories = useMemo(() => {
     const cats = new Set(policies.map((p) => p.category));
-    return CATEGORIES.filter((c) => c === "All" || cats.has(c));
+    return CATEGORIES.filter((c) => c === "ทั้งหมด" || cats.has(c));
   }, [policies]);
 
   return (
@@ -42,7 +42,7 @@ export default function PoliciesPage() {
             className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-4"
           >
             <FileText className="w-4 h-4" />
-            {policies.length} Policies
+            {policies.length} นโยบาย
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -94,7 +94,7 @@ export default function PoliciesPage() {
                       : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-[#0d3063]/10 dark:hover:bg-white/10 hover:text-[#0d3063] dark:hover:text-white"
                   }`}
                 >
-                  {cat === "All" ? t("policies.all") : cat}
+                  {cat === "ทั้งหมด" ? t("policies.all") : cat}
                 </button>
               ))}
             </div>
@@ -113,7 +113,7 @@ export default function PoliciesPage() {
           ) : (
             <>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-                Showing {filtered.length} of {policies.length} policies
+                แสดง {filtered.length} จาก {policies.length} นโยบาย
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filtered.map((policy, i) => (

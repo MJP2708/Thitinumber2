@@ -37,7 +37,7 @@ export default function AdminVideoPage() {
   };
 
   const fieldClass =
-    "w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent";
+    "w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent";
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -51,12 +51,12 @@ export default function AdminVideoPage() {
                 {t("admin.video")}
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">
-                Upload or update your campaign video
+                เพิ่มหรือแก้ไขวิดีโอแนะนำตัวของผู้สมัคร
               </p>
             </div>
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-indigo-600/20"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-semibold rounded-xl transition-colors shadow-lg shadow-[#a32f2c]/20"
             >
               <Save className="w-4 h-4" />
               {t("admin.save")}
@@ -71,17 +71,17 @@ export default function AdminVideoPage() {
               className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
             >
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                Video URL
+                ลิงก์วิดีโอ
               </label>
               <p className="text-xs text-slate-400 mb-3">
-                Supports YouTube links (e.g., https://youtu.be/...) or direct video file URLs (.mp4)
+                รองรับลิงก์ YouTube หรือไฟล์วิดีโอโดยตรง เช่น .mp4
               </p>
               <div className="flex gap-2">
                 <input
                   type="url"
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
-                  placeholder="https://youtube.com/watch?v=... or https://youtu.be/..."
+                  placeholder="https://youtube.com/watch?v=... หรือ https://youtu.be/..."
                   className={fieldClass}
                 />
                 {videoUrl && (
@@ -102,7 +102,7 @@ export default function AdminVideoPage() {
                   className="mt-2 inline-flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
                 >
                   <ExternalLink className="w-3 h-3" />
-                  Open in new tab
+                  เปิดดูในแท็บใหม่
                 </a>
               )}
             </motion.div>
@@ -115,13 +115,13 @@ export default function AdminVideoPage() {
               className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
             >
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                Video Title
+                ชื่อวิดีโอ
               </label>
               <input
                 type="text"
                 value={videoTitle}
                 onChange={(e) => setVideoTitle(e.target.value)}
-                placeholder="Campaign video title"
+                placeholder="เช่น วิดีโอแนะนำตัวหมายเลข 2"
                 className={fieldClass}
               />
             </motion.div>
@@ -134,13 +134,13 @@ export default function AdminVideoPage() {
               className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
             >
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                Video Description
+                รายละเอียดวิดีโอ
               </label>
               <textarea
                 value={videoDescription}
                 onChange={(e) => setVideoDescription(e.target.value)}
                 rows={4}
-                placeholder="Describe your campaign video..."
+                placeholder="อธิบายวิดีโอสั้น ๆ"
                 className={`${fieldClass} resize-none`}
               />
             </motion.div>
@@ -156,7 +156,7 @@ export default function AdminVideoPage() {
                 className="flex items-center gap-2 px-5 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl transition-colors text-sm"
               >
                 <Video className="w-4 h-4" />
-                {preview ? "Hide Preview" : "Preview Video"}
+                {preview ? "ซ่อนตัวอย่าง" : "ดูตัวอย่างวิดีโอ"}
               </button>
             </motion.div>
 
@@ -169,7 +169,7 @@ export default function AdminVideoPage() {
                 className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 overflow-hidden"
               >
                 <h3 className="font-bold text-slate-900 dark:text-white mb-4 text-sm">
-                  Preview
+                  ตัวอย่าง
                 </h3>
                 <VideoSection />
               </motion.div>
@@ -179,7 +179,7 @@ export default function AdminVideoPage() {
             <div className="flex justify-end pt-4">
               <button
                 onClick={handleSave}
-                className="flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-indigo-600/20 hover:scale-105"
+                className="flex items-center gap-2 px-8 py-3 bg-[#a32f2c] hover:bg-[#8f2926] text-white font-bold rounded-xl transition-colors shadow-lg shadow-[#a32f2c]/20 hover:scale-105"
               >
                 <Save className="w-4 h-4" />
                 {t("admin.save")}

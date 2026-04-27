@@ -12,9 +12,9 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Thiti Saelee - Candidate No. 2 | Students First, Future Forward",
+  title: "ธิติ แซ่ลี้ - ผู้สมัครหมายเลข 2",
   description:
-    "Student Council Campaign Website for Thiti Saelee, Candidate Number 2. Students First, Future Forward.",
+    "เว็บไซต์หาเสียงสภานักเรียนของ ธิติ แซ่ลี้ ผู้สมัครหมายเลข 2",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geist.variable} suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+      <body className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors duration-300 leading-relaxed">
         <AppProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
