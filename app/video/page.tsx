@@ -24,7 +24,7 @@ export default function VideoPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-4"
+            className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-full text-sm font-semibold mb-4"
           >
             <Video className="w-4 h-4" />
             {labels.video.title}
@@ -48,7 +48,7 @@ export default function VideoPage() {
         </div>
       </div>
 
-      <div className="mx-auto -mt-10 max-w-5xl px-4 pb-20 sm:-mt-12 sm:px-6">
+      <div className="relative z-10 mx-auto -mt-8 max-w-5xl px-4 pb-20 sm:-mt-12 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
