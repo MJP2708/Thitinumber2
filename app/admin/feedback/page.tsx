@@ -151,9 +151,9 @@ export default function AdminFeedbackPage() {
                         <span className="text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-full">
                           {item.category}
                         </span>
-                        {item.email && (
-                          <span className="text-xs text-slate-400">
-                            {item.email}
+                        {item.grade && (
+                          <span className="text-xs text-slate-400 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-500 dark:text-indigo-400 px-2 py-0.5 rounded-full">
+                            {item.grade}
                           </span>
                         )}
                         <span className="text-xs text-slate-400 ml-auto">

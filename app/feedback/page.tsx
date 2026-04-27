@@ -19,7 +19,7 @@ export default function FeedbackPage() {
   const { addFeedback, t, showToast } = useApp();
   const [form, setForm] = useState({
     name: "",
-    email: "",
+    grade: "",
     category: "Other",
     message: "",
   });
@@ -43,7 +43,7 @@ export default function FeedbackPage() {
     }
     addFeedback({
       name: form.name.trim(),
-      email: form.email.trim() || undefined,
+      grade: form.grade.trim() || undefined,
       category: form.category,
       message: form.message.trim(),
     });
@@ -52,7 +52,7 @@ export default function FeedbackPage() {
   };
 
   const handleReset = () => {
-    setForm({ name: "", email: "", category: "Other", message: "" });
+    setForm({ name: "", grade: "", category: "Other", message: "" });
     setErrors({});
     setSubmitted(false);
   };
@@ -157,18 +157,18 @@ export default function FeedbackPage() {
                   )}
                 </div>
 
-                {/* Email */}
+                {/* Grade */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                    {t("feedback.email")}
+                    {t("feedback.grade")}
                   </label>
                   <input
-                    type="email"
-                    value={form.email}
+                    type="text"
+                    value={form.grade}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, email: e.target.value }))
+                      setForm((f) => ({ ...f, grade: e.target.value }))
                     }
-                    placeholder={t("feedback.email.placeholder")}
+                    placeholder={t("feedback.grade.placeholder")}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
                 </div>

@@ -12,12 +12,13 @@ import {
   TrendingUp,
   ChevronRight,
   Bell,
+  Image as ImageIcon,
 } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import AdminSidebar from "@/components/AdminSidebar";
 
 export default function AdminDashboard() {
-  const { isAuthenticated, candidate, policies, feedbackList, t } = useApp();
+  const { isAuthenticated, candidate, policies, feedbackList, gallery, t } = useApp();
   const router = useRouter();
 
   useEffect(() => {
@@ -54,6 +55,14 @@ export default function AdminDashboard() {
       desc: candidate.videoUrl ? "Video URL configured" : "No video uploaded",
     },
     {
+      label: "Gallery Photos",
+      value: gallery.length,
+      icon: ImageIcon,
+      color: "from-violet-500 to-purple-600",
+      href: "/admin/media",
+      desc: `${gallery.length} photo${gallery.length !== 1 ? "s" : ""} in gallery`,
+    },
+    {
       label: "Election Date",
       value: new Date(candidate.electionDate).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       icon: TrendingUp,
@@ -66,6 +75,7 @@ export default function AdminDashboard() {
   const quickActions = [
     { label: t("admin.candidate"), href: "/admin/candidate", icon: User },
     { label: t("admin.policies"), href: "/admin/policies", icon: FileText },
+    { label: "Media & Gallery", href: "/admin/media", icon: ImageIcon },
     { label: t("admin.video"), href: "/admin/video", icon: Video },
     { label: t("admin.feedback"), href: "/admin/feedback", icon: MessageCircle },
   ];
@@ -111,7 +121,7 @@ export default function AdminDashboard() {
         )}
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-5 mb-8">
           {stats.map(({ label, value, icon: Icon, color, href, desc }, i) => (
             <motion.div
               key={label}

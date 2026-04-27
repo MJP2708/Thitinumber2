@@ -34,6 +34,7 @@ const emptyForm: PolicyForm = {
   description: "",
   impact: "",
   icon: "Lightbulb",
+  impactScore: 7,
 };
 
 export default function AdminPoliciesPage() {
@@ -66,6 +67,7 @@ export default function AdminPoliciesPage() {
       description: policy.description,
       impact: policy.impact,
       icon: policy.icon,
+      impactScore: policy.impactScore,
     });
     setShowForm(true);
   };
@@ -198,6 +200,27 @@ export default function AdminPoliciesPage() {
                           <option key={ic}>{ic}</option>
                         ))}
                       </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                        Impact Score (1–10)
+                      </label>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range"
+                          min={1}
+                          max={10}
+                          value={form.impactScore}
+                          onChange={(e) =>
+                            setForm((f) => ({ ...f, impactScore: Number(e.target.value) }))
+                          }
+                          className="flex-1 accent-indigo-600"
+                        />
+                        <span className="w-8 text-center font-black text-indigo-600 dark:text-indigo-400 text-lg">
+                          {form.impactScore}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="md:col-span-2">
