@@ -3,7 +3,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { useApp } from "@/contexts/AppContext";
 
 interface TimeLeft {
@@ -34,14 +33,9 @@ function FlipCard({ value, label }: FlipCardProps) {
     <div className="flex flex-col items-center gap-2">
       <div className="relative">
         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#0d3063] flex items-center justify-center shadow-lg shadow-[#0d3063]/30">
-          <motion.span
-            key={value}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-2xl sm:text-3xl font-black text-white tabular-nums"
-          >
+          <span className="text-2xl sm:text-3xl font-black text-white tabular-nums">
             {String(value).padStart(2, "0")}
-          </motion.span>
+          </span>
         </div>
       </div>
       <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest">

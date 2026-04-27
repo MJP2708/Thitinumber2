@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { defaultFAQ } from "@/lib/defaultData";
 import { useApp } from "@/contexts/AppContext";
@@ -24,28 +24,21 @@ export default function FAQ() {
         </div>
 
         <div className="space-y-3">
-          {defaultFAQ.map((faq, i) => (
-            <motion.div
+          {defaultFAQ.map((faq) => (
+            <div
               key={faq.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
               className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden"
             >
               <button
                 onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
-                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors min-h-[56px]"
               >
                 <span className="font-semibold text-slate-900 dark:text-white pr-4">
                   {faq.question}
                 </span>
-                <motion.div
-                  animate={{ rotate: openId === faq.id ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex-shrink-0"
-                >
+                <div className={`flex-shrink-0 transition-transform duration-200 ${openId === faq.id ? "rotate-180" : ""}`}>
                   <ChevronDown className="w-5 h-5 text-indigo-500" />
-                </motion.div>
+                </div>
               </button>
 
               <AnimatePresence>
@@ -63,7 +56,7 @@ export default function FAQ() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

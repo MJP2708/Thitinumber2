@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   MessageSquare, Heart, Star, Leaf, BookOpen, Zap,
   Globe, Users, Music, Shield, Target, Lightbulb,
@@ -39,7 +39,7 @@ interface PolicyCardProps {
   compact?: boolean;
 }
 
-export default function PolicyCard({ policy, index = 0, compact = false }: PolicyCardProps) {
+export default function PolicyCard({ policy, compact = false }: PolicyCardProps) {
   const { labels } = useApp();
   const [expanded, setExpanded] = useState(false);
   const Icon = IconMap[policy.icon] || Lightbulb;
@@ -47,23 +47,14 @@ export default function PolicyCard({ policy, index = 0, compact = false }: Polic
   const gradient = categoryGradients[policy.category] || categoryGradients.Other;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.09, ease: "easeOut" }}
-      whileHover={{ y: -4 }}
-      className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-[#0d3063]/10 dark:border-slate-800 dark:bg-slate-900"
-    >
+    <div className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#0d3063]/10 dark:border-slate-800 dark:bg-slate-900">
       <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
 
       <div className="p-5">
         <div className="flex items-start gap-4">
-          <motion.div
-            whileHover={{ rotate: 10, scale: 1.1 }}
-            className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}
-          >
+          <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform duration-200 group-hover:rotate-[8deg] group-hover:scale-110`}>
             <Icon className="w-6 h-6 text-white" />
-          </motion.div>
+          </div>
           <div className="flex-1 min-w-0">
             <div className="mb-1.5 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
               <h3 className="break-words text-base font-bold leading-snug text-slate-900 dark:text-white">
@@ -107,13 +98,13 @@ export default function PolicyCard({ policy, index = 0, compact = false }: Polic
               className="mt-4 flex min-h-11 items-center gap-1.5 rounded-lg text-xs font-semibold text-[#0d3063] transition-colors hover:text-[#a32f2c] active:scale-[0.98] dark:text-white"
             >
               <span>{expanded ? labels.policies.readLess : labels.policies.readMore}</span>
-              <motion.div animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+              <div className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>
                 <ChevronDown className="w-3.5 h-3.5" />
-              </motion.div>
+              </div>
             </button>
           </>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
