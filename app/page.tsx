@@ -1,34 +1,39 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
-  ArrowRight, ChevronRight, Share2,
-  Sparkles, Play,
+  ArrowRight,
+  CalendarDays,
+  ChevronRight,
+  FileText,
+  Heart,
+  MessageCircle,
+  Play,
+  Share2,
+  Sparkles,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
-import PolicyCard from "@/components/PolicyCard";
 import CountdownTimer from "@/components/CountdownTimer";
 import FAQ from "@/components/FAQ";
+import PolicyCard from "@/components/PolicyCard";
 import { VideoPreviewCard } from "@/components/VideoSection";
-import { useRouter } from "next/navigation";
 
 function ScrollSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-64px" });
   const prefersReducedMotion = useReducedMotion();
 
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
+  if (prefersReducedMotion) return <div className={className}>{children}</div>;
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -36,249 +41,208 @@ function ScrollSection({ children, className = "" }: { children: React.ReactNode
   );
 }
 
-function CandidatePortrait({ disableAnimation }: { disableAnimation: boolean }) {
+function CandidatePortrait() {
   const { candidate } = useApp();
+
   return (
-    <div className="relative mx-auto w-full max-w-[200px] sm:max-w-[300px]">
-      {/* Glow ring — desktop only */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-[#a32f2c]/30 to-white/10 rounded-3xl blur-2xl scale-105 hidden sm:block" />
-
-      {/* Photo container */}
-      <div className="relative rounded-3xl overflow-hidden aspect-[3/4] border border-white/10 shadow-2xl">
-        {candidate.heroImage ? (
-          <img
-            src={candidate.heroImage}
-            alt={candidate.name}
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-[#0d3063] via-[#123f7d] to-[#a32f2c] flex flex-col items-center justify-center relative overflow-hidden">
-            <span className="absolute text-[160px] font-black leading-none text-white/5 sm:text-[220px]">
-              {candidate.number}
-            </span>
-            <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-xl sm:h-32 sm:w-32">
-              <span className="text-4xl font-black text-white/70 sm:text-6xl">
-                {candidate.name.charAt(0)}
-              </span>
-            </div>
-            <div className="relative z-10 mt-3 text-center px-4">
-              <div className="font-black text-base text-white/80 tracking-wide">
-                {candidate.name.split(" ")[0].toUpperCase()}
+    <div className="relative mx-auto w-full max-w-[250px] sm:max-w-[320px] lg:max-w-none">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-xl">
+        <div className="aspect-[4/5] max-h-[360px] lg:max-h-none">
+          {candidate.heroImage ? (
+            <img
+              src={candidate.heroImage}
+              alt={candidate.name}
+              className="h-full w-full object-cover"
+              loading="eager"
+            />
+          ) : (
+            <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-[#123f7d] to-[#a32f2c] px-6 text-center">
+              <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-lg sm:h-32 sm:w-32">
+                <span className="text-5xl font-black text-white/75 sm:text-6xl">
+                  {candidate.name.charAt(0)}
+                </span>
               </div>
-              <div className="text-white/40 text-xs mt-0.5 font-medium">
-                เพิ่มรูปได้ในหน้าแอดมิน
-              </div>
+              <p className="mt-4 text-sm font-semibold leading-7 text-white/70">
+                เพิ่มรูปผู้สมัครได้จากหน้าแอดมิน
+              </p>
             </div>
-          </div>
-        )}
-
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-3">
-          <div className="text-white/90 font-bold text-xs">{candidate.grade}</div>
-          <div className="text-white/50 text-[10px] italic mt-0.5 line-clamp-1">&ldquo;{candidate.slogan}&rdquo;</div>
+          )}
+        </div>
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4">
+          <div className="text-sm font-bold text-white">{candidate.grade}</div>
+          <div className="line-clamp-1 text-xs italic text-white/60">&ldquo;{candidate.slogan}&rdquo;</div>
         </div>
       </div>
 
-      {/* Vote badge — top-right, safe from content overlap */}
-      <motion.div
-        animate={disableAnimation ? {} : { y: [0, -8, 0] }}
-        transition={disableAnimation ? {} : { repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-        className="absolute -right-2 -top-3 z-20 rounded-xl border border-white/20 bg-[#a32f2c] px-2.5 py-1.5 shadow-xl shadow-[#a32f2c]/40 sm:-right-4 sm:-top-4 sm:px-3 sm:py-2"
-      >
-        <div className="text-[9px] font-black uppercase tracking-widest text-white/75">เลือก</div>
-        <div className="text-2xl font-black leading-none text-white sm:text-4xl">{candidate.number}</div>
-      </motion.div>
+      <div className="absolute -right-2 -top-3 rounded-2xl border border-white/20 bg-[#a32f2c] px-3 py-2 text-white shadow-lg shadow-[#a32f2c]/25 sm:-right-4 sm:-top-4">
+        <div className="text-[10px] font-black tracking-widest text-white/75">เลือก</div>
+        <div className="text-4xl font-black leading-none">{candidate.number}</div>
+      </div>
+    </div>
+  );
+}
+
+function HeroCard({
+  icon: Icon,
+  label,
+  children,
+  accent = false,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  children: React.ReactNode;
+  accent?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border p-4 shadow-sm ${
+        accent
+          ? "border-[#a32f2c]/60 bg-[#a32f2c] text-white"
+          : "border-white/15 bg-white/10 text-white"
+      }`}
+    >
+      <div className="mb-2 flex items-center gap-2 text-xs font-bold text-white/70">
+        <Icon className="h-4 w-4" />
+        {label}
+      </div>
+      <div className="text-lg font-black leading-snug">{children}</div>
     </div>
   );
 }
 
 export default function Home() {
-  const { candidate, policies, labels, showToast } = useApp();
+  const { candidate, policies, feedbackList, labels, showToast } = useApp();
   const router = useRouter();
-  const prefersReducedMotion = useReducedMotion();
-
-  // Start true so mobile devices never flash infinite animations on first render
-  const [isMobile, setIsMobile] = useState(true);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
-    window.addEventListener("resize", check, { passive: true });
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  const disableAnimation = isMobile || !!prefersReducedMotion;
   const topPolicies = policies.slice(0, 3);
+  const topFeedback = [...feedbackList].sort((a, b) => (b.likes || 0) - (a.likes || 0))[0];
 
   const shareLink = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.origin)
-        .then(() => showToast(labels.common.shareCopied, "success"))
-        .catch(() => showToast("Could not copy link", "error"));
-    }
+    if (typeof window === "undefined") return;
+    navigator.clipboard
+      .writeText(window.location.origin)
+      .then(() => showToast(labels.common.shareCopied, "success"))
+      .catch(() => showToast("คัดลอกลิงก์ไม่สำเร็จ", "error"));
   };
 
   return (
-    <div className="overflow-hidden">
-      {/* ── HERO ── */}
-      <section className="relative overflow-hidden bg-[#0d3063] py-8 sm:py-12 lg:py-16">
-
-        {/* Heavy blur blobs — desktop only for GPU savings */}
-        <div className="absolute inset-0 pointer-events-none hidden lg:block">
-          <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-white/10 rounded-full blur-[120px] -translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#a32f2c]/30 rounded-full blur-[100px] translate-x-1/4 translate-y-1/4" />
-          <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-white/5 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2" />
-        </div>
-
-        {/* Lightweight mobile gradient (no blur) */}
-        <div className="absolute inset-0 pointer-events-none lg:hidden">
-          <div className="absolute bottom-0 right-0 w-3/4 h-1/2 bg-[#a32f2c]/12 rounded-tl-[80px]" />
-        </div>
-
-        {/* Grid pattern */}
+    <div className="overflow-hidden bg-white dark:bg-slate-950">
+      <section className="relative overflow-hidden bg-[#0d3063] px-4 py-6 text-white sm:px-6 sm:py-8 lg:py-10">
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.035]"
           style={{
-            backgroundImage: "linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
+            backgroundSize: "42px 42px",
           }}
         />
 
-        {/* Static watermark — no parallax */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-          <span className="text-[40vw] font-black text-white/[0.07] leading-none">
-            {candidate.number}
-          </span>
-        </div>
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 lg:grid-cols-12 lg:gap-5 xl:gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="order-1 lg:order-2 lg:col-span-4"
+          >
+            <CandidatePortrait />
+          </motion.div>
 
-        {/* Content */}
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6">
-          <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-12">
-
-            {/* Portrait: top on mobile, right on desktop */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="flex justify-center order-first lg:order-last pb-2 lg:pb-0"
-            >
-              <CandidatePortrait disableAnimation={disableAnimation} />
-            </motion.div>
-
-            {/* Text: below portrait on mobile, left on desktop */}
-            <div className="text-center lg:text-left order-last lg:order-first">
-              {/* "เลือกเบอร์ 2" campaign badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="mb-4 flex flex-col items-center gap-2 sm:mb-5 lg:items-start"
-              >
-                <div className="inline-flex items-baseline gap-2 rounded-full bg-[#a32f2c] px-5 py-2.5 font-black text-white shadow-xl shadow-[#a32f2c]/30">
-                  <span className="text-sm">เลือกเบอร์</span>
-                  <span className="text-2xl leading-none">2</span>
-                </div>
-                <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3 py-1.5 text-[11px] font-medium text-white/65">
-                  <span className="w-1.5 h-1.5 flex-shrink-0 bg-green-400 rounded-full animate-pulse" />
-                  เลือกตั้งสภานักเรียน 2569
-                </div>
-              </motion.div>
-
-              {/* Candidate name */}
-              <motion.h1
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="mb-4 font-black leading-[1.1]"
-              >
-                <span className="block text-[clamp(2.5rem,13vw,6rem)] text-white">
-                  {candidate.name.split(" ")[0]}
-                </span>
-                <span className="mt-1 block text-[clamp(1.875rem,10vw,4.5rem)] text-white">
-                  {candidate.name.split(" ").slice(1).join(" ")}
-                </span>
-              </motion.h1>
-
-              {/* Slogan */}
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.28 }}
-                className="mb-5"
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="h-px flex-1 bg-gradient-to-r from-[#a32f2c] to-transparent" />
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  <div className="h-px flex-1 bg-gradient-to-l from-[#a32f2c] to-transparent" />
-                </div>
-                <p className="text-center text-base font-medium italic leading-8 text-white/70 sm:text-lg lg:text-left lg:text-2xl">
-                  &ldquo;{candidate.slogan}&rdquo;
-                </p>
-              </motion.div>
-
-              {/* CTA buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.35 }}
-                className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start"
-              >
-                <Link
-                  href="/policies"
-                  className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl bg-[#a32f2c] px-7 py-3.5 font-bold text-white shadow-xl shadow-[#a32f2c]/30 transition-all hover:scale-[1.02] hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
-                >
-                  {labels.home.policiesCta}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/video"
-                  className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/8 px-7 py-3.5 font-semibold text-white transition-all hover:border-white/25 hover:bg-white/14 active:scale-[0.98] sm:w-auto"
-                >
-                  <Play className="w-4 h-4 fill-white" />
-                  {labels.home.videoWatch}
-                </Link>
-                <button
-                  onClick={shareLink}
-                  className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-medium text-white/70 transition-all hover:bg-white/5 hover:text-white/90 active:scale-[0.98] sm:w-auto"
-                >
-                  <Share2 className="w-4 h-4" />
-                  {labels.common.share}
-                </button>
-              </motion.div>
-
-              {/* Quick stats */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-5 grid grid-cols-3 gap-3 sm:flex sm:items-center sm:justify-center sm:gap-8 lg:justify-start"
-              >
-                {[
-                  { value: `เบอร์ ${candidate.number}`, label: "ผู้สมัคร" },
-                  { value: policies.length, label: "นโยบาย" },
-                  { value: candidate.grade, label: "ระดับชั้น" },
-                ].map(({ value, label }) => (
-                  <div key={label} className="text-center min-w-0">
-                    <div className="text-xl font-black text-white sm:text-2xl truncate">{value}</div>
-                    <div className="text-white/40 text-[10px] uppercase tracking-wide mt-0.5">{label}</div>
-                  </div>
-                ))}
-              </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.05 }}
+            className="order-2 text-center lg:order-1 lg:col-span-5 lg:text-left"
+          >
+            <div className="mb-4 flex flex-col items-center gap-2 lg:items-start">
+              <div className="inline-flex items-baseline gap-2 rounded-full bg-[#a32f2c] px-5 py-2.5 font-black text-white shadow-lg shadow-[#a32f2c]/25">
+                <span className="text-sm">เลือกเบอร์</span>
+                <span className="text-3xl leading-none">2</span>
+              </div>
+              <div className="inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/70">
+                เลือกตั้งสภานักเรียน 2569
+              </div>
             </div>
-          </div>
-        </div>
 
+            <h1 className="mb-4 font-black leading-[1.1]">
+              <span className="block text-[clamp(2.5rem,13vw,5.75rem)]">{candidate.name.split(" ")[0]}</span>
+              <span className="block text-[clamp(1.875rem,10vw,4rem)]">{candidate.name.split(" ").slice(1).join(" ")}</span>
+            </h1>
+
+            <div className="mb-5">
+              <div className="mb-2 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gradient-to-r from-[#a32f2c] to-transparent" />
+                <Sparkles className="h-4 w-4 text-amber-300" />
+                <div className="h-px flex-1 bg-gradient-to-l from-[#a32f2c] to-transparent" />
+              </div>
+              <p className="text-base font-medium italic leading-8 text-white/75 sm:text-lg lg:text-2xl">
+                &ldquo;{candidate.slogan}&rdquo;
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+              <Link
+                href="/policies"
+                className="group flex min-h-[52px] items-center justify-center gap-2 rounded-2xl bg-[#a32f2c] px-7 py-3.5 font-bold text-white shadow-lg shadow-[#a32f2c]/25 transition hover:bg-[#8f2926] active:scale-[0.98]"
+              >
+                {labels.home.policiesCta}
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="/video"
+                className="flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-7 py-3.5 font-semibold text-white transition hover:bg-white/15 active:scale-[0.98]"
+              >
+                <Play className="h-4 w-4 fill-white" />
+                {labels.home.videoWatch}
+              </Link>
+              <button
+                onClick={shareLink}
+                className="flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-medium text-white/75 transition hover:bg-white/10 hover:text-white active:scale-[0.98]"
+              >
+                <Share2 className="h-4 w-4" />
+                {labels.common.share}
+              </button>
+            </div>
+          </motion.div>
+
+          <motion.aside
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
+            className="order-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-3 lg:grid-cols-1"
+          >
+            <HeroCard icon={CalendarDays} label="วันเลือกตั้ง">29 พ.ค. 2569</HeroCard>
+            <HeroCard icon={FileText} label="นโยบาย">{policies.length} เรื่องที่อยากทำจริง</HeroCard>
+            <HeroCard icon={MessageCircle} label="เสียงจากเพื่อน ๆ">
+              {topFeedback ? (
+                <span className="line-clamp-2 text-base leading-7">{topFeedback.message}</span>
+              ) : (
+                <span className="text-base leading-7">ยังไม่มีข้อเสนอ ลองเป็นคนแรกได้เลย</span>
+              )}
+            </HeroCard>
+            <HeroCard icon={Heart} label="จำไว้ในวันเลือกตั้ง" accent>
+              เลือกหมายเลข {candidate.number}
+            </HeroCard>
+          </motion.aside>
+        </div>
       </section>
 
-      {/* ── TOP POLICIES ── */}
-      <ScrollSection className="relative overflow-hidden bg-slate-50 px-4 py-8 dark:bg-slate-950 sm:px-6 sm:py-10">
-        {/* Subtle "2" watermark */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex select-none items-center overflow-hidden">
-          <span className="translate-x-1/4 text-[18rem] font-black leading-none text-[#0d3063]/[0.04] dark:text-white/[0.04]">
-            2
-          </span>
+      <section className="bg-white px-4 py-5 dark:bg-slate-900 sm:px-6">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { value: `เบอร์ ${candidate.number}`, label: "ผู้สมัคร" },
+            { value: policies.length, label: "นโยบาย" },
+            { value: feedbackList.length, label: "ความคิดเห็น" },
+            { value: candidate.grade, label: "ระดับชั้น" },
+          ].map(({ value, label }) => (
+            <div key={label} className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm dark:border-slate-800 dark:bg-slate-950">
+              <div className="truncate text-xl font-black text-[#0d3063] dark:text-white">{value}</div>
+              <div className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">{label}</div>
+            </div>
+          ))}
         </div>
-        <div className="relative z-10 mx-auto max-w-6xl">
+      </section>
+
+      <ScrollSection className="bg-slate-50 px-4 py-8 dark:bg-slate-950 sm:px-6 sm:py-10">
+        <div className="mx-auto max-w-6xl">
           <div className="mb-5 text-center">
             <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#a32f2c] px-4 py-1.5 text-xs font-bold text-white">
               เบอร์ 2 เสนอ
@@ -287,7 +251,7 @@ export default function Home() {
               {labels.home.policyTitle}
             </h2>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 sm:gap-5">
+          <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3">
             {topPolicies.map((policy, i) => (
               <PolicyCard key={policy.id} policy={policy} index={i} />
             ))}
@@ -295,60 +259,55 @@ export default function Home() {
           <div className="mt-5 text-center">
             <Link
               href="/policies"
-              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-8 py-3 font-bold text-white shadow-lg shadow-[#a32f2c]/20 transition-all hover:scale-[1.02] hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
+              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#a32f2c] px-8 py-3 font-bold text-white shadow-lg shadow-[#a32f2c]/20 transition hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
             >
               {labels.home.viewAllPolicies}
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
       </ScrollSection>
 
-      {/* ── VIDEO ── */}
       <ScrollSection className="bg-white px-4 py-8 dark:bg-slate-900 sm:px-6 sm:py-10">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="mx-auto max-w-4xl text-center">
           <h2 className="mb-2 text-[clamp(1.5rem,7vw,2rem)] font-black text-slate-900 dark:text-white">
             {labels.home.videoTitle}
           </h2>
-          <p className="text-slate-400 mb-5 text-sm">{labels.home.videoWatch}</p>
+          <p className="mb-5 text-sm text-slate-400">{labels.home.videoWatch}</p>
           <VideoPreviewCard onClick={() => router.push("/video")} />
-          <Link href="/video" className="inline-flex items-center gap-2 mt-6 text-[#0d3063] dark:text-white font-semibold hover:underline">
-            ดูวิดีโอเต็ม <ChevronRight className="w-4 h-4" />
+          <Link href="/video" className="mt-6 inline-flex items-center gap-2 font-semibold text-[#0d3063] hover:underline dark:text-white">
+            ดูวิดีโอเต็ม <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
       </ScrollSection>
 
-      {/* ── COUNTDOWN ── */}
-      <section className="relative overflow-hidden bg-white px-4 py-8 dark:bg-slate-900 sm:px-6 sm:py-10">
-        <div className="absolute inset-0 opacity-10 hidden sm:block" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "30px 30px" }} />
-        <ScrollSection className="relative z-10">
+      <section className="bg-white px-4 py-8 dark:bg-slate-900 sm:px-6 sm:py-10">
+        <ScrollSection>
           <CountdownTimer />
         </ScrollSection>
       </section>
 
-      {/* ── MANIFESTO ── */}
-      <section className="relative overflow-hidden bg-[#0d3063] px-4 py-8 sm:px-6 sm:py-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(163,47,44,0.24)_0%,_transparent_70%)]" />
-        <ScrollSection className="relative z-10 max-w-3xl mx-auto text-center">
-          <div className="text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-3">
+      <section className="bg-[#0d3063] px-4 py-8 text-white sm:px-6 sm:py-10">
+        <ScrollSection className="mx-auto max-w-3xl text-center">
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-white/60">
             โรงเรียนที่อยากเห็น
           </div>
-          <blockquote className="mb-4 text-[clamp(1.5rem,7vw,2.25rem)] font-black leading-snug text-white">
+          <blockquote className="mb-4 text-[clamp(1.5rem,7vw,2.25rem)] font-black leading-snug">
             &ldquo;{candidate.vision}&rdquo;
           </blockquote>
-          <div className="text-white/70 font-medium mb-5 text-sm">
-            — {candidate.name}, ผู้สมัครหมายเลข {candidate.number}
+          <div className="mb-5 text-sm font-medium text-white/70">
+            {candidate.name}, ผู้สมัครหมายเลข {candidate.number}
           </div>
-          <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href="/about"
-              className="flex min-h-[52px] w-full items-center justify-center rounded-2xl bg-[#a32f2c] px-7 py-3.5 font-bold text-white transition-all hover:bg-[#8f2926] active:scale-[0.98] sm:w-auto"
+              className="flex min-h-[52px] items-center justify-center rounded-2xl bg-[#a32f2c] px-7 py-3.5 font-bold text-white transition hover:bg-[#8f2926] active:scale-[0.98]"
             >
               {labels.home.aboutCta}
             </Link>
             <Link
               href="/feedback"
-              className="flex min-h-[52px] w-full items-center justify-center rounded-2xl border border-white/15 bg-white/8 px-7 py-3.5 font-semibold text-white transition-all hover:bg-white/12 active:scale-[0.98] sm:w-auto"
+              className="flex min-h-[52px] items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-7 py-3.5 font-semibold text-white transition hover:bg-white/15 active:scale-[0.98]"
             >
               {labels.home.feedbackCta}
             </Link>
@@ -356,7 +315,6 @@ export default function Home() {
         </ScrollSection>
       </section>
 
-      {/* ── FAQ ── */}
       <div className="bg-slate-50 dark:bg-slate-950">
         <FAQ />
       </div>

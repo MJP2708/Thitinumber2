@@ -21,11 +21,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
-
   const links = [
     { href: "/", label: labels.nav.home, icon: Home },
     { href: "/policies", label: labels.nav.policies, icon: FileText },
