@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 interface Burst {
   id: number;
   x: number;
   y: number;
+  radius: number;
   size: number;
-  opacity: number;
+  rotation: number;
 }
 
-const MAX_BURSTS = 10;
+const MAX_BURSTS = 6;
+const NUMBERS_PER_BURST = 8;
 const MIN_CLICK_GAP_MS = 45;
 
 export default function ClickBurst() {
@@ -29,8 +31,9 @@ export default function ClickBurst() {
         id,
         x: event.clientX,
         y: event.clientY,
-        size: 22 + Math.random() * 18,
-        opacity: 0.78 + Math.random() * 0.22,
+        radius: 34 + Math.random() * 18,
+        size: 18 + Math.random() * 8,
+        rotation: Math.random() * 360,
       };
 
       setBursts((current) => [...current.slice(-(MAX_BURSTS - 1)), next]);
@@ -46,17 +49,25 @@ export default function ClickBurst() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[9998] overflow-hidden">
       {bursts.map((burst) => (
-        <span
-          key={burst.id}
-          className="click-burst-2"
-          style={{
-            left: burst.x,
-            top: burst.y,
-            fontSize: burst.size,
-            opacity: burst.opacity,
-          }}
-        >
-          2
+        <span key={burst.id} className="click-burst-ring" style={{ left: burst.x, top: burst.y }}>
+          {Array.from({ length: NUMBERS_PER_BURST }, (_, index) => {
+            const angle = (Math.PI * 2 * index) / NUMBERS_PER_BURST + (burst.rotation * Math.PI) / 180;
+            const distance = burst.radius * (index % 2 === 0 ? 1 : 0.82);
+            return (
+              <span
+                key={index}
+                className="click-burst-2"
+                style={{
+                  "--dx": `${Math.cos(angle) * distance}px`,
+                  "--dy": `${Math.sin(angle) * distance}px`,
+                  "--spin": `${Math.round((Math.random() - 0.5) * 60)}deg`,
+                  fontSize: burst.size + (index % 3) * 3,
+                } as CSSProperties}
+              >
+                2
+              </span>
+            );
+          })}
         </span>
       ))}
     </div>
