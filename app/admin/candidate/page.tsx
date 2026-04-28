@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Save, Upload } from "lucide-react";
-import Image from "next/image";
 import { useApp } from "@/contexts/AppContext";
 import AdminSidebar from "@/components/AdminSidebar";
 import { Candidate } from "@/lib/defaultData";
@@ -130,8 +129,8 @@ export default function AdminCandidatePage() {
                 <p className="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-300">{label}</p>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
                   {form[key] ? (
-                    <div className="relative h-36 w-full shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 sm:w-56 dark:border-slate-700 dark:bg-slate-800">
-                      <Image src={form[key]} alt={label} fill className="object-cover" unoptimized />
+                    <div className="h-36 w-full shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 sm:w-56 dark:border-slate-700 dark:bg-slate-800">
+                      <img src={form[key]} alt={label} className="h-full w-full object-cover" />
                     </div>
                   ) : (
                     <div className="flex h-36 w-full shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 sm:w-56 dark:border-slate-700 dark:bg-slate-800">

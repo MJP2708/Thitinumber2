@@ -24,17 +24,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "ไม่มีไฟล์" }, { status: 400 });
     }
 
-    const ext = EXT_MAP[mimeType] ?? "jpg";
-    const filename = `uploads/${randomUUID()}.${ext}`;
-
+    // Vercel Blob (production with token)
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       const { put } = await import("@vercel/blob");
+      const ext = EXT_MAP[mimeType] ?? "jpg";
+      const filename = `uploads/${randomUUID()}.${ext}`;
       const blob = await put(filename, bytes, { access: "public", contentType: mimeType });
       return NextResponse.json({ url: blob.url });
     }
 
-    await writeFile(join(process.cwd(), "public", filename), Buffer.from(bytes));
-    return NextResponse.json({ url: `/${filename}` });
+    // Local dev: write to public/uploads
+    if (process.env.NODE_ENV === "development") {
+      const ext = EXT_MAP[mimeType] ?? "jpg";
+      const filename = `uploads/${randomUUID()}.${ext}`;
+      await writeFile(join(process.cwd(), "public", filename), Buffer.from(bytes));
+      return NextResponse.json({ url: `/${filename}` });
+    }
+
+    // Production fallback: return as base64 data URL stored in DB
+    const base64 = Buffer.from(bytes).toString("base64");
+    return NextResponse.json({ url: `data:${mimeType};base64,${base64}` });
   } catch (error) {
     console.error("Upload failed", error);
     return NextResponse.json({ error: "อัปโหลดไม่สำเร็จ" }, { status: 500 });
