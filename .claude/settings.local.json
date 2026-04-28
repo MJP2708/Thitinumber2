@@ -5,7 +5,11 @@
       "Bash(curl -sv http://localhost:3000/api/upload -X POST)",
       "Bash(curl -s http://localhost:3000/api/upload -X POST -F \"file=@c:/Users/matth/Thitinumber2/public/next.svg;type=image/svg+xml\")",
       "Bash(curl -s http://localhost:3000/api/upload -X POST -F \"file=@c:/Users/matth/Thitinumber2/public/globe.svg;type=image/png\")",
-      "Bash(curl -s http://localhost:3000/admin/candidate)"
+      "Bash(curl -s http://localhost:3000/admin/candidate)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s http://localhost:3000/api/upload -X POST -H \"Content-Type: image/png\" --data-binary @c:/Users/matth/Thitinumber2/public/globe.svg)",
+      "Bash(curl -s http://localhost:3000/api/upload -X POST -H \"Content-Type: image/jpeg\" --data-binary @c:/Users/matth/Thitinumber2/public/globe.svg)",
+      "Bash(curl -s http://localhost:3000/api/upload -X POST -H \"Content-Type: application/octet-stream\")"
     ]
   }
 }
