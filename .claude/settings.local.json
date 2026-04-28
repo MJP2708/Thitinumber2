@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:3000/api/upload -X POST)",
+      "Bash(curl -sv http://localhost:3000/api/upload -X POST)",
+      "Bash(curl -s http://localhost:3000/api/upload -X POST -F \"file=@c:/Users/matth/Thitinumber2/public/next.svg;type=image/svg+xml\")",
+      "Bash(curl -s http://localhost:3000/api/upload -X POST -F \"file=@c:/Users/matth/Thitinumber2/public/globe.svg;type=image/png\")",
+      "Bash(curl -s http://localhost:3000/admin/candidate)"
+    ]
+  }
+}
