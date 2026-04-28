@@ -38,10 +38,12 @@ export default function AdminCandidatePage() {
 
   const handleImageUpload = async (field: "heroImage" | "aboutImage", file: File) => {
     setUploading((prev) => ({ ...prev, [field]: true }));
-    const data = new FormData();
-    data.append("file", file);
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: data });
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
       const json = await res.json();
       if (json.url) setForm((prev) => ({ ...prev, [field]: json.url }));
       else showToast(json.error ?? "อัปโหลดไม่สำเร็จ", "error");
