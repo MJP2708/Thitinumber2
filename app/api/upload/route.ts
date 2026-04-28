@@ -14,6 +14,7 @@ const EXT_MAP: Record<string, string> = {
 export async function POST(request: Request) {
   try {
     const mimeType = (request.headers.get("content-type") ?? "").split(";")[0].trim();
+    console.log("Upload attempt, mimeType:", mimeType);
 
     if (!ALLOWED_TYPES.includes(mimeType)) {
       return NextResponse.json({ error: "รองรับเฉพาะ JPG, PNG, WEBP, GIF" }, { status: 400 });
