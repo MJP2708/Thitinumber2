@@ -47,16 +47,15 @@ function CandidatePortrait() {
   return (
     <div className="relative mx-auto w-full max-w-[250px] sm:max-w-[320px] lg:max-w-none">
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-xl">
-        <div className="aspect-[4/5] max-h-[360px] lg:max-h-none">
           {candidate.heroImage ? (
             <img
               src={candidate.heroImage}
               alt={candidate.name}
-              className="h-full w-full object-cover"
+              className="block h-[312px] w-full object-cover sm:h-[360px] lg:h-auto lg:aspect-[4/5]"
               loading="eager"
             />
           ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-[#123f7d] to-[#a32f2c] px-6 text-center">
+            <div className="flex h-[312px] w-full flex-col items-center justify-center bg-gradient-to-br from-[#123f7d] to-[#a32f2c] px-6 text-center sm:h-[360px] lg:aspect-[4/5] lg:h-auto">
               <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-white/20 bg-white/10 shadow-lg sm:h-32 sm:w-32">
                 <span className="text-5xl font-black text-white/75 sm:text-6xl">
                   {candidate.name.charAt(0)}
@@ -67,7 +66,6 @@ function CandidatePortrait() {
               </p>
             </div>
           )}
-        </div>
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4">
           <div className="text-sm font-bold text-white">{candidate.grade}</div>
           <div className="line-clamp-1 text-xs italic text-white/60">&ldquo;{candidate.slogan}&rdquo;</div>

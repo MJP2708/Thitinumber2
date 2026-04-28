@@ -21,12 +21,12 @@ function CandidateCard() {
 
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900">
-      <div className="relative aspect-[4/5] max-h-[460px] bg-[#0d3063]">
+      <div className="relative bg-[#0d3063]">
         {image ? (
           <img
             src={image}
             alt={candidate.name}
-            className="h-full w-full object-cover"
+            className="block h-[360px] w-full object-cover sm:h-[460px] lg:aspect-[4/5] lg:h-auto"
             loading="eager"
           />
         ) : (
