@@ -14,7 +14,6 @@ const EXT_MAP: Record<string, string> = {
 export async function POST(request: Request) {
   try {
     const mimeType = (request.headers.get("content-type") ?? "").split(";")[0].trim();
-    console.log("Upload attempt, mimeType:", mimeType);
 
     if (!ALLOWED_TYPES.includes(mimeType)) {
       return NextResponse.json({ error: "รองรับเฉพาะ JPG, PNG, WEBP, GIF" }, { status: 400 });
@@ -26,10 +25,16 @@ export async function POST(request: Request) {
     }
 
     const ext = EXT_MAP[mimeType] ?? "jpg";
-    const filename = `${randomUUID()}.${ext}`;
-    await writeFile(join(process.cwd(), "public", "uploads", filename), Buffer.from(bytes));
+    const filename = `uploads/${randomUUID()}.${ext}`;
 
-    return NextResponse.json({ url: `/uploads/${filename}` });
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const { put } = await import("@vercel/blob");
+      const blob = await put(filename, bytes, { access: "public", contentType: mimeType });
+      return NextResponse.json({ url: blob.url });
+    }
+
+    await writeFile(join(process.cwd(), "public", filename), Buffer.from(bytes));
+    return NextResponse.json({ url: `/${filename}` });
   } catch (error) {
     console.error("Upload failed", error);
     return NextResponse.json({ error: "อัปโหลดไม่สำเร็จ" }, { status: 500 });
