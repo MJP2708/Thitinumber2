@@ -52,16 +52,20 @@ export default function AdminVideoPage() {
 
     setUploading(true);
     try {
-      // Client-side direct upload to Vercel Blob (bypasses 4.5 MB function limit)
-      const blob = await upload(file.name, file, {
-        access: "public",
-        handleUploadUrl: "/api/upload/video",
-      });
-      setVideoUrl(blob.url);
-      showToast("อัปโหลดวิดีโอสำเร็จ", "success");
-    } catch {
-      // Fallback: direct binary POST (local dev without blob token)
-      try {
+      // Production (BLOB_READ_WRITE_TOKEN set): client uploads directly to Vercel Blob,
+      // bypassing the 4.5 MB serverless function body limit.
+      // Local dev (no token): server falls back to writing binary to public/uploads/.
+      let url: string;
+      // On Vercel (production/preview), NEXT_PUBLIC_VERCEL_ENV is always set.
+      // Use client-side upload to bypass the 4.5 MB serverless body limit.
+      // Locally (no env var), fall back to direct binary POST.
+      if (process.env.NEXT_PUBLIC_VERCEL_ENV) {
+        const blob = await upload(file.name, file, {
+          access: "public",
+          handleUploadUrl: "/api/upload/video",
+        });
+        url = blob.url;
+      } else {
         const res = await fetch("/api/upload/video", {
           method: "POST",
           headers: { "Content-Type": file.type },
@@ -69,11 +73,12 @@ export default function AdminVideoPage() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error ?? "อัปโหลดไม่สำเร็จ");
-        setVideoUrl(data.url);
-        showToast("อัปโหลดวิดีโอสำเร็จ", "success");
-      } catch (err: unknown) {
-        showToast(err instanceof Error ? err.message : "อัปโหลดไม่สำเร็จ", "error");
+        url = data.url;
       }
+      setVideoUrl(url);
+      showToast("อัปโหลดวิดีโอสำเร็จ", "success");
+    } catch (err: unknown) {
+      showToast(err instanceof Error ? err.message : "อัปโหลดไม่สำเร็จ", "error");
     } finally {
       setUploading(false);
     }
