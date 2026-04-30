@@ -2,14 +2,22 @@
 
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Video, Save, X, Upload, Loader2 } from "lucide-react";
-import { upload } from "@vercel/blob/client";
+import { Video, Save, X, ExternalLink, PlayCircle } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import AdminSidebar from "@/components/AdminSidebar";
 import VideoSection from "@/components/VideoSection";
+
+function detectPlatform(url: string): string | null {
+  if (!url) return null;
+  if (/youtube\.com|youtu\.be/.test(url)) return "YouTube";
+  if (/drive\.google\.com/.test(url)) return "Google Drive";
+  if (/vimeo\.com/.test(url)) return "Vimeo";
+  if (/\.(mp4|webm|ogg)(\?.*)?$/.test(url)) return "ลิงก์วิดีโอตรง";
+  return null;
+}
 
 export default function AdminVideoPage() {
   const { isAuthenticated, candidate, updateCandidate, showToast, labels } = useApp();
@@ -18,9 +26,6 @@ export default function AdminVideoPage() {
   const [videoTitle, setVideoTitle] = useState(candidate.videoTitle);
   const [videoDescription, setVideoDescription] = useState(candidate.videoDescription);
   const [preview, setPreview] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!isAuthenticated) router.replace("/admin/login");
@@ -43,68 +48,10 @@ export default function AdminVideoPage() {
     });
   };
 
-  const uploadFile = async (file: File) => {
-    const allowed = ["video/mp4", "video/webm", "video/ogg"];
-    if (!allowed.includes(file.type)) {
-      showToast("รองรับเฉพาะ MP4, WebM, OGG", "error");
-      return;
-    }
-
-    setUploading(true);
-    try {
-      // Production (BLOB_READ_WRITE_TOKEN set): client uploads directly to Vercel Blob,
-      // bypassing the 4.5 MB serverless function body limit.
-      // Local dev (no token): server falls back to writing binary to public/uploads/.
-      let url: string;
-      // On Vercel (production/preview), NEXT_PUBLIC_VERCEL_ENV is always set.
-      // Use client-side upload to bypass the 4.5 MB serverless body limit.
-      // Locally (no env var), fall back to direct binary POST.
-      if (process.env.NEXT_PUBLIC_VERCEL_ENV) {
-        const blob = await upload(file.name, file, {
-          access: "public",
-          handleUploadUrl: "/api/upload/video",
-        });
-        url = blob.url;
-      } else {
-        const res = await fetch("/api/upload/video", {
-          method: "POST",
-          headers: { "Content-Type": file.type },
-          body: file,
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error ?? "อัปโหลดไม่สำเร็จ");
-        url = data.url;
-      }
-      setVideoUrl(url);
-      showToast("อัปโหลดวิดีโอสำเร็จ", "success");
-    } catch (err: unknown) {
-      showToast(err instanceof Error ? err.message : "อัปโหลดไม่สำเร็จ", "error");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) uploadFile(file);
-    e.target.value = "";
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) uploadFile(file);
-  };
-
   const fieldClass =
     "w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent";
 
-  const fileName = videoUrl
-    ? videoUrl.startsWith("data:")
-      ? "วิดีโอ (base64)"
-      : videoUrl.split("/").pop() ?? videoUrl
-    : null;
+  const platform = detectPlatform(videoUrl);
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950 md:flex-row">
@@ -131,74 +78,74 @@ export default function AdminVideoPage() {
           </div>
 
           <div className="space-y-5">
-            {/* Video Upload */}
+            {/* Video URL */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6"
             >
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                ไฟล์วิดีโอ
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                ลิงก์วิดีโอ
               </label>
-              <p className="text-xs text-slate-400 mb-4">
-                รองรับไฟล์ MP4, WebM, OGG
+              <p className="text-xs text-slate-400 mb-3">
+                วาง URL จาก YouTube, Google Drive, Vimeo หรือลิงก์ .mp4 โดยตรง
               </p>
 
-              {/* Drop zone */}
-              <div
-                onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={handleDrop}
-                onClick={() => !uploading && fileInputRef.current?.click()}
-                className={`relative flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 cursor-pointer transition-all ${
-                  dragOver
-                    ? "border-[#a32f2c] bg-red-50 dark:bg-red-950/20"
-                    : "border-slate-300 dark:border-slate-600 hover:border-[#a32f2c] hover:bg-slate-50 dark:hover:bg-slate-800/50"
-                } ${uploading ? "cursor-not-allowed opacity-60" : ""}`}
-              >
-                {uploading ? (
-                  <>
-                    <Loader2 className="w-10 h-10 text-[#a32f2c] animate-spin" />
-                    <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                      กำลังอัปโหลด...
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <Upload className="w-10 h-10 text-slate-400" />
-                    <div className="text-center">
-                      <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                        คลิกหรือลากไฟล์วิดีโอมาวางที่นี่
-                      </p>
-                      <p className="text-xs text-slate-400 mt-1">MP4, WebM, OGG</p>
-                    </div>
-                  </>
+              <div className="flex gap-2">
+                <input
+                  type="url"
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
+                  placeholder="https://youtube.com/watch?v=... หรือ https://drive.google.com/..."
+                  className={fieldClass}
+                />
+                {videoUrl && (
+                  <button
+                    onClick={() => setVideoUrl("")}
+                    className="p-3 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 )}
               </div>
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="video/mp4,video/webm,video/ogg"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-
-              {/* Current file */}
-              {fileName && (
-                <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800">
-                  <Video className="w-4 h-4 text-[#a32f2c] shrink-0" />
-                  <span className="text-xs text-slate-600 dark:text-slate-400 truncate flex-1">
-                    {fileName}
-                  </span>
-                  <button
-                    onClick={() => setVideoUrl("")}
-                    className="p-1 rounded text-slate-400 hover:text-red-500 transition-colors"
+              {videoUrl && (
+                <div className="mt-3 flex items-center gap-3">
+                  {platform && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-400 text-xs font-medium">
+                      <PlayCircle className="w-3 h-3" />
+                      {platform}
+                    </span>
+                  )}
+                  <a
+                    href={videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
                   >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
+                    <ExternalLink className="w-3 h-3" />
+                    เปิดดูในแท็บใหม่
+                  </a>
                 </div>
               )}
+
+              {/* Helper chips */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="text-xs text-slate-400">ตัวอย่างลิงก์ที่รองรับ:</span>
+                {[
+                  "youtube.com/watch?v=…",
+                  "youtu.be/…",
+                  "drive.google.com/file/…",
+                  "vimeo.com/…",
+                ].map((ex) => (
+                  <span
+                    key={ex}
+                    className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-xs text-slate-500 dark:text-slate-400 font-mono"
+                  >
+                    {ex}
+                  </span>
+                ))}
+              </div>
             </motion.div>
 
             {/* Video Title */}

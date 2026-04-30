@@ -3,21 +3,23 @@
 import { Play, VideoOff } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 
-function getYouTubeEmbedUrl(url: string): string | null {
-  const patterns = [
-    /youtube\.com\/watch\?v=([^&]+)/,
-    /youtu\.be\/([^?]+)/,
-    /youtube\.com\/embed\/([^?]+)/,
-  ];
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match) return `https://www.youtube.com/embed/${match[1]}?rel=0&modestbranding=1`;
-  }
+function getEmbedUrl(url: string): string | null {
+  // YouTube
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^?&]+)/);
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1`;
+
+  // Google Drive  — share link → preview embed
+  const gd = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if (gd) return `https://drive.google.com/file/d/${gd[1]}/preview`;
+
+  // Vimeo
+  const vm = url.match(/vimeo\.com\/(\d+)/);
+  if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
+
   return null;
 }
 
 function isDirectVideo(url: string): boolean {
-  // matches extension-based URLs and Vercel Blob / data URLs for video
   return (
     /\.(mp4|webm|ogg)(\?.*)?$/.test(url) ||
     url.startsWith("data:video/") ||
@@ -25,11 +27,17 @@ function isDirectVideo(url: string): boolean {
   );
 }
 
+function getYouTubeThumbnail(url: string): string | null {
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^?&]+)/);
+  if (yt) return `https://img.youtube.com/vi/${yt[1]}/hqdefault.jpg`;
+  return null;
+}
+
 export default function VideoSection() {
   const { candidate, labels } = useApp();
   const { videoUrl, videoTitle, videoDescription } = candidate;
 
-  const embedUrl = videoUrl ? getYouTubeEmbedUrl(videoUrl) : null;
+  const embedUrl = videoUrl ? getEmbedUrl(videoUrl) : null;
   const isDirect = videoUrl ? isDirectVideo(videoUrl) : false;
 
   return (
@@ -84,10 +92,8 @@ export default function VideoSection() {
 export function VideoPreviewCard({ onClick }: { onClick?: () => void }) {
   const { candidate, labels } = useApp();
   const { videoUrl } = candidate;
-  const embedUrl = videoUrl ? getYouTubeEmbedUrl(videoUrl) : null;
-  const thumbnailUrl = embedUrl
-    ? `https://img.youtube.com/vi/${embedUrl.split("/embed/")[1]?.split("?")[0]}/hqdefault.jpg`
-    : null;
+  const thumbnailUrl = videoUrl ? getYouTubeThumbnail(videoUrl) : null;
+  const isDirect = videoUrl ? isDirectVideo(videoUrl) : false;
 
   return (
     <div
@@ -100,7 +106,7 @@ export function VideoPreviewCard({ onClick }: { onClick?: () => void }) {
           alt="วิดีโอแนะนำตัว"
           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
         />
-      ) : videoUrl && isDirectVideo(videoUrl) ? (
+      ) : isDirect ? (
         <video
           src={videoUrl}
           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
