@@ -17,7 +17,12 @@ function getYouTubeEmbedUrl(url: string): string | null {
 }
 
 function isDirectVideo(url: string): boolean {
-  return /\.(mp4|webm|ogg)(\?.*)?$/.test(url);
+  // matches extension-based URLs and Vercel Blob / data URLs for video
+  return (
+    /\.(mp4|webm|ogg)(\?.*)?$/.test(url) ||
+    url.startsWith("data:video/") ||
+    /public\.blob\.vercel-storage\.com/.test(url)
+  );
 }
 
 export default function VideoSection() {
@@ -94,6 +99,13 @@ export function VideoPreviewCard({ onClick }: { onClick?: () => void }) {
           src={thumbnailUrl}
           alt="วิดีโอแนะนำตัว"
           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+        />
+      ) : videoUrl && isDirectVideo(videoUrl) ? (
+        <video
+          src={videoUrl}
+          className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+          muted
+          preload="metadata"
         />
       ) : (
         <div className="w-full h-full bg-gradient-to-br from-indigo-900 to-purple-900 flex items-center justify-center">
