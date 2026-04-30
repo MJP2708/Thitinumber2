@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Video, Save, X, Upload, Loader2 } from "lucide-react";
+import { upload } from "@vercel/blob/client";
 import { useApp } from "@/contexts/AppContext";
 import AdminSidebar from "@/components/AdminSidebar";
 import VideoSection from "@/components/VideoSection";
@@ -51,17 +52,28 @@ export default function AdminVideoPage() {
 
     setUploading(true);
     try {
-      const res = await fetch("/api/upload/video", {
-        method: "POST",
-        headers: { "Content-Type": file.type },
-        body: file,
+      // Client-side direct upload to Vercel Blob (bypasses 4.5 MB function limit)
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload/video",
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "อัปโหลดไม่สำเร็จ");
-      setVideoUrl(data.url);
+      setVideoUrl(blob.url);
       showToast("อัปโหลดวิดีโอสำเร็จ", "success");
-    } catch (err: unknown) {
-      showToast(err instanceof Error ? err.message : "อัปโหลดไม่สำเร็จ", "error");
+    } catch {
+      // Fallback: direct binary POST (local dev without blob token)
+      try {
+        const res = await fetch("/api/upload/video", {
+          method: "POST",
+          headers: { "Content-Type": file.type },
+          body: file,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? "อัปโหลดไม่สำเร็จ");
+        setVideoUrl(data.url);
+        showToast("อัปโหลดวิดีโอสำเร็จ", "success");
+      } catch (err: unknown) {
+        showToast(err instanceof Error ? err.message : "อัปโหลดไม่สำเร็จ", "error");
+      }
     } finally {
       setUploading(false);
     }
