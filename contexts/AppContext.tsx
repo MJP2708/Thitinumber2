@@ -18,7 +18,6 @@ import {
   defaultPolicies,
 } from "@/lib/defaultData";
 import { labels } from "@/lib/labels";
-import { authClient } from "@/lib/auth-client";
 
 type Theme = "light" | "dark";
 type ToastType = "success" | "error" | "info";
@@ -79,9 +78,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   useEffect(() => {
-    authClient.getSession().then(({ data }) => {
-      setIsAuthenticated(!!data?.user);
-    }).catch(() => {}).finally(() => setSessionLoading(false));
+    fetch("/api/auth/session")
+      .then((res) => setIsAuthenticated(res.ok))
+      .catch(() => {})
+      .finally(() => setSessionLoading(false));
   }, []);
 
   const showToast = useCallback((message: string, type: ToastType = "success") => {
@@ -136,21 +136,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (username: string, password: string) => {
     try {
-      const response = await authClient.signIn.email({ email, password });
-      if (response && "error" in response && response.error) {
-        return false;
-      }
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      if (!res.ok) return false;
       setIsAuthenticated(true);
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }, []);
 
   const logout = useCallback(async () => {
-    await authClient.signOut();
+    await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     setIsAuthenticated(false);
   }, []);
 

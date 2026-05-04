@@ -9,7 +9,7 @@ import { useApp } from "@/contexts/AppContext";
 export default function AdminLoginPage() {
   const { login, isAuthenticated, sessionLoading, labels } = useApp();
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState("");
@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
     setError("");
     setLoading(true);
     try {
-      const ok = await login(email, password);
+      const ok = await login(username, password);
       if (ok) {
         router.push("/admin/dashboard");
       } else {
@@ -66,17 +66,17 @@ export default function AdminLoginPage() {
               </div>
             )}
 
-            {/* Email */}
+            {/* Username */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                อีเมล
+                {labels.admin.username}
               </label>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@example.com"
-                autoComplete="email"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="username"
+                autoComplete="username"
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-[#a32f2c] focus:border-transparent text-sm"
               />
             </div>
