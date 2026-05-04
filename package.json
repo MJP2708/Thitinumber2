@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@neondatabase/auth": "^0.3.0-beta",
     "@types/pg": "^8.20.0",
     "@vercel/blob": "^2.3.3",
     "bcryptjs": "^3.0.3",

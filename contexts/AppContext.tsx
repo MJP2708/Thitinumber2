@@ -18,6 +18,7 @@ import {
   defaultPolicies,
 } from "@/lib/defaultData";
 import { labels } from "@/lib/labels";
+import { authClient } from "@/lib/auth-client";
 
 type Theme = "light" | "dark";
 type ToastType = "success" | "error" | "info";
@@ -72,7 +73,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [dataError, setDataError] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("light");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { data: neonSession, isPending: sessionPending } = authClient.useSession();
+  const isAuthenticated = !sessionPending && !!neonSession?.user;
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const showToast = useCallback((message: string, type: ToastType = "success") => {
@@ -109,10 +111,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const storedTheme = localStorage.getItem("theme") as Theme | null;
       if (storedTheme) setTheme(storedTheme);
     } catch {}
-    // Verify session via httpOnly cookie — no credentials stored in JS
-    fetch("/api/auth/me").then((res) => {
-      if (res.ok) setIsAuthenticated(true);
-    }).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -131,24 +129,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const login = useCallback(async (username: string, password: string) => {
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-      if (!res.ok) return false;
-      setIsAuthenticated(true);
-      return true;
-    } catch {
-      return false;
-    }
+  const login = useCallback(async (email: string, password: string) => {
+    const { error } = await authClient.signIn.email({ email, password });
+    return !error;
   }, []);
 
   const logout = useCallback(async () => {
-    await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
-    setIsAuthenticated(false);
+    await authClient.signOut();
   }, []);
 
   const updateCandidate = useCallback(async (data: Partial<Candidate>) => {
