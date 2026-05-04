@@ -23,12 +23,17 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const ok = await login(email, password);
-    setLoading(false);
-    if (ok) {
-      router.push("/admin/dashboard");
-    } else {
+    try {
+      const ok = await login(email, password);
+      if (ok) {
+        router.push("/admin/dashboard");
+      } else {
+        setError(labels.admin.loginError);
+      }
+    } catch {
       setError(labels.admin.loginError);
+    } finally {
+      setLoading(false);
     }
   };
 

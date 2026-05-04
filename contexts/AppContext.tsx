@@ -137,9 +137,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
-    const { error } = await authClient.signIn.email({ email, password });
-    if (!error) setIsAuthenticated(true);
-    return !error;
+    try {
+      const response = await authClient.signIn.email({ email, password });
+      if (response && "error" in response && response.error) {
+        return false;
+      }
+      setIsAuthenticated(true);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }, []);
 
   const logout = useCallback(async () => {
