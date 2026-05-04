@@ -1,6 +1,7 @@
 import "server-only";
 
 import { Pool } from "pg";
+import bcrypt from "bcryptjs";
 import { defaultCandidate, defaultPolicies, type Candidate, type FeedbackItem, type Policy } from "@/lib/defaultData";
 
 let pool: Pool | null = null;
@@ -63,6 +64,15 @@ async function ensureSchema() {
       `);
 
       await db.query(`
+        create table if not exists admin_users (
+          id serial primary key,
+          username text unique not null,
+          password_hash text not null,
+          created_at timestamptz not null default now()
+        );
+      `);
+
+      await db.query(`
         create table if not exists feedback (
           id text primary key,
           name text not null default '',
@@ -77,6 +87,7 @@ async function ensureSchema() {
 
       await seedDefaults();
       await normalizeCandidateName();
+      await seedAdminUser();
     })();
   }
 
@@ -355,4 +366,35 @@ export async function likeFeedbackRecord(id: string) {
   );
 
   return result.rows[0] ? rowToFeedback(result.rows[0]) : null;
+}
+
+// ─── Admin auth ───────────────────────────────────────────────────────────────
+
+async function seedAdminUser() {
+  const password = process.env.ADMIN_PASSWORD;
+  if (!password) {
+    console.warn("[auth] ADMIN_PASSWORD not set — skipping admin user seed");
+    return;
+  }
+  const hash = await bcrypt.hash(password, 10);
+  await getPool().query(
+    `insert into admin_users (username, password_hash)
+     values ('admin', $1)
+     on conflict (username) do update set password_hash = $1`,
+    [hash]
+  );
+}
+
+export async function authenticateAdmin(
+  username: string,
+  password: string
+): Promise<boolean> {
+  await ensureSchema();
+  const result = await getPool().query<{ password_hash: string }>(
+    "select password_hash from admin_users where username = $1 limit 1",
+    [username.trim().toLowerCase()]
+  );
+  const row = result.rows[0];
+  if (!row) return false;
+  return bcrypt.compare(password, row.password_hash);
 }

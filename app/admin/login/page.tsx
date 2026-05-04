@@ -19,12 +19,11 @@ export default function AdminLoginPage() {
     if (isAuthenticated) router.replace("/admin/dashboard");
   }, [isAuthenticated, router]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 400));
-    const ok = login(username, password);
+    const ok = await login(username, password);
     setLoading(false);
     if (ok) {
       router.push("/admin/dashboard");

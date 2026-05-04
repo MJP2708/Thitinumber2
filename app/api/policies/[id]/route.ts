@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import { deletePolicyRecord, updatePolicyRecord } from "@/lib/db";
+import { requireAdmin, UnauthorizedError } from "@/lib/auth";
 
 export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
+    await requireAdmin();
     const { id } = await context.params;
     const policy = await request.json();
     if (!policy.title?.trim() || !policy.description?.trim()) {
       return NextResponse.json({ error: "กรอกชื่อนโยบายและรายละเอียดก่อนนะ" }, { status: 400 });
     }
-
     const updated = await updatePolicyRecord(id, {
       title: policy.title.trim(),
       category: policy.category || "อื่น ๆ",
@@ -16,10 +17,12 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
       impact: policy.impact || "",
       icon: policy.icon || "Lightbulb",
     });
-
     if (!updated) return NextResponse.json({ error: "ไม่พบนโยบายนี้" }, { status: 404 });
     return NextResponse.json(updated);
   } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     console.error("Failed to update policy", error);
     return NextResponse.json({ error: "แก้ไขนโยบายไม่สำเร็จ" }, { status: 500 });
   }
@@ -27,10 +30,14 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
 
 export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
   try {
+    await requireAdmin();
     const { id } = await context.params;
     await deletePolicyRecord(id);
     return NextResponse.json({ ok: true });
   } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     console.error("Failed to delete policy", error);
     return NextResponse.json({ error: "ลบนโยบายไม่สำเร็จ" }, { status: 500 });
   }

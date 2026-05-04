@@ -39,8 +39,8 @@ interface AppContextType {
   toggleTheme: () => void;
   labels: typeof labels;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => boolean;
-  logout: () => void;
+  login: (username: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
   toasts: Toast[];
   showToast: (message: string, type?: ToastType) => void;
   removeToast: (id: string) => void;
@@ -108,8 +108,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       const storedTheme = localStorage.getItem("theme") as Theme | null;
       if (storedTheme) setTheme(storedTheme);
-      if (sessionStorage.getItem("isAuthenticated") === "true") setIsAuthenticated(true);
     } catch {}
+    // Verify session via httpOnly cookie — no credentials stored in JS
+    fetch("/api/auth/me").then((res) => {
+      if (res.ok) setIsAuthenticated(true);
+    }).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -128,18 +131,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const login = useCallback((username: string, password: string) => {
-    if (username === "admin" && password === "admin123") {
+  const login = useCallback(async (username: string, password: string) => {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      if (!res.ok) return false;
       setIsAuthenticated(true);
-      try { sessionStorage.setItem("isAuthenticated", "true"); } catch {}
       return true;
+    } catch {
+      return false;
     }
-    return false;
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     setIsAuthenticated(false);
-    try { sessionStorage.removeItem("isAuthenticated"); } catch {}
   }, []);
 
   const updateCandidate = useCallback(async (data: Partial<Candidate>) => {
