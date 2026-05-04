@@ -5,16 +5,17 @@ import { useRouter } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 
 export default function AdminPage() {
-  const { isAuthenticated } = useApp();
+  const { isAuthenticated, sessionLoading } = useApp();
   const router = useRouter();
 
   useEffect(() => {
+    if (sessionLoading) return;
     if (isAuthenticated) {
       router.replace("/admin/dashboard");
     } else {
       router.replace("/admin/login");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, sessionLoading, router]);
 
   return null;
 }

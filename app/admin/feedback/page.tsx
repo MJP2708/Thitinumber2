@@ -11,7 +11,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 type SortMode = "newest" | "liked";
 
 export default function AdminFeedbackPage() {
-  const { isAuthenticated, feedbackList, deleteFeedback, showToast, labels } = useApp();
+  const { isAuthenticated, sessionLoading, feedbackList, deleteFeedback, showToast, labels } = useApp();
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("ทั้งหมด");
@@ -19,8 +19,8 @@ export default function AdminFeedbackPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) router.replace("/admin/login");
-  }, [isAuthenticated, router]);
+    if (!sessionLoading && !isAuthenticated) router.replace("/admin/login");
+  }, [isAuthenticated, sessionLoading, router]);
 
   const categories = useMemo(() => ["ทั้งหมด", ...Array.from(new Set(feedbackList.map((item) => item.category)))], [feedbackList]);
 
@@ -37,7 +37,7 @@ export default function AdminFeedbackPage() {
       });
   }, [category, feedbackList, search, sort]);
 
-  if (!isAuthenticated) return null;
+  if (sessionLoading || !isAuthenticated) return null;
 
   const handleDelete = async () => {
     if (deleteId) {

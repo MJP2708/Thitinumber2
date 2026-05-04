@@ -20,7 +20,7 @@ function detectPlatform(url: string): string | null {
 }
 
 export default function AdminVideoPage() {
-  const { isAuthenticated, candidate, updateCandidate, showToast, labels } = useApp();
+  const { isAuthenticated, sessionLoading, candidate, updateCandidate, showToast, labels } = useApp();
   const router = useRouter();
   const [videoUrl, setVideoUrl] = useState(candidate.videoUrl);
   const [videoTitle, setVideoTitle] = useState(candidate.videoTitle);
@@ -28,8 +28,8 @@ export default function AdminVideoPage() {
   const [preview, setPreview] = useState(false);
 
   useEffect(() => {
-    if (!isAuthenticated) router.replace("/admin/login");
-  }, [isAuthenticated, router]);
+    if (!sessionLoading && !isAuthenticated) router.replace("/admin/login");
+  }, [isAuthenticated, sessionLoading, router]);
 
   useEffect(() => {
     setVideoUrl(candidate.videoUrl);
@@ -37,7 +37,7 @@ export default function AdminVideoPage() {
     setVideoDescription(candidate.videoDescription);
   }, [candidate]);
 
-  if (!isAuthenticated) return null;
+  if (sessionLoading || !isAuthenticated) return null;
 
   const handleSave = () => {
     updateCandidate({ videoUrl, videoTitle, videoDescription }).then((ok) => {

@@ -9,14 +9,14 @@ import { useApp } from "@/contexts/AppContext";
 import AdminSidebar from "@/components/AdminSidebar";
 
 export default function AdminDashboard() {
-  const { isAuthenticated, candidate, policies, feedbackList, labels } = useApp();
+  const { isAuthenticated, sessionLoading, candidate, policies, feedbackList, labels } = useApp();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) router.replace("/admin/login");
-  }, [isAuthenticated, router]);
+    if (!sessionLoading && !isAuthenticated) router.replace("/admin/login");
+  }, [isAuthenticated, sessionLoading, router]);
 
-  if (!isAuthenticated) return null;
+  if (sessionLoading || !isAuthenticated) return null;
 
   const totalLikes = feedbackList.reduce((sum, item) => sum + (item.likes || 0), 0);
   const stats = [

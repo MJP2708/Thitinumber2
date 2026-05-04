@@ -27,7 +27,7 @@ const emptyForm: PolicyForm = {
 };
 
 export default function AdminPoliciesPage() {
-  const { isAuthenticated, policies, addPolicy, updatePolicy, deletePolicy, showToast, labels } = useApp();
+  const { isAuthenticated, sessionLoading, policies, addPolicy, updatePolicy, deletePolicy, showToast, labels } = useApp();
   const router = useRouter();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -35,10 +35,10 @@ export default function AdminPoliciesPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) router.replace("/admin/login");
-  }, [isAuthenticated, router]);
+    if (!sessionLoading && !isAuthenticated) router.replace("/admin/login");
+  }, [isAuthenticated, sessionLoading, router]);
 
-  if (!isAuthenticated) return null;
+  if (sessionLoading || !isAuthenticated) return null;
 
   const handleEdit = (policy: Policy) => {
     setEditingId(policy.id);

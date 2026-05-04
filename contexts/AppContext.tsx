@@ -40,6 +40,7 @@ interface AppContextType {
   toggleTheme: () => void;
   labels: typeof labels;
   isAuthenticated: boolean;
+  sessionLoading: boolean;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
   toasts: Toast[];
@@ -73,9 +74,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [dataError, setDataError] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("light");
-  const { data: neonSession, isPending: sessionPending } = authClient.useSession();
-  const isAuthenticated = !sessionPending && !!neonSession?.user;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [sessionLoading, setSessionLoading] = useState(true);
   const [toasts, setToasts] = useState<Toast[]>([]);
+
+  useEffect(() => {
+    authClient.getSession().then(({ data }) => {
+      setIsAuthenticated(!!data?.user);
+    }).catch(() => {}).finally(() => setSessionLoading(false));
+  }, []);
 
   const showToast = useCallback((message: string, type: ToastType = "success") => {
     const id = crypto.randomUUID();
@@ -131,11 +138,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const { error } = await authClient.signIn.email({ email, password });
+    if (!error) setIsAuthenticated(true);
     return !error;
   }, []);
 
   const logout = useCallback(async () => {
     await authClient.signOut();
+    setIsAuthenticated(false);
   }, []);
 
   const updateCandidate = useCallback(async (data: Partial<Candidate>) => {
@@ -269,6 +278,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         toggleTheme,
         labels,
         isAuthenticated,
+        sessionLoading,
         login,
         logout,
         toasts,

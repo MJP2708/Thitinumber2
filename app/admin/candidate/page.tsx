@@ -11,20 +11,20 @@ import AdminSidebar from "@/components/AdminSidebar";
 import { Candidate } from "@/lib/defaultData";
 
 export default function AdminCandidatePage() {
-  const { isAuthenticated, candidate, updateCandidate, showToast, labels } = useApp();
+  const { isAuthenticated, sessionLoading, candidate, updateCandidate, showToast, labels } = useApp();
   const router = useRouter();
   const [form, setForm] = useState<Candidate>(candidate);
   const [uploading, setUploading] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    if (!isAuthenticated) router.replace("/admin/login");
-  }, [isAuthenticated, router]);
+    if (!sessionLoading && !isAuthenticated) router.replace("/admin/login");
+  }, [isAuthenticated, sessionLoading, router]);
 
   useEffect(() => {
     setForm(candidate);
   }, [candidate]);
 
-  if (!isAuthenticated) return null;
+  if (sessionLoading || !isAuthenticated) return null;
 
   const handleSave = async () => {
     const ok = await updateCandidate(form);

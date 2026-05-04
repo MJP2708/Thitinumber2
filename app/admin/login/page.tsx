@@ -7,7 +7,7 @@ import { Shield, Eye, EyeOff, LogIn } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 
 export default function AdminLoginPage() {
-  const { login, isAuthenticated, labels } = useApp();
+  const { login, isAuthenticated, sessionLoading, labels } = useApp();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,10 +16,10 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) router.replace("/admin/dashboard");
-  }, [isAuthenticated, router]);
+    if (!sessionLoading && isAuthenticated) router.replace("/admin/dashboard");
+  }, [isAuthenticated, sessionLoading, router]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault();
     setError("");
     setLoading(true);
