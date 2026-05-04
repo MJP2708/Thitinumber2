@@ -72,7 +72,7 @@ export const labels = {
     username: "ชื่อผู้ใช้",
     password: "รหัสผ่าน",
     loginButton: "เข้าสู่ระบบ",
-    loginError: "ข้อมูลไม่ถูกต้อง ลอง admin / admin123",
+    loginError: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
     dashboard: "แดชบอร์ด",
     policies: "จัดการนโยบาย",
     candidate: "แก้ไขข้อมูลผู้สมัคร",
